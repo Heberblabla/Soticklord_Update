@@ -99,7 +99,6 @@ class Iniciar_Sesion : AppCompatActivity() {
         val editNombre = findViewById<EditText>(R.id.edit_nombre)
         val editPassword = findViewById<EditText>(R.id.edit_password)
         val btnimagen = findViewById<ImageButton>(R.id.Iniciarwaza)
-
         val btnRegistrar = findViewById<Button>(R.id.Registrarse)
 
 
