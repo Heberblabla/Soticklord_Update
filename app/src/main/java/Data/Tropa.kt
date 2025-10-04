@@ -4,6 +4,7 @@ import com.waos.soticklord.R
 
 abstract class Tropa(
     var nombre: String,
+    var nivel: Int,
     var vida: Int,
     var ataque_base: Int,
     var daño_critico: Double,

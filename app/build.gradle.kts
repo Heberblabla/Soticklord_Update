@@ -54,5 +54,6 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging)
     implementation("org.postgresql:postgresql:42.7.3")
+    implementation ("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
 }

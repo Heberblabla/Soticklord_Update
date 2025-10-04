@@ -16,6 +16,8 @@ import okhttp3.OkHttpClient
 import okhttp3.*
 import org.json.JSONArray
 import java.io.IOException
+import kotlin.reflect.full.primaryConstructor
+
 
 class Perfil : AppCompatActivity() {
     private val client = OkHttpClient()
@@ -90,11 +92,28 @@ class Perfil : AppCompatActivity() {
             val id_tipo = sacar_id_Tipo(id_tropa)
             val nivel = sacar_nivel(id_tropa)
             val nombre = obtener_nombre_de_la_tropa(id_tipo)
+            val claseCompleta = "Data.$nombre"   // paquete + nombre de la clase
 
             if (nombre.startsWith("Rey_")) {
+                // cargar la clase en tiempo de ejecución
+                val clazz = Class.forName(claseCompleta).kotlin
+                // obtener su constructor principal
+                val constructor = clazz.primaryConstructor!!
+                // crear objeto pasando solo el parámetro nivel
+                val objeto = constructor.callBy(
+                    mapOf(constructor.parameters.find { it.name == "nivel" }!! to 5) // ejemplo: nivel = 5
+                )
+                println("Se creó un REY: $objeto")
 
             } else if (nombre.startsWith("Tropa_")) {
+                val clazz = Class.forName(claseCompleta).kotlin
+                val constructor = clazz.primaryConstructor!!
 
+                val objeto = constructor.callBy(
+                    mapOf(constructor.parameters.find { it.name == "nivel" }!! to 2) // ejemplo: nivel = 2
+                )
+
+                println("Se creó una TROPA: $objeto")
             }
 
         }

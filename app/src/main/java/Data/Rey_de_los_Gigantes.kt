@@ -6,6 +6,7 @@ import kotlin.random.Random
 
 class Rey_de_los_Gigantes : Tropa(
     nombre = "Rey_de_los_Gigantes",
+    nivel = 1,
     vida = 1500,
     ataque_base = 50,
     daño_critico = 1.5,

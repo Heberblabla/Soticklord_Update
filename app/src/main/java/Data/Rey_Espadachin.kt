@@ -6,6 +6,7 @@ import kotlin.random.Random
 
 class Rey_Espadachin : Tropa(
     nombre = "Rey_Espadachin",
+    nivel = 1,
     vida = 850,
     ataque_base = 110,
     daño_critico = 1.8,
