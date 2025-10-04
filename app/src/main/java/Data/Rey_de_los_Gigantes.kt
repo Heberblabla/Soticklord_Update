@@ -1,29 +1,34 @@
 package Data
-import kotlin.random.Random
+
+import com.waos.soticklord.R
 import kotlin.math.ceil
+import kotlin.random.Random
 
-class Rey_de_los_Gigantes(
-    var nombre: String = "Rey_de_los_Gigantes",
-    var vida: Int = 1500,
-    var ataqueBase: Int = 50,
-    var dañoCritico: Double = 1.5,
-    var probabilidadCritico: Double = 0.50,
-    var aereo: Boolean = false,
-    var estadoVida: Boolean = true,
-    var rutaViva: String = "recursos/rey/rey_de_los_gigantes.png",
-    var rutaMuerta: String = "recursos/tropa_muerta.png",
-    var turnoActivo: Boolean = true,
-    var turnoDoble: Boolean = false
+class Rey_de_los_Gigantes : Tropa(
+    nombre = "Rey_de_los_Gigantes",
+    vida = 1500,
+    ataque_base = 50,
+    daño_critico = 1.5,
+    probabilidad_de_critico = 0.50,
+    aereo = false,
+    estado_de_vida = true,
+    rutaviva = R.drawable.rey_de_los_gigantes,  // tu imagen en drawable
+    rutamuerta = R.drawable.tropa_muerta,       // tu imagen en drawable
+    turnoActivo = true,
+    turnoDoble = false
 ) {
-
-    // Método privado que calcula el daño
     private fun calcularDaño(): Int {
         val suerte = Random.nextDouble()
-
-        return if (suerte < probabilidadCritico) {
-            ceil(ataqueBase * dañoCritico).toInt()
+        return if (suerte < probabilidad_de_critico) {
+            ceil(ataque_base * daño_critico).toInt()
         } else {
-            ataqueBase
+            ataque_base
         }
+    }
+
+    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
+        val daño = calcularDaño()
+        val enemigo = enemigos[posicion]
+        enemigo.vida -= daño
     }
 }

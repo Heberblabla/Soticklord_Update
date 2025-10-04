@@ -1,6 +1,5 @@
 package com.waos.soticklord
 
-
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -60,15 +59,15 @@ class Principal : AppCompatActivity() {
     //metodos
 
     fun Crear_Diccionario() {
-        Diccionario_Tropas[1] = Tropa("Arquero", 100, R.drawable.arquero_tropa)
-        Diccionario_Tropas[2] = Tropa("Mago", 80, R.drawable.espadachin_tropa)
-        Diccionario_Tropas[3] = Tropa("Gigante", 200, R.drawable.gigante_tropa)
-        Diccionario_Tropas[4] = Tropa("Espadachin", 200, R.drawable.espadachin_tropa)
+        //Diccionario_Tropas[1] = Tropa("Arquero", 100, R.drawable.arquero_tropa)
+        //Diccionario_Tropas[2] = Tropa("Mago", 80, R.drawable.espadachin_tropa)
+        //Diccionario_Tropas[3] = Tropa("Gigante", 200, R.drawable.gigante_tropa)
+        //Diccionario_Tropas[4] = Tropa("Espadachin", 200, R.drawable.espadachin_tropa)
 
-        Diccionario_Reyes[1] = Tropa("Rey Arquero", 100, R.drawable.rey_arquero)
-        Diccionario_Reyes[2] = Tropa("Rey Lanzatonio", 80, R.drawable.rey_lanzatonio)
-        Diccionario_Reyes[3] = Tropa("Rey Gigante", 200, R.drawable.rey_de_los_gigantes)
-        Diccionario_Reyes[4] = Tropa("Rey Espadachin", 200, R.drawable.rey_espadachin)
+        //Diccionario_Reyes[1] = Tropa("Rey Arquero", 100, R.drawable.rey_arquero)
+        //Diccionario_Reyes[2] = Tropa("Rey Lanzatonio", 80, R.drawable.rey_lanzatonio)
+        //Diccionario_Reyes[3] = Tropa("Rey Gigante", 200, R.drawable.rey_de_los_gigantes)
+        //Diccionario_Reyes[4] = Tropa("Rey Espadachin", 200, R.drawable.rey_espadachin)
 
     }
 
@@ -86,7 +85,7 @@ class Principal : AppCompatActivity() {
         if (indice_waos >= 1 && indice_waos <= 5) {
 
             val seleccionada = Diccionario_Tropas[indice_tropas]
-            imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
+            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
             indice_tropas = indice_tropas + 1
             if (indice_tropas > Diccionario_Tropas.size)
                 indice_tropas = 1
@@ -94,7 +93,7 @@ class Principal : AppCompatActivity() {
 
         if (indice_waos == 0) {
             val seleccionada = Diccionario_Reyes[indice_reyes]
-            imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
+            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
             indice_reyes = indice_reyes + 1
             if (indice_reyes > Diccionario_Reyes.size)
                 indice_reyes = 1
@@ -109,7 +108,7 @@ class Principal : AppCompatActivity() {
         if (indice_waos >= 1 && indice_waos <= 5) {
 
             val seleccionada = Diccionario_Tropas[indice_tropas]
-            imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
+            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
             indice_tropas = indice_tropas - 1
             if (indice_tropas < 0)
                 indice_tropas = 5
@@ -117,7 +116,7 @@ class Principal : AppCompatActivity() {
 
         if (indice_waos == 0) {
             val seleccionada = Diccionario_Reyes[indice_reyes]
-            imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
+            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
             indice_reyes = indice_reyes - 1
             if (indice_reyes < 0)
                 indice_reyes = 5

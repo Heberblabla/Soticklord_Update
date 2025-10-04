@@ -1,5 +1,6 @@
 package com.waos.soticklord
 
+import Data.Tropa
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -20,9 +21,12 @@ class Perfil : AppCompatActivity() {
     private val client = OkHttpClient()
     private val supabaseUrl = "https://zropeiibzqefzjrkdzzp.supabase.co"
     private val apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyb3BlaWlienFlZnpqcmtkenpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwMTc1NDYsImV4cCI6MjA3NDU5MzU0Nn0.ZJWqkOAbTul-RwIQrirajUSVdyI1w9Kh3kjek0vFMw8" //  key pública
+    var id = 0
     var misMonedas = 0
     var miExperiencia = 0
     var misMedallas = 0
+    var Diccionario_Reyes = HashMap<Int, Tropa>()
+    var Diccionario_Tropas = HashMap<Int, Tropa>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +50,7 @@ class Perfil : AppCompatActivity() {
 
         // 🔑 Recibir el ID del jugador
         val idJugador = intent.getIntExtra("ID_JUGADOR", -1)
-
+        id = idJugador
         if (idJugador != -1) {
             val numero = idJugador.toInt()
 
@@ -78,6 +82,154 @@ class Perfil : AppCompatActivity() {
         Medallas.text = misMedallas.toString()
     }
 
+    private fun crear_Hash(){
+        val ids = sacar_los_id_tropa(id) //recive la id del jugador , devuelve todas las primare key
+
+        for ( id in ids){
+            val id_tropa = id
+            val id_tipo = sacar_id_Tipo(id_tropa)
+            val nivel = sacar_nivel(id_tropa)
+            val nombre = obtener_nombre_de_la_tropa(id_tipo)
+
+            if (nombre.startsWith("Rey_")) {
+
+            } else if (nombre.startsWith("Tropa_")) {
+
+            }
+
+        }
+
+    }
+
+    private fun obtener_nombre_de_la_tropa(idTipo: Int): String {
+        val url = "$supabaseUrl/rest/v1/tipos_tropa?id_tipo=eq.$idTipo&select=nombre"
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("apikey", apiKey)
+            .addHeader("Authorization", "Bearer $apiKey")
+            .build()
+
+        var nombre  = ""
+
+        try {
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful) {
+                val body = response.body?.string()
+                if (body != null) {
+                    val jsonArray = JSONArray(body)
+                    if (jsonArray.length() > 0) {
+                        val obj = jsonArray.getJSONObject(0)
+                        nombre = obj.getString("nombre")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return nombre
+    }
+
+
+    private fun sacar_nivel(idTropa: Int): Int {
+        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_tropa=eq.$idTropa&select=nivel"
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("apikey", apiKey)
+            .addHeader("Authorization", "Bearer $apiKey")
+            .build()
+
+        var nivel = 0
+
+        try {
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful) {
+                val body = response.body?.string()
+                if (body != null) {
+                    val jsonArray = JSONArray(body)
+                    if (jsonArray.length() > 0) {
+                        val obj = jsonArray.getJSONObject(0)
+                        nivel = obj.getInt("nivel")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return nivel
+    }
+
+    private fun sacar_id_Tipo(idTropa: Int): Int {
+        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_tropa=eq.$idTropa&select=id_tipo"
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("apikey", apiKey)
+            .addHeader("Authorization", "Bearer $apiKey")
+            .build()
+
+        var id_tipo = 0
+
+        try {
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful) {
+                val body = response.body?.string()
+                if (body != null) {
+                    val jsonArray = JSONArray(body)
+                    if (jsonArray.length() > 0) {
+                        val obj = jsonArray.getJSONObject(0)
+                        id_tipo = obj.getInt("id_tipo")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return id_tipo
+    }
+
+
+    private fun sacar_los_id_tropa(idJugador: Int): List<Int> {
+        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_jugador=eq.$idJugador&select=id_tropa_jugador"
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("apikey", apiKey)       // 👈 tu API key
+            .addHeader("Authorization", "Bearer $apiKey")
+            .build()
+
+        val miListaMutable = mutableListOf<Int>()
+
+        try {
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful) {
+                val body = response.body?.string()
+                if (body != null) {
+                    // el resultado de Supabase es un JSON array
+                    val jsonArray = JSONArray(body)
+                    for (i in 0 until jsonArray.length()) {
+                        val obj = jsonArray.getJSONObject(i)
+                        val idTropaJugador = obj.getInt("id_tropa")
+                        miListaMutable.add(idTropaJugador)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return miListaMutable
+    }
+
+
     private fun calcularNivel(experiencia: Int): Int {
         var expRestante = experiencia
         var nivel = 1
@@ -98,6 +250,8 @@ class Perfil : AppCompatActivity() {
         val intent = Intent(this, Principal::class.java)
         startActivity(intent)
     }
+
+
 
     fun obtenerDatosJugador(idJugador: Int, callback: (Int, Int, Int) -> Unit) {
         val url = "$supabaseUrl/rest/v1/jugadores?id_jugador=eq.$idJugador"
