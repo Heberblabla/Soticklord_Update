@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.waos.soticklord.Iniciar_Sesion
 import okhttp3.OkHttpClient
 import okhttp3.*
 import org.json.JSONArray
@@ -64,6 +63,7 @@ class Perfil : AppCompatActivity() {
                 miExperiencia = experiencia
                 misMedallas = medallas
                 asignar_datos_principales()
+                cargar_Hash(id)
             }
 
 
@@ -84,40 +84,31 @@ class Perfil : AppCompatActivity() {
         Medallas.text = misMedallas.toString()
     }
 
-    private fun crear_Hash(){
-        val ids = sacar_los_id_tropa(id) //recive la id del jugador , devuelve todas las primare key
+    private fun cargar_Hash(idJugador: Int) {
+        val ids = sacar_los_id_tropa(idJugador) // devuelve todas las PK de tropas_jugador
 
-        for ( id in ids){
-            val id_tropa = id
+        for (id_tropa in ids) {
             val id_tipo = sacar_id_Tipo(id_tropa)
             val nivel = sacar_nivel(id_tropa)
             val nombre = obtener_nombre_de_la_tropa(id_tipo)
             val claseCompleta = "Data.$nombre"   // paquete + nombre de la clase
 
+            // cargar la clase en tiempo de ejecución
+            val clazz = Class.forName(claseCompleta).kotlin
+            val constructor = clazz.primaryConstructor!!
+
+            // crear objeto pasando solo el parámetro nivel
+            val objeto = constructor.callBy(
+                mapOf(constructor.parameters.find { it.name == "nivel" }!! to nivel)
+            ) as Tropa  // casteo a Tropa porque el HashMap lo espera
+
+            // Guardar en el diccionario correspondiente
             if (nombre.startsWith("Rey_")) {
-                // cargar la clase en tiempo de ejecución
-                val clazz = Class.forName(claseCompleta).kotlin
-                // obtener su constructor principal
-                val constructor = clazz.primaryConstructor!!
-                // crear objeto pasando solo el parámetro nivel
-                val objeto = constructor.callBy(
-                    mapOf(constructor.parameters.find { it.name == "nivel" }!! to 5) // ejemplo: nivel = 5
-                )
-                println("Se creó un REY: $objeto")
-
+                Diccionario_Reyes[id_tropa] = objeto
             } else if (nombre.startsWith("Tropa_")) {
-                val clazz = Class.forName(claseCompleta).kotlin
-                val constructor = clazz.primaryConstructor!!
-
-                val objeto = constructor.callBy(
-                    mapOf(constructor.parameters.find { it.name == "nivel" }!! to 2) // ejemplo: nivel = 2
-                )
-
-                println("Se creó una TROPA: $objeto")
+                Diccionario_Tropas[id_tropa] = objeto
             }
-
         }
-
     }
 
     private fun obtener_nombre_de_la_tropa(idTipo: Int): String {
@@ -126,9 +117,13 @@ class Perfil : AppCompatActivity() {
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(url)
+            .get()
             .addHeader("apikey", apiKey)
             .addHeader("Authorization", "Bearer $apiKey")
+            .addHeader("Accept", "application/json")
+            .addHeader("Content-Type", "application/json")
             .build()
+
 
         var nombre  = ""
 
@@ -189,9 +184,13 @@ class Perfil : AppCompatActivity() {
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(url)
+            .get()
             .addHeader("apikey", apiKey)
             .addHeader("Authorization", "Bearer $apiKey")
+            .addHeader("Accept", "application/json")
+            .addHeader("Content-Type", "application/json")
             .build()
+
 
         var id_tipo = 0
 
@@ -216,14 +215,18 @@ class Perfil : AppCompatActivity() {
 
 
     private fun sacar_los_id_tropa(idJugador: Int): List<Int> {
-        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_jugador=eq.$idJugador&select=id_tropa_jugador"
+        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_jugador=eq.$idJugador&select=id_tropa"
 
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(url)
-            .addHeader("apikey", apiKey)       // 👈 tu API key
+            .get()
+            .addHeader("apikey", apiKey)
             .addHeader("Authorization", "Bearer $apiKey")
+            .addHeader("Accept", "application/json")
+            .addHeader("Content-Type", "application/json")
             .build()
+
 
         val miListaMutable = mutableListOf<Int>()
 
