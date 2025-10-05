@@ -3,10 +3,10 @@ package Data
 import com.waos.soticklord.R
 import kotlin.math.ceil
 import kotlin.random.Random
-
-class Tropa_Lanzatonio : Tropa(
+import java.io.Serializable
+class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
     nombre = "Lanzatonio",
-    nivel = 1,
+    nivel = Nivel,
     vida = 550,
     ataque_base = 100,
     daño_critico = 1.5,
@@ -17,7 +17,21 @@ class Tropa_Lanzatonio : Tropa(
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
     turnoDoble = false
-) {
+),Serializable {
+    override fun toString(): String {
+        return """
+            Nombre: $nombre
+            Nivel: $nivel
+            Vida: $vida
+            Ataque base: $ataque_base
+            Daño crítico: $daño_critico
+            Prob. crítico: $probabilidad_de_critico
+            Aéreo: $aereo
+            Estado vida: $estado_de_vida
+            Turno activo: $turnoActivo
+            Turno doble: $turnoDoble
+        """.trimIndent()
+    }
 
     private fun calcularDaño(): Int {
         val suerte = Random.nextDouble()

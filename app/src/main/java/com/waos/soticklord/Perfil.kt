@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,10 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import okhttp3.OkHttpClient
 import okhttp3.*
-import org.json.JSONArray
 import java.io.IOException
-import kotlin.reflect.full.primaryConstructor
-
 
 class Perfil : AppCompatActivity() {
     private val client = OkHttpClient()
@@ -51,29 +49,50 @@ class Perfil : AppCompatActivity() {
 
         // 🔑 Recibir el ID del jugador
         val idJugador = intent.getIntExtra("ID_JUGADOR", -1)
+        val hash1 = intent.getSerializableExtra("miHash1") as? HashMap<Int, Tropa>
+        val hash2 = intent.getSerializableExtra("miHash2") as? HashMap<Int, Tropa>
+        if (hash1 != null) Diccionario_Reyes = hash1
+        if (hash2 != null) Diccionario_Tropas = hash2
+
         id = idJugador
         if (idJugador != -1) {
             val numero = idJugador.toInt()
 
-            // aquí llamas la función y usas el callback
+            // Llamar a obtenerDatosJugador y actualizar los TextViews
             obtenerDatosJugador(numero) { monedas, experiencia, medallas ->
-
-                // Aquí ya puedes asignar a tus variables
                 misMonedas = monedas
                 miExperiencia = experiencia
                 misMedallas = medallas
                 asignar_datos_principales()
-                cargar_Hash(id)
+
+                Toast.makeText(
+                    this@Perfil,
+                    "IDjugador = $idJugador , mismonedas: $misMonedas, miexperienica:$miExperiencia , mismedallas:$miExperiencia",
+                    Toast.LENGTH_SHORT
+                    //lanza un mensaje emergente
+                ).show()
             }
 
-
         } else {
-            println("Error: no se recibió    el ID del jugador")
+
+            Toast.makeText(
+                this@Perfil,
+                "No se recivio ningun id de jugador",
+                Toast.LENGTH_SHORT
+                //lanza un mensaje emergente
+            ).show()
         }
 
-        asignar_datos_principales()
+
+
     }
 
+
+    fun entrar(view: View) {
+        val intent = Intent(this, Principal::class.java)
+        startActivity(intent)
+    }
+    // sacar datos principales de cuenta
     private fun asignar_datos_principales(){
         val Nivel = findViewById<TextView>(R.id.Nivel_General)
         val nuevo =  calcularNivel(miExperiencia)
@@ -83,174 +102,6 @@ class Perfil : AppCompatActivity() {
         val Medallas = findViewById<TextView>(R.id.Medallas)
         Medallas.text = misMedallas.toString()
     }
-
-    private fun cargar_Hash(idJugador: Int) {
-        val ids = sacar_los_id_tropa(idJugador) // devuelve todas las PK de tropas_jugador
-
-        for (id_tropa in ids) {
-            val id_tipo = sacar_id_Tipo(id_tropa)
-            val nivel = sacar_nivel(id_tropa)
-            val nombre = obtener_nombre_de_la_tropa(id_tipo)
-            val claseCompleta = "Data.$nombre"   // paquete + nombre de la clase
-
-            // cargar la clase en tiempo de ejecución
-            val clazz = Class.forName(claseCompleta).kotlin
-            val constructor = clazz.primaryConstructor!!
-
-            // crear objeto pasando solo el parámetro nivel
-            val objeto = constructor.callBy(
-                mapOf(constructor.parameters.find { it.name == "nivel" }!! to nivel)
-            ) as Tropa  // casteo a Tropa porque el HashMap lo espera
-
-            // Guardar en el diccionario correspondiente
-            if (nombre.startsWith("Rey_")) {
-                Diccionario_Reyes[id_tropa] = objeto
-            } else if (nombre.startsWith("Tropa_")) {
-                Diccionario_Tropas[id_tropa] = objeto
-            }
-        }
-    }
-
-    private fun obtener_nombre_de_la_tropa(idTipo: Int): String {
-        val url = "$supabaseUrl/rest/v1/tipos_tropa?id_tipo=eq.$idTipo&select=nombre"
-
-        val client = OkHttpClient()
-        val request = Request.Builder()
-            .url(url)
-            .get()
-            .addHeader("apikey", apiKey)
-            .addHeader("Authorization", "Bearer $apiKey")
-            .addHeader("Accept", "application/json")
-            .addHeader("Content-Type", "application/json")
-            .build()
-
-
-        var nombre  = ""
-
-        try {
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val body = response.body?.string()
-                if (body != null) {
-                    val jsonArray = JSONArray(body)
-                    if (jsonArray.length() > 0) {
-                        val obj = jsonArray.getJSONObject(0)
-                        nombre = obj.getString("nombre")
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return nombre
-    }
-
-
-    private fun sacar_nivel(idTropa: Int): Int {
-        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_tropa=eq.$idTropa&select=nivel"
-
-        val client = OkHttpClient()
-        val request = Request.Builder()
-            .url(url)
-            .addHeader("apikey", apiKey)
-            .addHeader("Authorization", "Bearer $apiKey")
-            .build()
-
-        var nivel = 0
-
-        try {
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val body = response.body?.string()
-                if (body != null) {
-                    val jsonArray = JSONArray(body)
-                    if (jsonArray.length() > 0) {
-                        val obj = jsonArray.getJSONObject(0)
-                        nivel = obj.getInt("nivel")
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return nivel
-    }
-
-    private fun sacar_id_Tipo(idTropa: Int): Int {
-        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_tropa=eq.$idTropa&select=id_tipo"
-
-        val client = OkHttpClient()
-        val request = Request.Builder()
-            .url(url)
-            .get()
-            .addHeader("apikey", apiKey)
-            .addHeader("Authorization", "Bearer $apiKey")
-            .addHeader("Accept", "application/json")
-            .addHeader("Content-Type", "application/json")
-            .build()
-
-
-        var id_tipo = 0
-
-        try {
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val body = response.body?.string()
-                if (body != null) {
-                    val jsonArray = JSONArray(body)
-                    if (jsonArray.length() > 0) {
-                        val obj = jsonArray.getJSONObject(0)
-                        id_tipo = obj.getInt("id_tipo")
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return id_tipo
-    }
-
-
-    private fun sacar_los_id_tropa(idJugador: Int): List<Int> {
-        val url = "$supabaseUrl/rest/v1/tropas_jugador?id_jugador=eq.$idJugador&select=id_tropa"
-
-        val client = OkHttpClient()
-        val request = Request.Builder()
-            .url(url)
-            .get()
-            .addHeader("apikey", apiKey)
-            .addHeader("Authorization", "Bearer $apiKey")
-            .addHeader("Accept", "application/json")
-            .addHeader("Content-Type", "application/json")
-            .build()
-
-
-        val miListaMutable = mutableListOf<Int>()
-
-        try {
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val body = response.body?.string()
-                if (body != null) {
-                    // el resultado de Supabase es un JSON array
-                    val jsonArray = JSONArray(body)
-                    for (i in 0 until jsonArray.length()) {
-                        val obj = jsonArray.getJSONObject(i)
-                        val idTropaJugador = obj.getInt("id_tropa")
-                        miListaMutable.add(idTropaJugador)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return miListaMutable
-    }
-
 
     private fun calcularNivel(experiencia: Int): Int {
         var expRestante = experiencia
@@ -268,16 +119,8 @@ class Perfil : AppCompatActivity() {
         return nivel
     }
 
-    fun entrar(view: View) {
-        val intent = Intent(this, Principal::class.java)
-        startActivity(intent)
-    }
-
-
-
-    fun obtenerDatosJugador(idJugador: Int, callback: (Int, Int, Int) -> Unit) {
+    private fun obtenerDatosJugador(idJugador: Int, callback: (Int, Int, Int) -> Unit) {
         val url = "$supabaseUrl/rest/v1/jugadores?id_jugador=eq.$idJugador"
-
         val request = Request.Builder()
             .url(url)
             .addHeader("apikey", apiKey)
@@ -293,28 +136,37 @@ class Perfil : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!it.isSuccessful) {
-                        println("Error en la respuesta: ${it.code}")
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@Perfil,
+                                "Error al sacar datos",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                         return
                     }
 
                     val body = it.body?.string()
-                    if (body != null) {
-                        val jsonArray = JSONArray(body)
-                        if (jsonArray.length() > 0) {
-                            val jugador = jsonArray.getJSONObject(0)
+                    println("Respuesta Supabase (jugador): $body")
 
-                            val monedas = jugador.getInt("monedas")
-                            val experiencia = jugador.getInt("experiencia")
-                            val medallas = jugador.getInt("medallas")
+                    if (!body.isNullOrEmpty() && body != "[]") {
+                        // Ejemplo de respuesta: [{"monedas":200,"experiencia":4500,"medallas":10}]
+                        val textoLimpio = body.replace("[", "").replace("]", "").trim()
 
-                            // Devuelves los datos al callback
+                        // Usa una expresión regular para sacar los valores
+                        val monedas = Regex("\"monedas\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+                        val experiencia = Regex("\"experiencia\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+                        val medallas = Regex("\"medallas\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+
+                        // Devuelve los datos al callback en el hilo principal
+                        runOnUiThread {
                             callback(monedas, experiencia, medallas)
-
                         }
                     }
                 }
             }
         })
     }
+
 
 }

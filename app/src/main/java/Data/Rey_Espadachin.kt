@@ -1,12 +1,13 @@
 package Data
 
 import com.waos.soticklord.R
+import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Espadachin : Tropa(
+class Rey_Espadachin(Nivel:Int = 1): Tropa(
     nombre = "Rey_Espadachin",
-    nivel = 1,
+    nivel = Nivel,
     vida = 850,
     ataque_base = 110,
     daño_critico = 1.8,
@@ -17,7 +18,7 @@ class Rey_Espadachin : Tropa(
     rutamuerta = R.drawable.tropa_muerta,   // imagen al morir
     turnoActivo = true,
     turnoDoble = false
-) {
+), Serializable {
 
     private fun calcularDaño(): Int {
         val suerte = Random.nextDouble()

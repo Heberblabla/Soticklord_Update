@@ -1,12 +1,13 @@
 package Data
 
 import com.waos.soticklord.R
+import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_de_los_Gigantes : Tropa(
+class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     nombre = "Rey_de_los_Gigantes",
-    nivel = 1,
+    nivel = Nivel,
     vida = 1500,
     ataque_base = 50,
     daño_critico = 1.5,
@@ -17,7 +18,7 @@ class Rey_de_los_Gigantes : Tropa(
     rutamuerta = R.drawable.tropa_muerta,       // tu imagen en drawable
     turnoActivo = true,
     turnoDoble = false
-) {
+), Serializable {
     private fun calcularDaño(): Int {
         val suerte = Random.nextDouble()
         return if (suerte < probabilidad_de_critico) {

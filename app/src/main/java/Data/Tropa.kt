@@ -1,6 +1,7 @@
 package Data
 
 import com.waos.soticklord.R
+import java.io.Serializable
 
 abstract class Tropa(
     var nombre: String,
@@ -15,7 +16,7 @@ abstract class Tropa(
     var rutamuerta: Int = R.drawable.tropa_default,
     var turnoActivo: Boolean = true,
     var turnoDoble: Boolean = false
-) {
+): Serializable  {
     fun imprimir() {
         println("nombre : $nombre")
         println("vida: $vida")

@@ -1,12 +1,13 @@
 package Data
 
 import com.waos.soticklord.R
+import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Tropa_Espadachin : Tropa(
+class Tropa_Espadachin(Nivel:Int = 1) : Tropa(
     nombre = "Espadachin",
-    nivel = 1,
+    nivel = Nivel,
     vida = 420,
     ataque_base = 50,
     daño_critico = 1.8,
@@ -17,7 +18,21 @@ class Tropa_Espadachin : Tropa(
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
     turnoDoble = false
-) {
+), Serializable {
+    override fun toString(): String {
+        return """
+            Nombre: $nombre
+            Nivel: $nivel
+            Vida: $vida
+            Ataque base: $ataque_base
+            Daño crítico: $daño_critico
+            Prob. crítico: $probabilidad_de_critico
+            Aéreo: $aereo
+            Estado vida: $estado_de_vida
+            Turno activo: $turnoActivo
+            Turno doble: $turnoDoble
+        """.trimIndent()
+    }
 
     // 🔹 Dato único de esta tropa
     var vidavida: Int = 420

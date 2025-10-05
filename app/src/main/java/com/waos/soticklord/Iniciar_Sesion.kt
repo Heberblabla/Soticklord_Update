@@ -120,7 +120,7 @@ class Iniciar_Sesion : AppCompatActivity() {
                             val obj = jsonArray.getJSONObject(0)  // primer jugador
                             val idJugador = obj.getInt("id_jugador")
 
-                            val intent = Intent(this@Iniciar_Sesion, Perfil::class.java)
+                            val intent = Intent(this@Iniciar_Sesion, Pantalla_de_Carga::class.java)
                             intent.putExtra("ID_JUGADOR", idJugador) // paso solo el ID
                             startActivity(intent)
                             finish()
