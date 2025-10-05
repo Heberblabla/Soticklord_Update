@@ -4,6 +4,8 @@ import Data.Tropa
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +17,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import okhttp3.OkHttpClient
 import okhttp3.*
 import java.io.IOException
+import android.widget.Switch
+import androidx.constraintlayout.widget.ConstraintLayout
+
 
 class Perfil : AppCompatActivity() {
     private val client = OkHttpClient()
@@ -26,13 +31,37 @@ class Perfil : AppCompatActivity() {
     var misMedallas = 0
     var Diccionario_Reyes = HashMap<Int, Tropa>()
     var Diccionario_Tropas = HashMap<Int, Tropa>()
-
+    var cantidad_reyes = 0
+    var cantidad_tropas = 0
+    var posicion = 0
+    var estado = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_perfil)
+        val layoutPrincipal = findViewById<ConstraintLayout>(R.id.main)
+        val switchCambio = findViewById<Switch>(R.id.Cambio)
 
+        switchCambio.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // 🟢 Modo tropas
+                layoutPrincipal.setBackgroundResource(R.drawable.perfil_tropa)
+                posicion = 0
+                estado = false
+                val boton = findViewById<Button>(R.id.Boton_Avanzar)
+                siguiente_tropa(boton)
+
+
+            } else {
+                // ⚪ Modo rey
+                layoutPrincipal.setBackgroundResource(R.drawable.perfil_rey)
+                posicion = 0
+                estado = true
+                val boton = findViewById<Button>(R.id.Boton_Avanzar)
+                siguiente_tropa(boton)
+            }
+        }
         // Ocultar barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
@@ -53,6 +82,8 @@ class Perfil : AppCompatActivity() {
         val hash2 = intent.getSerializableExtra("miHash2") as? HashMap<Int, Tropa>
         if (hash1 != null) Diccionario_Reyes = hash1
         if (hash2 != null) Diccionario_Tropas = hash2
+        cantidad_reyes = Diccionario_Reyes.size
+        cantidad_tropas = Diccionario_Tropas.size
 
         id = idJugador
         if (idJugador != -1) {
@@ -65,12 +96,7 @@ class Perfil : AppCompatActivity() {
                 misMedallas = medallas
                 asignar_datos_principales()
 
-                Toast.makeText(
-                    this@Perfil,
-                    "IDjugador = $idJugador , mismonedas: $misMonedas, miexperienica:$miExperiencia , mismedallas:$miExperiencia",
-                    Toast.LENGTH_SHORT
-                    //lanza un mensaje emergente
-                ).show()
+
             }
 
         } else {
@@ -88,10 +114,73 @@ class Perfil : AppCompatActivity() {
     }
 
 
+
+
+
+    fun siguiente_tropa(view: View) {
+        if(estado){
+            // Asegúrate de tener tropas
+            if (Diccionario_Reyes.isEmpty()) {
+                Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // Referencia a la imagen del XML
+            val imagenView = findViewById<ImageView>(R.id.Imagen)
+
+            // Convertimos el HashMap a lista (porque no tiene orden)
+            val listaTropas = Diccionario_Reyes.values.toList()
+
+            // Obtenemos la tropa actual
+            val tropaActual = listaTropas[posicion]
+
+            // Cambiamos la imagen del ImageView
+            imagenView.setImageResource(tropaActual.rutaviva)
+
+            // Pasamos al siguiente índice (en bucle)
+            posicion = (posicion + 1) % listaTropas.size
+
+            if( posicion > cantidad_reyes){
+                posicion = 0
+            }
+        }else {
+            // Asegúrate de tener tropas
+            if (Diccionario_Tropas.isEmpty()) {
+                Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // Referencia a la imagen del XML
+            val imagenView = findViewById<ImageView>(R.id.Imagen)
+
+            // Convertimos el HashMap a lista (porque no tiene orden)
+            val listaTropas = Diccionario_Tropas.values.toList()
+
+            // Obtenemos la tropa actual
+            val tropaActual = listaTropas[posicion]
+
+            // Cambiamos la imagen del ImageView
+            imagenView.setImageResource(tropaActual.rutaviva)
+
+
+            // Pasamos al siguiente índice (en bucle)
+            posicion = (posicion + 1) % listaTropas.size
+
+            if (posicion > cantidad_tropas) {
+                posicion = 0
+            }
+        }
+
+    }
+
+
+
+    //boton menu
     fun entrar(view: View) {
         val intent = Intent(this, Principal::class.java)
         startActivity(intent)
     }
+
     // sacar datos principales de cuenta
     private fun asignar_datos_principales(){
         val Nivel = findViewById<TextView>(R.id.Nivel_General)

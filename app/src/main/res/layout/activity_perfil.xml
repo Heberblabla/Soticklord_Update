@@ -116,6 +116,7 @@
         android:layout_width="41dp"
         android:layout_height="15dp"
         android:background="#00FFFFFF"
+        android:onClick="siguiente_tropa"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,12 +139,14 @@
         app:layout_constraintVertical_bias="0.921" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/Cambio"
         android:layout_width="55dp"
         android:layout_height="24dp"
+        android:background="#03FFFFFF"
+        android:backgroundTint="#3DFFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.131"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.651" />
