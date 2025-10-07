@@ -8,10 +8,10 @@ import kotlin.random.Random
 class Rey_Espadachin(Nivel:Int = 1): Tropa(
     nombre = "Rey_Espadachin",
     nivel = Nivel,
-    vida = 850,
-    ataque_base = 110,
-    daño_critico = 1.8,
-    probabilidad_de_critico = 0.30,
+    vida = calcularVida(850,Nivel),
+    ataque_base = calcularAtaque(110,Nivel),
+    daño_critico = calcularDañoCritico(1.8,Nivel),
+    probabilidad_de_critico = calcularProbCritico(0.3,Nivel),
     aereo = false,
     estado_de_vida = true,
     rutaviva = R.drawable.rey_espadachin,   // tu imagen en drawable

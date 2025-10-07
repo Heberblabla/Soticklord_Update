@@ -67,7 +67,10 @@
         android:id="@+id/Nombre"
         android:layout_width="151dp"
         android:layout_height="20dp"
+        android:backgroundTint="#050404"
+        android:fontFamily="@font/medievalsharp"
         android:text="TextView"
+        android:textColor="#040000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.617"
@@ -77,39 +80,45 @@
 
     <TextView
         android:id="@+id/Vida"
-        android:layout_width="65dp"
-        android:layout_height="21dp"
+        android:layout_width="108dp"
+        android:layout_height="18dp"
+        android:fontFamily="@font/medievalsharp"
         android:text="TextView"
+        android:textColor="#120000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.615" />
+        app:layout_constraintVertical_bias="0.609" />
 
     <TextView
         android:id="@+id/Ataque_Base"
-        android:layout_width="61dp"
-        android:layout_height="18dp"
+        android:layout_width="114dp"
+        android:layout_height="17dp"
+        android:fontFamily="@font/medievalsharp"
         android:text="TextView"
+        android:textColor="#0F0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintHorizontal_bias="0.742"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61" />
+        app:layout_constraintVertical_bias="0.609" />
 
     <TextView
         android:id="@+id/Nivel_Personaje"
         android:layout_width="61dp"
         android:layout_height="18dp"
+        android:fontFamily="@font/medievalsharp"
         android:text="TextView"
+        android:textColor="#140000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintHorizontal_bias="0.853"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.539" />
+        app:layout_constraintVertical_bias="0.544" />
 
     <Button
         android:id="@+id/Boton_Avanzar"
@@ -130,6 +139,7 @@
         android:layout_width="41dp"
         android:layout_height="15dp"
         android:background="#00FFFFFF"
+        android:onClick="anterior_tropa"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -155,6 +165,7 @@
         android:id="@+id/Descripcion"
         android:layout_width="192dp"
         android:layout_height="76dp"
+        android:fontFamily="@font/medievalsharp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -176,5 +187,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.138" />
+
+    <Button
+        android:id="@+id/Boton_mapa"
+        android:layout_width="289dp"
+        android:layout_height="88dp"
+        android:background="#00FFFFFF"
+        android:backgroundTint="#148A2F2F"
+        android:onClick="mapear"
+        android:text="🚩"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.226" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

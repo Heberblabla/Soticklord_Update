@@ -8,10 +8,10 @@ import kotlin.random.Random
 class Rey_Arquero (Nivel:Int = 1): Tropa(
     nombre = "Rey_Arquero",
     nivel = Nivel,
-    vida = 700,
-    ataque_base = 90,
-    daño_critico = 1.9,
-    probabilidad_de_critico = 0.40,
+    vida = calcularVida(700,Nivel),
+    ataque_base = calcularAtaque(90,Nivel),
+    daño_critico = calcularDañoCritico(1.9,Nivel),
+    probabilidad_de_critico = calcularProbCritico(0.40,Nivel),
     aereo = true,
     estado_de_vida = true,
     rutaviva = R.drawable.rey_arquero,
@@ -19,6 +19,9 @@ class Rey_Arquero (Nivel:Int = 1): Tropa(
     turnoActivo = true,
     turnoDoble = false
 ), Serializable {
+
+
+
     override fun toString(): String {
         return """
             Nombre: $nombre

@@ -8,10 +8,10 @@ import kotlin.random.Random
 class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     nombre = "Rey_de_los_Gigantes",
     nivel = Nivel,
-    vida = 1500,
-    ataque_base = 50,
-    daño_critico = 1.5,
-    probabilidad_de_critico = 0.50,
+    vida = calcularVida(1500,Nivel),
+    ataque_base = calcularAtaque(50,Nivel),
+    daño_critico = calcularDañoCritico(1.5,Nivel),
+    probabilidad_de_critico = calcularProbCritico(0.5,Nivel),
     aereo = false,
     estado_de_vida = true,
     rutaviva = R.drawable.rey_de_los_gigantes,  // tu imagen en drawable

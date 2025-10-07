@@ -118,69 +118,114 @@ class Perfil : AppCompatActivity() {
 
 
     fun siguiente_tropa(view: View) {
-        if(estado){
-            // Asegúrate de tener tropas
+        val imagenView = findViewById<ImageView>(R.id.Imagen)
+
+        if (estado) {
             if (Diccionario_Reyes.isEmpty()) {
-                Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "No hay reyes disponibles", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            // Referencia a la imagen del XML
-            val imagenView = findViewById<ImageView>(R.id.Imagen)
+            val listaReyes = Diccionario_Reyes.values.toList()
+            val tropaActual = listaReyes[posicion]
 
-            // Convertimos el HashMap a lista (porque no tiene orden)
-            val listaTropas = Diccionario_Reyes.values.toList()
-
-            // Obtenemos la tropa actual
-            val tropaActual = listaTropas[posicion]
-
-            // Cambiamos la imagen del ImageView
+            // Cambia imagen
             imagenView.setImageResource(tropaActual.rutaviva)
 
-            // Pasamos al siguiente índice (en bucle)
-            posicion = (posicion + 1) % listaTropas.size
+            // 🟢 Muestra los datos
+            mostrarDatos(tropaActual)
 
-            if( posicion > cantidad_reyes){
-                posicion = 0
-            }
-        }else {
-            // Asegúrate de tener tropas
+            // Avanza al siguiente
+            posicion = (posicion + 1) % listaReyes.size
+
+        } else {
             if (Diccionario_Tropas.isEmpty()) {
                 Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            // Referencia a la imagen del XML
-            val imagenView = findViewById<ImageView>(R.id.Imagen)
-
-            // Convertimos el HashMap a lista (porque no tiene orden)
             val listaTropas = Diccionario_Tropas.values.toList()
-
-            // Obtenemos la tropa actual
             val tropaActual = listaTropas[posicion]
 
-            // Cambiamos la imagen del ImageView
+            // Cambia imagen
             imagenView.setImageResource(tropaActual.rutaviva)
 
+            // 🟢 Muestra los datos
+            mostrarDatos(tropaActual)
 
-            // Pasamos al siguiente índice (en bucle)
+            // Avanza al siguiente
             posicion = (posicion + 1) % listaTropas.size
-
-            if (posicion > cantidad_tropas) {
-                posicion = 0
-            }
         }
-
     }
 
+
+
+    fun anterior_tropa(view: View) {
+        val imagenView = findViewById<ImageView>(R.id.Imagen)
+
+        if (estado) {
+            // 👑 Si estás en modo REY
+            if (Diccionario_Reyes.isEmpty()) {
+                Toast.makeText(this, "No hay reyes disponibles", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val listaReyes = Diccionario_Reyes.values.toList()
+
+            // Retroceder correctamente en bucle
+            posicion = if (posicion - 1 < 0) listaReyes.size - 1 else posicion - 1
+
+            val tropaActual = listaReyes[posicion]
+
+            // Actualizar imagen y texto
+            imagenView.setImageResource(tropaActual.rutaviva)
+            mostrarDatos(tropaActual)
+
+        } else {
+            // ⚔️ Si estás en modo TROPA
+            if (Diccionario_Tropas.isEmpty()) {
+                Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val listaTropas = Diccionario_Tropas.values.toList()
+
+            // Retroceder correctamente en bucle
+            posicion = if (posicion - 1 < 0) listaTropas.size - 1 else posicion - 1
+
+            val tropaActual = listaTropas[posicion]
+
+            // Actualizar imagen y texto
+            imagenView.setImageResource(tropaActual.rutaviva)
+            mostrarDatos(tropaActual)
+        }
+    }
+
+
+    private fun mostrarDatos(tropa: Tropa) {
+        val nombreView = findViewById<TextView>(R.id.Nombre)
+        val nivelView = findViewById<TextView>(R.id.Nivel_Personaje)
+        val vidaView = findViewById<TextView>(R.id.Vida)
+        val ataqueBaseView = findViewById<TextView>(R.id.Ataque_Base)
+
+        nombreView.text = tropa.nombre
+        nivelView.text = "Nivel: ${tropa.nivel}"
+        vidaView.text = "Vida: ${tropa.vida}"
+        ataqueBaseView.text = "Ataque: ${tropa.ataque_base}"
+    }
 
 
     //boton menu
     fun entrar(view: View) {
-        val intent = Intent(this, Principal::class.java)
-        startActivity(intent)
+        finish()
+
     }
 
+    fun mapear(view: View){
+        val intent = Intent(this, Mapa::class.java)
+        startActivity(intent)
+        finish()
+    }
     // sacar datos principales de cuenta
     private fun asignar_datos_principales(){
         val Nivel = findViewById<TextView>(R.id.Nivel_General)
