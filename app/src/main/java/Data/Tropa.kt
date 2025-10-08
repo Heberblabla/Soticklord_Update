@@ -57,4 +57,6 @@ abstract class Tropa(
         println("ruta de imagen viva: $rutaviva")
         println("ruta de imagen muerta: $rutamuerta")
     }
+    open fun recibirDaño(cantidad: Int, atacante: Tropa) {}
+
 }

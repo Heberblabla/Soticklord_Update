@@ -158,8 +158,6 @@ class Perfil : AppCompatActivity() {
         }
     }
 
-
-
     fun anterior_tropa(view: View) {
         val imagenView = findViewById<ImageView>(R.id.Imagen)
 
@@ -201,7 +199,6 @@ class Perfil : AppCompatActivity() {
         }
     }
 
-
     private fun mostrarDatos(tropa: Tropa) {
         val nombreView = findViewById<TextView>(R.id.Nombre)
         val nivelView = findViewById<TextView>(R.id.Nivel_Personaje)
@@ -213,7 +210,6 @@ class Perfil : AppCompatActivity() {
         vidaView.text = "Vida: ${tropa.vida}"
         ataqueBaseView.text = "Ataque: ${tropa.ataque_base}"
     }
-
 
     //boton menu
     fun entrar(view: View) {

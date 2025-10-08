@@ -5,7 +5,7 @@ import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Arquero (Nivel:Int = 1): Tropa(
+class Rey_Arquero (Nivel:Int = 1 , private var Reflejo_Activado: Boolean = false): Tropa(
     nombre = "Rey_Arquero",
     nivel = Nivel,
     vida = calcularVida(700,Nivel),
@@ -48,6 +48,7 @@ class Rey_Arquero (Nivel:Int = 1): Tropa(
 
     fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
         val daño = calcularDaño()
+        enemigos[posicion].recibirDaño(daño,this) //cuando se usa this, es comodecir , yo te estoy atacnado, sta clase
         enemigos[posicion].vida -= daño
     }
 
@@ -71,6 +72,10 @@ class Rey_Arquero (Nivel:Int = 1): Tropa(
             enemigos[posicion].vida -= daño
         }
     }
+    fun activar_Reflejo(){
+        Reflejo_Activado = true
+    }
+
 
     fun furiaDelRey() {
         this.vida += 50
@@ -78,4 +83,21 @@ class Rey_Arquero (Nivel:Int = 1): Tropa(
         this.probabilidad_de_critico += 0.1
         this.daño_critico += 0.1
     }
+
+
+    //recivir daño:
+
+    override fun recibirDaño(cantidad: Int, atacante: Tropa) {
+        if(Reflejo_Activado) {
+            // La tropa recibe el daño normal
+            this.vida -= cantidad
+            // Refleja el 50% del daño al atacante
+            atacante.vida -= (cantidad * 0.5).toInt()
+        }else{
+            this.vida -= cantidad
+        }
+
+    }
+
+
 }

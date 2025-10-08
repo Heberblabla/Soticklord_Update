@@ -45,7 +45,8 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
 
     fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
         val daño = calcularDaño()
-        enemigos[posicion].vida -= daño
+        enemigos[posicion].recibirDaño(daño,this) //cuando se usa this, es comodecir , yo te estoy atacnado, sta clase
+        //enemigos[posicion].vida -= daño
     }
 
     fun lanzaImperial(enemigos: ArrayList<Tropa>, posicion: Int) {
@@ -68,5 +69,14 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
         ataque_base = ataqueOriginal
 
         enemigos[posicion].vida -= dañoTotal
+    }
+
+    override fun recibirDaño(cantidad: Int, atacante: Tropa) {
+        // La tropa recibe el daño normal
+        this.vida -= cantidad
+        // Refleja el 50% del daño al atacante
+        atacante.vida -= (cantidad * 0.5).toInt()
+
+
     }
 }

@@ -5,6 +5,175 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/campo_batalla1"
     tools:context=".Batalla">
+
+    <ImageView
+        android:id="@+id/TropaFa"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.837"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.468"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaDc"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.599"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.745"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaEb"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.711"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.606"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaDa"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.599"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaDb"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.599"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.468"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaEa"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.711"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.329"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaCb"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.372"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaCc"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.372"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.828"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaBa"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.257"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.412"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaBb"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.257"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.689"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaCa"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.372"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.274"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/TropaAa"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:rotationX="19"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.149"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.551"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="87dp"
+        android:layout_height="32dp"
+        android:background="@drawable/m3_split_button_chevron_avd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.005" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
