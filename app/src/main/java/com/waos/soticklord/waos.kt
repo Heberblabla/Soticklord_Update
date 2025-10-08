@@ -3,6 +3,7 @@ package com.waos.soticklord
 import Data.*
 import okhttp3.OkHttpClient
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import kotlin.reflect.full.primaryConstructor
 
 var Diccionario_Reyes = HashMap<Int, Tropa>()
@@ -10,7 +11,15 @@ var Diccionario_Tropas = HashMap<Int, Tropa>()
 val supabaseUrl = "https://zropeiibzqefzjrkdzzp.supabase.co"
 val apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyb3BlaWlienFlZnpqcmtkenpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwMTc1NDYsImV4cCI6MjA3NDU5MzU0Nn0.ZJWqkOAbTul-RwIQrirajUSVdyI1w9Kh3kjek0vFMw8"
 var id = 1
+val nuevo = "xd"
 fun main() {
+    editar_nombre_de_la_tropa(1,nuevo)
+
+
+}
+
+
+fun waos(){
     cargar_Hash(1)
     println("=== REYES ===")
     for ((id, rey) in Diccionario_Reyes) {
@@ -25,7 +34,6 @@ fun main() {
         println(tropa)
         println("--------------")
     }
-
 
 }
 
@@ -68,6 +76,48 @@ fun main() {
 
     }
 }
+
+fun editar_nombre_de_la_tropa(idTipo: Int, nuevoNombre: String): Boolean {
+    val url = "$supabaseUrl/rest/v1/tipos_tropa?id_tipo=eq.$idTipo"
+
+    val client = OkHttpClient()
+
+    // el cuerpo del JSON con los nuevos datos
+    val json = """
+        {
+            "nombre": "$nuevoNombre"
+        }
+    """.trimIndent()
+
+    val requestBody = RequestBody.create(
+        "application/json".toMediaTypeOrNull(), json
+    )
+
+    // se usa PATCH para actualizar parcialmente los datos
+    val request = Request.Builder()
+        .url(url)
+        .patch(requestBody)
+        .addHeader("apikey", apiKey)
+        .addHeader("Authorization", "Bearer $apiKey")
+        .addHeader("Content-Type", "application/json")
+        .build()
+
+    return try {
+        val response = client.newCall(request).execute()
+        if (response.isSuccessful) {
+            println("✅ Nombre actualizado correctamente")
+            true
+        } else {
+            println("❌ Error al actualizar: ${response.code}")
+            false
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
+    }
+}
+
+
 
 fun obtener_nombre_de_la_tropa(idTipo: Int): String {
     val url = "$supabaseUrl/rest/v1/tipos_tropa?id_tipo=eq.$idTipo&select=nombre"
