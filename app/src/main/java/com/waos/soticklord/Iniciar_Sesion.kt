@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import okhttp3.*
 import org.json.JSONArray
 import java.io.IOException
+import java.security.MessageDigest
 
 
 class Iniciar_Sesion : AppCompatActivity() {
@@ -57,7 +58,8 @@ class Iniciar_Sesion : AppCompatActivity() {
         btnimagen.setOnClickListener {
             usuario = editNombre.text.toString()
             val password = editPassword.text.toString()
-            validarUsuario(usuario, password)
+            val contraseña = crearHash(password)
+            validarUsuario(usuario, contraseña)
         }
 
         btnRegistrar.setOnClickListener {
@@ -70,6 +72,14 @@ class Iniciar_Sesion : AppCompatActivity() {
     }
 
 
+    private fun crearHash(password: String): String {
+        val bytes = MessageDigest
+            .getInstance("SHA-256")
+            .digest(password.toByteArray(Charsets.UTF_8))
+
+        return bytes.joinToString("") { "%02x".format(it) }
+    }
+
     fun inciar_musica(){
 
         mediaPlayer = MediaPlayer.create(this, R.raw.musica)
@@ -80,6 +90,7 @@ class Iniciar_Sesion : AppCompatActivity() {
         super.onDestroy()
         mediaPlayer.release() // Libera memoria al cerrar la Activity
     }
+
     private fun validarUsuario(nombre: String, password: String) {
         // primero me fijo si el user dejó vacío algún campo
         if (nombre.isEmpty() || password.isEmpty()) {

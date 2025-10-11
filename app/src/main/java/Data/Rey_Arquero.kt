@@ -72,21 +72,17 @@ class Rey_Arquero (Nivel:Int = 1 , private var Reflejo_Activado: Boolean = false
             enemigos[posicion].vida -= daño
         }
     }
-    fun activar_Reflejo(){
-        Reflejo_Activado = true
-    }
-
-
     fun furiaDelRey() {
         this.vida += 50
         this.ataque_base += 50
         this.probabilidad_de_critico += 0.1
         this.daño_critico += 0.1
     }
-
+    fun activar_Reflejo(){
+        Reflejo_Activado = true
+    }
 
     //recivir daño:
-
     override fun recibirDaño(cantidad: Int, atacante: Tropa) {
         if(Reflejo_Activado) {
             // La tropa recibe el daño normal
