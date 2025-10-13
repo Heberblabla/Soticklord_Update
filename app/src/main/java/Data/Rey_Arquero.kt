@@ -5,7 +5,13 @@ import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Arquero (Nivel:Int = 1 , private var Reflejo_Activado: Boolean = false): Tropa(
+class Rey_Arquero (
+
+    Nivel:Int = 1, private var Reflejo_Activado: Boolean = false, escudo_cantidad: Int,
+    escudo_activo: Boolean
+):
+
+    Tropa(
     nombre = "Rey_Arquero",
     nivel = Nivel,
     vida = calcularVida(700,Nivel),
@@ -17,7 +23,10 @@ class Rey_Arquero (Nivel:Int = 1 , private var Reflejo_Activado: Boolean = false
     rutaviva = R.drawable.rey_arquero,
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
-    turnoDoble = false
+    turnoDoble = false,
+        escudo_cantidad = 0,
+        escudo_activo = false,
+
 ), Serializable {
 
 
@@ -78,8 +87,8 @@ class Rey_Arquero (Nivel:Int = 1 , private var Reflejo_Activado: Boolean = false
         this.probabilidad_de_critico += 0.1
         this.daño_critico += 0.1
     }
-    fun activar_Reflejo(){
-        Reflejo_Activado = true
+    fun activar_Escudo(){
+
     }
 
     //recivir daño:

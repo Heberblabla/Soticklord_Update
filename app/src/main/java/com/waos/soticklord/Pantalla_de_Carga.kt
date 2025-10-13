@@ -79,7 +79,6 @@ class Pantalla_de_Carga : AppCompatActivity() {
         }
     }
 
-
     fun cargar_Hash(idJugador: Int) {
         val ids = sacar_los_id_tropa(idJugador) // devuelve todas las PK de tropas_jugador
         println("🟢 Tropas del jugador: $ids")
@@ -114,7 +113,7 @@ class Pantalla_de_Carga : AppCompatActivity() {
                     println("Tropa guardada en Diccionario_Tropas con id=$id_tropa y Nivel=$nivel")
                 }
             } else {
-                println("⚠️ El constructor de ${nombre} no tiene parámetro 'Nivel'. Se omitió la creación.")
+                println("️ El constructor de ${nombre} no tiene parámetro 'Nivel'. Se omitió la creación.")
             }
 
         }

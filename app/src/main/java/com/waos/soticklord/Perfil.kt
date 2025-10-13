@@ -88,17 +88,13 @@ class Perfil : AppCompatActivity() {
         id = idJugador
         if (idJugador != -1) {
             val numero = idJugador.toInt()
-
             // Llamar a obtenerDatosJugador y actualizar los TextViews
             obtenerDatosJugador(numero) { monedas, experiencia, medallas ->
                 misMonedas = monedas
                 miExperiencia = experiencia
                 misMedallas = medallas
                 asignar_datos_principales()
-
-
             }
-
         } else {
 
             Toast.makeText(
@@ -109,13 +105,7 @@ class Perfil : AppCompatActivity() {
             ).show()
         }
 
-
-
     }
-
-
-
-
 
     fun siguiente_tropa(view: View) {
         val imagenView = findViewById<ImageView>(R.id.Imagen)
@@ -213,8 +203,10 @@ class Perfil : AppCompatActivity() {
 
     //boton menu
     fun entrar(view: View) {
-        finish()
-
+        val intent = Intent(this, Principal::class.java)
+        intent.putExtra("mapa1", HashMap(Diccionario_Reyes)) // HashMap<Int, Tropa>
+        intent.putExtra("mapa2", HashMap(Diccionario_Tropas))
+        startActivity(intent)
     }
 
     fun mapear(view: View){

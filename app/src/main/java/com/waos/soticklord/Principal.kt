@@ -38,6 +38,10 @@ class Principal : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val mapa1 = intent.getSerializableExtra("mapa1") as? HashMap<Int, Tropa>
+        val mapa2 = intent.getSerializableExtra("mapa2") as? HashMap<Int, Tropa>
+        if (mapa1 != null) Diccionario_Reyes = mapa1
+        if (mapa2 != null) Diccionario_Tropas = mapa2
 
         // AHORA ya puedes hacer findViewById
         imagenes = arrayListOf(
@@ -48,28 +52,13 @@ class Principal : AppCompatActivity() {
             findViewById(R.id.Cuatro),
             findViewById(R.id.Cinco)
         )
-
-
-        Crear_Diccionario()
-
         Ocultar_imagenes()
     }
 
 
     //metodos
 
-    fun Crear_Diccionario() {
-        //Diccionario_Tropas[1] = Tropa("Arquero", 100, R.drawable.arquero_tropa)
-        //Diccionario_Tropas[2] = Tropa("Mago", 80, R.drawable.espadachin_tropa)
-        //Diccionario_Tropas[3] = Tropa("Gigante", 200, R.drawable.gigante_tropa)
-        //Diccionario_Tropas[4] = Tropa("Espadachin", 200, R.drawable.espadachin_tropa)
 
-        //Diccionario_Reyes[1] = Tropa("Rey Arquero", 100, R.drawable.rey_arquero)
-        //Diccionario_Reyes[2] = Tropa("Rey Lanzatonio", 80, R.drawable.rey_lanzatonio)
-        //Diccionario_Reyes[3] = Tropa("Rey Gigante", 200, R.drawable.rey_de_los_gigantes)
-        //Diccionario_Reyes[4] = Tropa("Rey Espadachin", 200, R.drawable.rey_espadachin)
-
-    }
 
     fun Ocultar_imagenes() {
         for (img in imagenes) {
