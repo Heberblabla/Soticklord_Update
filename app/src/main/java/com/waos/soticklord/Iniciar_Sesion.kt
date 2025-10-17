@@ -132,7 +132,7 @@ class Iniciar_Sesion : AppCompatActivity() {
                             val idJugador = obj.getInt("id_jugador")
 
                             val intent = Intent(this@Iniciar_Sesion, Pantalla_de_Carga::class.java)
-                            intent.putExtra("ID_JUGADOR", idJugador) // paso solo el ID
+                            GlobalData.id_usuario = idJugador
                             startActivity(intent)
                             finish()
                         }

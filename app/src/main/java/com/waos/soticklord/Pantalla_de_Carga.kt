@@ -4,6 +4,7 @@ import Data.Tropa
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.VideoView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,13 +21,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Pantalla_de_Carga : AppCompatActivity() {
-
-    var Diccionario_Reyes = HashMap<Int, Tropa>()
-    var Diccionario_Tropas = HashMap<Int, Tropa>()
     val supabaseUrl = "https://zropeiibzqefzjrkdzzp.supabase.co"
     val apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyb3BlaWlienFlZnpqcmtkenpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwMTc1NDYsImV4cCI6MjA3NDU5MzU0Nn0.ZJWqkOAbTul-RwIQrirajUSVdyI1w9Kh3kjek0vFMw8"
-    var id = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,10 +41,6 @@ class Pantalla_de_Carga : AppCompatActivity() {
             insets
         }
 
-        // Recibir el ID del jugador
-        val idJugador = intent.getIntExtra("ID_JUGADOR", -1)
-        id = idJugador
-
         // Configurar video de fondo
         val videoView = findViewById<VideoView>(R.id.videoSplash)
         val videoUri = Uri.parse("android.resource://$packageName/${R.raw.intro}")
@@ -63,14 +55,11 @@ class Pantalla_de_Carga : AppCompatActivity() {
 
         // Cargar datos en segundo plano mientras el video sigue corriendo
         CoroutineScope(Dispatchers.IO).launch {
-            cargar_Hash(id) // tu función que trae los datos del servidor
+            cargar_Hash(GlobalData.id_usuario) // tu función que trae los datos del servidor
 
             // Cuando termina la carga, volvemos al hilo principal
             withContext(Dispatchers.Main) {
                 val intent = Intent(this@Pantalla_de_Carga, Perfil::class.java)
-                intent.putExtra("miHash1", HashMap(Diccionario_Reyes)) // HashMap<Int, Tropa>
-                intent.putExtra("miHash2", HashMap(Diccionario_Tropas)) // HashMap<Int, Tropa>
-                intent.putExtra("ID_JUGADOR", idJugador)
                 startActivity(intent)
                 videoView.stopPlayback()
                 finish()
@@ -106,10 +95,10 @@ class Pantalla_de_Carga : AppCompatActivity() {
                 // Crear objeto con el nivel si existe ese parámetro
                 var objeto = constructor.callBy(mapOf(parametroNivel to nivel)) as Tropa
                 if (nombre.startsWith("Rey_")) {
-                    Diccionario_Reyes[id_tropa] = objeto
+                    GlobalData.Diccionario_Reyes[id_tropa] = objeto
                     println("Rey guardado en Diccionario_Reyes con id=$id_tropa y Nivel=$nivel")
                 } else if (nombre.startsWith("Tropa_")) {
-                    Diccionario_Tropas[id_tropa] = objeto
+                    GlobalData.Diccionario_Tropas[id_tropa] = objeto
                     println("Tropa guardada en Diccionario_Tropas con id=$id_tropa y Nivel=$nivel")
                 }
             } else {

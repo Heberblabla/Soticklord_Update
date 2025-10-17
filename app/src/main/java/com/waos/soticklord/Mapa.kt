@@ -1,6 +1,8 @@
 package com.waos.soticklord
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -26,4 +28,35 @@ class Mapa : AppCompatActivity() {
             insets
         }
     }
+
+
+    fun primer_nivel(view: View){
+        val intent = Intent(this, Principal::class.java)
+        startActivity(intent)
+    }
+    fun segundo_nivel(view: View){
+        val intent = Intent(this, Principal::class.java)
+        startActivity(intent)
+
+    }fun tercer_nivel(view: View){
+        val intent = Intent(this, Principal::class.java)
+        startActivity(intent)
+
+    }fun cuarto_nivel(view: View){
+        val intent = Intent(this, Principal::class.java)
+        startActivity(intent)
+
+    }
+    fun quinto_nivel(view: View){
+        val intent = Intent(this, Principal::class.java)
+        startActivity(intent)
+
+    }
+    fun sexto_nivel(view: View){
+        val intent = Intent(this, Principal::class.java)
+        startActivity(intent)
+
+    }
+
+
 }

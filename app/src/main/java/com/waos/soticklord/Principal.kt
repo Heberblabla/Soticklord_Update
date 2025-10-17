@@ -14,13 +14,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 
 class Principal : AppCompatActivity() {
     //atributos
+    var indice_tropas = 0
+    var indice_reyes = 0
     var indice_waos = 0
-    var indice_reyes = 1
-    var indice_tropas = 1
-
-    var Diccionario_Reyes = HashMap<Int, Tropa>()
-    var Diccionario_Tropas = HashMap<Int, Tropa>()
-
     // Lista de imágenes (la llenamos en onCreate)
     lateinit var imagenes: ArrayList<ImageView>
 
@@ -38,10 +34,6 @@ class Principal : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val mapa1 = intent.getSerializableExtra("mapa1") as? HashMap<Int, Tropa>
-        val mapa2 = intent.getSerializableExtra("mapa2") as? HashMap<Int, Tropa>
-        if (mapa1 != null) Diccionario_Reyes = mapa1
-        if (mapa2 != null) Diccionario_Tropas = mapa2
 
         // AHORA ya puedes hacer findViewById
         imagenes = arrayListOf(
@@ -69,46 +61,32 @@ class Principal : AppCompatActivity() {
 
     // Boton para q aparesca la siquiente imagen respectiva en el view grande
     fun Boton_siguiente_Mostrar(view: View) {
-        val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
-
-        if (indice_waos >= 1 && indice_waos <= 5) {
-
-            val seleccionada = Diccionario_Tropas[indice_tropas]
-            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
-            indice_tropas = indice_tropas + 1
-            if (indice_tropas > Diccionario_Tropas.size)
-                indice_tropas = 1
-        }
-
-        if (indice_waos == 0) {
-            val seleccionada = Diccionario_Reyes[indice_reyes]
-            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
-            indice_reyes = indice_reyes + 1
-            if (indice_reyes > Diccionario_Reyes.size)
-                indice_reyes = 1
-
-        }
+        mostrarImagen(1) // 1 = siguiente
 
     }
     // Boton para q aparesca la siquiente imagen respectiva en el view grande
     fun Boton_Anterior_Mostrar(view: View) {
+        mostrarImagen(-1) // -1 = anterior
+    }
+
+
+    private fun mostrarImagen(direccion: Int) {
         val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
 
-        if (indice_waos >= 1 && indice_waos <= 5) {
-
-            val seleccionada = Diccionario_Tropas[indice_tropas]
-            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
-            indice_tropas = indice_tropas - 1
-            if (indice_tropas < 0)
-                indice_tropas = 5
-        }
-
-        if (indice_waos == 0) {
-            val seleccionada = Diccionario_Reyes[indice_reyes]
-            //imagenCentral.setImageResource(seleccionada?.imagen ?: R.drawable.tropa_default)
-            indice_reyes = indice_reyes - 1
-            if (indice_reyes < 0)
-                indice_reyes = 5
+        if (indice_waos == 0) { // 🔹 Mostrar reyes
+            val claves = GlobalData.Diccionario_Reyes.keys.toList()
+            if (claves.isNotEmpty()) {
+                indice_reyes = (indice_reyes + direccion + claves.size) % claves.size
+                val seleccionada = GlobalData.Diccionario_Reyes[claves[indice_reyes]]
+                imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
+            }
+        } else if (indice_waos in 1..5) { // 🔹 Mostrar tropas
+            val claves = GlobalData.Diccionario_Tropas.keys.toList()
+            if (claves.isNotEmpty()) {
+                indice_tropas = (indice_tropas + direccion + claves.size) % claves.size
+                val seleccionada = GlobalData.Diccionario_Tropas[claves[indice_tropas]]
+                imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
+            }
         }
     }
 

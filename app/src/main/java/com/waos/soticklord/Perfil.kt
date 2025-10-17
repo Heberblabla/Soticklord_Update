@@ -29,8 +29,6 @@ class Perfil : AppCompatActivity() {
     var misMonedas = 0
     var miExperiencia = 0
     var misMedallas = 0
-    var Diccionario_Reyes = HashMap<Int, Tropa>()
-    var Diccionario_Tropas = HashMap<Int, Tropa>()
     var cantidad_reyes = 0
     var cantidad_tropas = 0
     var posicion = 0
@@ -77,17 +75,12 @@ class Perfil : AppCompatActivity() {
         }
 
         // 🔑 Recibir el ID del jugador
-        val idJugador = intent.getIntExtra("ID_JUGADOR", -1)
-        val hash1 = intent.getSerializableExtra("miHash1") as? HashMap<Int, Tropa>
-        val hash2 = intent.getSerializableExtra("miHash2") as? HashMap<Int, Tropa>
-        if (hash1 != null) Diccionario_Reyes = hash1
-        if (hash2 != null) Diccionario_Tropas = hash2
-        cantidad_reyes = Diccionario_Reyes.size
-        cantidad_tropas = Diccionario_Tropas.size
+        cantidad_reyes = GlobalData.Diccionario_Reyes.size
+        cantidad_tropas = GlobalData.Diccionario_Tropas.size
 
-        id = idJugador
-        if (idJugador != -1) {
-            val numero = idJugador.toInt()
+
+        if (GlobalData.id_usuario != -1) {
+            val numero = GlobalData.id_usuario.toInt()
             // Llamar a obtenerDatosJugador y actualizar los TextViews
             obtenerDatosJugador(numero) { monedas, experiencia, medallas ->
                 misMonedas = monedas
@@ -109,32 +102,28 @@ class Perfil : AppCompatActivity() {
 
     fun siguiente_tropa(view: View) {
         val imagenView = findViewById<ImageView>(R.id.Imagen)
-
         if (estado) {
-            if (Diccionario_Reyes.isEmpty()) {
+            if (GlobalData.Diccionario_Reyes.isEmpty()) {
                 Toast.makeText(this, "No hay reyes disponibles", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            val listaReyes = Diccionario_Reyes.values.toList()
+            val listaReyes = GlobalData.Diccionario_Reyes.values.toList()
             val tropaActual = listaReyes[posicion]
-
             // Cambia imagen
             imagenView.setImageResource(tropaActual.rutaviva)
-
-            // 🟢 Muestra los datos
+            // Muestra los datos
             mostrarDatos(tropaActual)
-
             // Avanza al siguiente
             posicion = (posicion + 1) % listaReyes.size
 
         } else {
-            if (Diccionario_Tropas.isEmpty()) {
+            if (GlobalData.Diccionario_Tropas.isEmpty()) {
                 Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            val listaTropas = Diccionario_Tropas.values.toList()
+            val listaTropas = GlobalData.Diccionario_Tropas.values.toList()
             val tropaActual = listaTropas[posicion]
 
             // Cambia imagen
@@ -153,12 +142,12 @@ class Perfil : AppCompatActivity() {
 
         if (estado) {
             // 👑 Si estás en modo REY
-            if (Diccionario_Reyes.isEmpty()) {
+            if (GlobalData.Diccionario_Reyes.isEmpty()) {
                 Toast.makeText(this, "No hay reyes disponibles", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            val listaReyes = Diccionario_Reyes.values.toList()
+            val listaReyes = GlobalData.Diccionario_Reyes.values.toList()
 
             // Retroceder correctamente en bucle
             posicion = if (posicion - 1 < 0) listaReyes.size - 1 else posicion - 1
@@ -171,12 +160,12 @@ class Perfil : AppCompatActivity() {
 
         } else {
             // ⚔️ Si estás en modo TROPA
-            if (Diccionario_Tropas.isEmpty()) {
+            if (GlobalData.Diccionario_Tropas.isEmpty()) {
                 Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            val listaTropas = Diccionario_Tropas.values.toList()
+            val listaTropas = GlobalData.Diccionario_Tropas.values.toList()
 
             // Retroceder correctamente en bucle
             posicion = if (posicion - 1 < 0) listaTropas.size - 1 else posicion - 1
@@ -204,8 +193,6 @@ class Perfil : AppCompatActivity() {
     //boton menu
     fun entrar(view: View) {
         val intent = Intent(this, Principal::class.java)
-        intent.putExtra("mapa1", HashMap(Diccionario_Reyes)) // HashMap<Int, Tropa>
-        intent.putExtra("mapa2", HashMap(Diccionario_Tropas))
         startActivity(intent)
     }
 
