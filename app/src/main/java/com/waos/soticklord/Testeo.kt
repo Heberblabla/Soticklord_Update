@@ -5,12 +5,11 @@ import java.util.ArrayList
 
 fun main(){
     val myList = ArrayList<Tropa>()
-    val arquero = Rey_Arquero()
+    val arquero = Rey_Arquero(Nivel = 1)
     println(arquero.vida)
     myList.add(arquero)
     val lanzatonio = Rey_Lanzatonio()
     println("vida incial = ${lanzatonio.vida} ")
-    arquero.activar_Reflejo()
     lanzatonio.ataqueNormal(myList,0)
     println(arquero.vida)
     

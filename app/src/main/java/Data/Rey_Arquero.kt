@@ -7,26 +7,19 @@ import kotlin.random.Random
 
 class Rey_Arquero (
 
-    Nivel:Int = 1, private var Reflejo_Activado: Boolean = false, escudo_cantidad: Int,
-    escudo_activo: Boolean
+    Nivel:Int = 1
 ):
-
     Tropa(
-    nombre = "Rey_Arquero",
-    nivel = Nivel,
-    vida = calcularVida(700,Nivel),
-    ataque_base = calcularAtaque(90,Nivel),
-    daño_critico = calcularDañoCritico(1.9,Nivel),
-    probabilidad_de_critico = calcularProbCritico(0.40,Nivel),
-    aereo = true,
-    estado_de_vida = true,
-    rutaviva = R.drawable.rey_arquero,
-    rutamuerta = R.drawable.tropa_muerta,
-    turnoActivo = true,
-    turnoDoble = false,
-        escudo_cantidad = 0,
-        escudo_activo = false,
-
+        nombre = "Rey_Arquero",
+        nivel = Nivel,
+        vida = calcularVida(700,Nivel),
+        ataque_base = calcularAtaque(90,Nivel),
+        daño_critico = calcularDañoCritico(1.9,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.40,Nivel),
+        aereo = true,
+        estado_de_vida = true,
+        rutaviva = R.drawable.rey_arquero,
+        rutamuerta = R.drawable.tropa_muerta,
 ), Serializable {
 
 
@@ -91,18 +84,7 @@ class Rey_Arquero (
 
     }
 
-    //recivir daño:
-    override fun recibirDaño(cantidad: Int, atacante: Tropa) {
-        if(Reflejo_Activado) {
-            // La tropa recibe el daño normal
-            this.vida -= cantidad
-            // Refleja el 50% del daño al atacante
-            atacante.vida -= (cantidad * 0.5).toInt()
-        }else{
-            this.vida -= cantidad
-        }
 
-    }
 
 
 }

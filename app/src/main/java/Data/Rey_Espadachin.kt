@@ -16,8 +16,6 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
     estado_de_vida = true,
     rutaviva = R.drawable.rey_espadachin,   // tu imagen en drawable
     rutamuerta = R.drawable.tropa_muerta,   // imagen al morir
-    turnoActivo = true,
-    turnoDoble = false
 ), Serializable {
 
     private fun calcularDaño(): Int {
