@@ -218,6 +218,7 @@
         android:layout_width="83dp"
         android:layout_height="40dp"
         android:backgroundTint="#090909"
+        android:onClick="seleccionar"
         android:text="Escoger"
         android:textColor="#FAFAFA"
         android:textSize="8sp"

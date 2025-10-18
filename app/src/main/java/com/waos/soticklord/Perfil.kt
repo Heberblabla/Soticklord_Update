@@ -29,10 +29,8 @@ class Perfil : AppCompatActivity() {
     var misMonedas = 0
     var miExperiencia = 0
     var misMedallas = 0
-    var cantidad_reyes = 0
-    var cantidad_tropas = 0
     var posicion = 0
-    var estado = true
+    var estado = true // true = Reyes, false = Tropas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +72,6 @@ class Perfil : AppCompatActivity() {
             insets
         }
 
-        // 🔑 Recibir el ID del jugador
-        cantidad_reyes = GlobalData.Diccionario_Reyes.size
-        cantidad_tropas = GlobalData.Diccionario_Tropas.size
-
-
         if (GlobalData.id_usuario != -1) {
             val numero = GlobalData.id_usuario.toInt()
             // Llamar a obtenerDatosJugador y actualizar los TextViews
@@ -101,81 +94,37 @@ class Perfil : AppCompatActivity() {
     }
 
     fun siguiente_tropa(view: View) {
-        val imagenView = findViewById<ImageView>(R.id.Imagen)
-        if (estado) {
-            if (GlobalData.Diccionario_Reyes.isEmpty()) {
-                Toast.makeText(this, "No hay reyes disponibles", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val listaReyes = GlobalData.Diccionario_Reyes.values.toList()
-            val tropaActual = listaReyes[posicion]
-            // Cambia imagen
-            imagenView.setImageResource(tropaActual.rutaviva)
-            // Muestra los datos
-            mostrarDatos(tropaActual)
-            // Avanza al siguiente
-            posicion = (posicion + 1) % listaReyes.size
-
-        } else {
-            if (GlobalData.Diccionario_Tropas.isEmpty()) {
-                Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val listaTropas = GlobalData.Diccionario_Tropas.values.toList()
-            val tropaActual = listaTropas[posicion]
-
-            // Cambia imagen
-            imagenView.setImageResource(tropaActual.rutaviva)
-
-            // 🟢 Muestra los datos
-            mostrarDatos(tropaActual)
-
-            // Avanza al siguiente
-            posicion = (posicion + 1) % listaTropas.size
-        }
+        cambiarTropa(+1)
     }
 
     fun anterior_tropa(view: View) {
+        cambiarTropa(-1)
+    }
+
+    private fun cambiarTropa(direccion: Int) {
         val imagenView = findViewById<ImageView>(R.id.Imagen)
 
-        if (estado) {
-            // 👑 Si estás en modo REY
-            if (GlobalData.Diccionario_Reyes.isEmpty()) {
-                Toast.makeText(this, "No hay reyes disponibles", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val listaReyes = GlobalData.Diccionario_Reyes.values.toList()
-
-            // Retroceder correctamente en bucle
-            posicion = if (posicion - 1 < 0) listaReyes.size - 1 else posicion - 1
-
-            val tropaActual = listaReyes[posicion]
-
-            // Actualizar imagen y texto
-            imagenView.setImageResource(tropaActual.rutaviva)
-            mostrarDatos(tropaActual)
-
+        // Selecciona el diccionario y su lista según el estado
+        val lista = if (estado) {
+            GlobalData.Diccionario_Reyes.values.toList()
         } else {
-            // ⚔️ Si estás en modo TROPA
-            if (GlobalData.Diccionario_Tropas.isEmpty()) {
-                Toast.makeText(this, "No hay tropas disponibles", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            val listaTropas = GlobalData.Diccionario_Tropas.values.toList()
-
-            // Retroceder correctamente en bucle
-            posicion = if (posicion - 1 < 0) listaTropas.size - 1 else posicion - 1
-
-            val tropaActual = listaTropas[posicion]
-
-            // Actualizar imagen y texto
-            imagenView.setImageResource(tropaActual.rutaviva)
-            mostrarDatos(tropaActual)
+            GlobalData.Diccionario_Tropas.values.toList()
         }
+
+        // Si no hay datos
+        if (lista.isEmpty()) {
+            val tipo = if (estado) "reyes" else "tropas"
+            Toast.makeText(this, "No hay $tipo disponibles", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Ajustar posición en bucle circular (soporta avance y retroceso)
+        posicion = (posicion + direccion + lista.size) % lista.size
+
+        // Mostrar tropa/reino actual
+        val actual = lista[posicion]
+        imagenView.setImageResource(actual.rutaviva)
+        mostrarDatos(actual)
     }
 
     private fun mostrarDatos(tropa: Tropa) {

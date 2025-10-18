@@ -34,8 +34,6 @@ class Tropa_Espadachin(Nivel:Int = 1) : Tropa(
         """.trimIndent()
     }
 
-    // 🔹 Dato único de esta tropa
-    var vidavida: Int = 420
 
     private fun daño(): Int {
         val suerte = Random.nextDouble()
@@ -51,11 +49,6 @@ class Tropa_Espadachin(Nivel:Int = 1) : Tropa(
         enemigos[posicion].vida -= daño
     }
 
-    fun contraataque(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = daño()
-        val contraataque = ((vidavida - vida) / 2) + daño
-        enemigos[posicion].vida -= contraataque
-    }
 
     fun estocadaVeloz(enemigos: ArrayList<Tropa>, posicion: Int) {
         vida -= 60

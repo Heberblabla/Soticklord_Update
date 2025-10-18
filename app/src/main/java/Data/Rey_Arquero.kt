@@ -6,7 +6,6 @@ import kotlin.math.ceil
 import kotlin.random.Random
 
 class Rey_Arquero (
-
     Nivel:Int = 1
 ):
     Tropa(
@@ -74,15 +73,7 @@ class Rey_Arquero (
             enemigos[posicion].vida -= daño
         }
     }
-    fun furiaDelRey() {
-        this.vida += 50
-        this.ataque_base += 50
-        this.probabilidad_de_critico += 0.1
-        this.daño_critico += 0.1
-    }
-    fun activar_Escudo(){
 
-    }
 
 
 

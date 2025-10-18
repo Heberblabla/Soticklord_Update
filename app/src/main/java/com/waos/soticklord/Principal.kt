@@ -173,7 +173,69 @@ class Principal : AppCompatActivity() {
 
         }
 
+    fun seleccionar(view: View){
+        if (indice_waos == 5) {
+            val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
+            val Imagen_Tropa_Frontal1 = findViewById<ImageView>(R.id.Imagen_Tropa_Frontal1)
+            // Obtener el drawable actual de la imagen central
+            val drawableActual = imagenCentral.drawable
+            // Asignarlo al ImageView del Rey
+            Imagen_Tropa_Frontal1.setImageDrawable(drawableActual)
+            return
+        }
+        if (indice_waos == 4) {
+            val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
+            val Imagen_Tropa_Frontal2 = findViewById<ImageView>(R.id.Imagen_Tropa_Frontal2)
+            // Obtener el drawable actual de la imagen central
+            val drawableActual = imagenCentral.drawable
+            // Asignarlo al ImageView del Rey
+            Imagen_Tropa_Frontal2.setImageDrawable(drawableActual)
+            return
+        }
+        if (indice_waos == 3) {
+            val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
+            val Imagen_Tropa_Frontal3 = findViewById<ImageView>(R.id.Imagen_Tropa_Frontal3)
+            // Obtener el drawable actual de la imagen central
+            val drawableActual = imagenCentral.drawable
+            // Asignarlo al ImageView del Rey
+            Imagen_Tropa_Frontal3.setImageDrawable(drawableActual)
+            return
+        }
+        if (indice_waos == 2) {
+            val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
+            val Imagen_Tropa_Segunda1 = findViewById<ImageView>(R.id.Imagen_Tropa_Segunda2)
+            // Obtener el drawable actual de la imagen central
+            val drawableActual = imagenCentral.drawable
+            // Asignarlo al ImageView del Rey
+            Imagen_Tropa_Segunda1.setImageDrawable(drawableActual)
+            return
+        }
+        if (indice_waos == 1) {
+            val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
+            val Imagen_Tropa_Segunda2 = findViewById<ImageView>(R.id.Imagen_Tropa_Segunda1)
+            // Obtener el drawable actual de la imagen central
+            val drawableActual = imagenCentral.drawable
+            // Asignarlo al ImageView del Rey
+            Imagen_Tropa_Segunda2.setImageDrawable(drawableActual)
+            return
+        }
+        if (indice_waos == 0) {
+            val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
+            val Imagen_Rey = findViewById<ImageView>(R.id.Imagen_Rey)
+            // Obtener el drawable actual de la imagen central
+            val drawableActual = imagenCentral.drawable
+            // Asignarlo al ImageView del Rey
+            Imagen_Rey.setImageDrawable(drawableActual)
+            return
+        }
+
+
     }
+
+
+    }
+
+
 
 
 
