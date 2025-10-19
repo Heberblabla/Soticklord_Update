@@ -148,7 +148,6 @@ class Perfil : AppCompatActivity() {
     fun mapear(view: View){
         val intent = Intent(this, Mapa::class.java)
         startActivity(intent)
-        finish()
     }
     // sacar datos principales de cuenta
     private fun asignar_datos_principales(){

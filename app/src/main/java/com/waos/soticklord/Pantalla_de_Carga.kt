@@ -56,6 +56,7 @@ class Pantalla_de_Carga : AppCompatActivity() {
         // Cargar datos en segundo plano mientras el video sigue corriendo
         CoroutineScope(Dispatchers.IO).launch {
             cargar_Hash(GlobalData.id_usuario) // tu función que trae los datos del servidor
+            GlobalData.nivel_de_progresion = obtener_nivel_de_progresion(GlobalData.id_usuario)
 
             // Cuando termina la carga, volvemos al hilo principal
             withContext(Dispatchers.Main) {
@@ -70,27 +71,18 @@ class Pantalla_de_Carga : AppCompatActivity() {
 
     fun cargar_Hash(idJugador: Int) {
         val ids = sacar_los_id_tropa(idJugador) // devuelve todas las PK de tropas_jugador
-        println("🟢 Tropas del jugador: $ids")
+        println("Tropas del jugador: $ids")
 
         for (id_tropa in ids) {
             val id_tipo = sacar_id_Tipo(id_tropa)
-            println("🔹 id_tropa=$id_tropa → id_tipo=$id_tipo")
-
             val nivel = sacar_nivel(id_tropa)
-            println("🔹 Nivel de tropa ($id_tropa): $nivel")
-
             val nombre = obtener_nombre_de_la_tropa(id_tipo)
-            println("🔹 Nombre de tropa ($id_tipo): $nombre")
-
             val claseCompleta = "Data.$nombre"
-            println("🧩 Clase completa: $claseCompleta")
             // cargar la clase en tiempo de ejecución
             var clazz = Class.forName(claseCompleta).kotlin
             var constructor = clazz.primaryConstructor!!
-
             // Buscar el parámetro "nivel" en el constructor
             val parametroNivel = constructor.parameters.find { it.name == "Nivel" }
-
             if (parametroNivel != null) {
                 // Crear objeto con el nivel si existe ese parámetro
                 var objeto = constructor.callBy(mapOf(parametroNivel to nivel)) as Tropa
@@ -104,7 +96,6 @@ class Pantalla_de_Carga : AppCompatActivity() {
             } else {
                 println("️ El constructor de ${nombre} no tiene parámetro 'Nivel'. Se omitió la creación.")
             }
-
         }
     }
 
@@ -148,6 +139,44 @@ class Pantalla_de_Carga : AppCompatActivity() {
         return nombre
     }
 
+    fun obtener_nivel_de_progresion(idJugador: Int): Int {
+        val url = "${com.waos.soticklord.supabaseUrl}/rest/v1/progreso_jugador?id_jugador=eq.$idJugador&select=nivel_de_progresion"
+
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("apikey", com.waos.soticklord.apiKey)
+            .addHeader("Authorization", "Bearer ${com.waos.soticklord.apiKey}")
+            .build()
+
+        var nivel = 1 // valor por defecto
+
+        try {
+            val response = client.newCall(request).execute()
+            if (response.isSuccessful) {
+                val body = response.body?.string()
+
+                if (!body.isNullOrEmpty() && body != "[]") {
+                    // Ejemplo de respuesta: [{"nivel_de_progresion":3}]
+                    val textoLimpio = body.replace("[", "").replace("]", "").trim()
+                    val partes = textoLimpio.split(":")
+                    if (partes.size > 1) {
+                        nivel = partes[1]
+                            .replace("}", "")
+                            .replace("\"", "")
+                            .trim()
+                            .toIntOrNull() ?: 1
+                    }
+                }
+            } else {
+                println("Error en la respuesta: ${response.code}")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return nivel
+    }
 
     fun sacar_nivel(idTropa: Int): Int {
         val url = "$supabaseUrl/rest/v1/tropas_jugador?id_tropa=eq.$idTropa&select=nivel"

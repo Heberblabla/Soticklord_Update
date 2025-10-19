@@ -14,9 +14,10 @@ abstract class Tropa(
     var estado_de_vida: Boolean,
     var rutaviva: Int = R.drawable.tropa_default,
     var rutamuerta: Int = R.drawable.tropa_default,
-    var turnoActivo: Boolean = true,
-    var turnoDoble: Boolean = false,
+    var turnoActivo: Boolean,
+    var turnoDoble: Boolean,
 ): Serializable  {
+
     companion object {
 
         // Aumenta 10% compuesto por nivel
@@ -45,18 +46,5 @@ abstract class Tropa(
             return base + (0.02 * (nivel - 1))
         }
     }
-
-    fun imprimir() {
-        println("nombre : $nombre")
-        println("vida: $vida")
-        println("ataque base: $ataque_base")
-        println("daño critico: $daño_critico")
-        println("probabilidad de critico: $probabilidad_de_critico")
-        println("es aereo?: $aereo")
-        println("su estado de vida es: $estado_de_vida")
-        println("ruta de imagen viva: $rutaviva")
-        println("ruta de imagen muerta: $rutamuerta")
-    }
-    open fun recibirDaño(cantidad: Int, atacante: Tropa) {}
 
 }

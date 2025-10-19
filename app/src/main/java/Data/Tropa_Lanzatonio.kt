@@ -1,11 +1,13 @@
 package Data
 
 import com.waos.soticklord.R
+import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
-import java.io.Serializable
+
+
 class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
-    nombre = "Lanzatonio",
+    nombre = "Tropa_Lanzatonio",
     nivel = Nivel,
     vida = calcularVida(550,Nivel),
     ataque_base = calcularAtaque(100,Nivel),
@@ -33,31 +35,49 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
         """.trimIndent()
     }
 
-    private fun calcularDaño(): Int {
-        val suerte = Random.nextDouble()
-        return if (suerte < probabilidad_de_critico) {
-            ceil(ataque_base * daño_critico).toInt()
+    private fun Daño(): Int {
+        val daño: Int
+        val random = Random.Default
+        val suerte = random.nextDouble()
+
+        if (suerte < this.probabilidad_de_critico) {
+            val x = this.ataque_base * this.daño_critico
+            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
         } else {
-            ataque_base
+            daño = this.ataque_base // golpe normal
         }
+
+        return daño
     }
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = calcularDaño()
-        enemigos[posicion].vida -= daño
+    //metodo principal para atcar
+    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int) {
+        val daño = Daño()
+        val nuevavida = enemigos.get(posicion)!!.vida - daño
+        enemigos.get(posicion)!!.vida = nuevavida
     }
 
-    fun estocada(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val suerte = Random.nextDouble()
-        val daño = if (suerte < 0.3) {
-            ceil(ataque_base * 4.0).toInt()
+    fun Estocada(
+        enemigos: ArrayList<Tropa?>,
+        posicion: Int
+    ) { //30%de probabilida de multiplicar tu daño x 4
+        val daño: Int
+        val random = Random.Default
+        val suerte = random.nextDouble()
+
+        if (suerte < 0.3) {
+            val x = (this.ataque_base * 4).toDouble()
+            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
         } else {
-            ataque_base
+            daño = this.ataque_base // golpe normal
         }
-        enemigos[posicion].vida -= daño
+
+        val nuevavida = enemigos.get(posicion)!!.vida - daño
+        enemigos.get(posicion)!!.vida = nuevavida
     }
 
-    fun bloqueo() {
+    fun Bloqueo(enemigos: ArrayList<Tropa?>?, posicion: Int) { //aumenta + 100 puntos de vida
         this.vida += 100
     }
+
 }

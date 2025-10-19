@@ -5,8 +5,9 @@ import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Tropa_Espadachin(Nivel:Int = 1) : Tropa(
-    nombre = "Espadachin",
+
+class Tropa_Espadachin(Nivel:Int = 1 ) : Tropa(
+    nombre = "Tropa_Espadachin",
     nivel = Nivel,
     vida = calcularVida(420,Nivel),
     ataque_base = calcularAtaque(50,Nivel),
@@ -34,25 +35,36 @@ class Tropa_Espadachin(Nivel:Int = 1) : Tropa(
         """.trimIndent()
     }
 
+    private fun Daño(): Int {
+        val daño: Int
+        val random = Random.Default
+        val suerte = random.nextDouble()
 
-    private fun daño(): Int {
-        val suerte = Random.nextDouble()
-        return if (suerte < probabilidad_de_critico) {
-            ceil(ataque_base * daño_critico).toInt()
+        if (suerte < this.probabilidad_de_critico) {
+            val x = this.ataque_base * this.daño_critico
+            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
         } else {
-            ataque_base
+            daño = this.ataque_base // golpe normal
         }
+
+        return daño
     }
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = daño()
-        enemigos[posicion].vida -= daño
+    //metodo principal para atcar
+    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int) {
+        val daño = Daño()
+        val nuevavida: Int
+        nuevavida = enemigos.get(posicion)!!.vida - daño
+        enemigos.get(posicion)!!.vida = nuevavida
     }
 
 
-    fun estocadaVeloz(enemigos: ArrayList<Tropa>, posicion: Int) {
-        vida -= 60
-        val dañoTotal = daño() * 2
-        enemigos[posicion].vida -= dañoTotal
+    fun Estocada_Veloz(enemigos: ArrayList<Tropa?>, posicion: Int) {
+        this.vida = this.vida - 60
+        var daño = Daño()
+        daño = daño * 2
+        val nuevavida = enemigos.get(posicion)!!.vida - daño
+        enemigos.get(posicion)!!.vida = nuevavida
     }
+
 }

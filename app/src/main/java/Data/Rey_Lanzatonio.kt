@@ -5,6 +5,7 @@ import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
+
 class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
     nombre = "Rey_Lanzatonio",
     nivel = Nivel,
@@ -17,7 +18,7 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
     rutaviva = R.drawable.rey_lanzatonio,
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
-    turnoDoble = false
+    turnoDoble =  false
 ), Serializable {
     override fun toString(): String {
         return """
@@ -34,49 +35,48 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
         """.trimIndent()
     }
 
-    private fun calcularDaño(): Int {
-        val suerte = Random.nextDouble()
-        return if (suerte < probabilidad_de_critico) {
-            ceil(ataque_base * daño_critico).toInt()
+    private fun Daño(): Int {
+        val daño: Int
+        val random = Random.Default
+        val suerte = random.nextDouble()
+
+        if (suerte < this.probabilidad_de_critico) {
+            val x = this.ataque_base * this.daño_critico
+            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
         } else {
-            ataque_base
+            daño = this.ataque_base // golpe normal
         }
+
+        return daño
     }
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = calcularDaño()
-        enemigos[posicion].recibirDaño(daño,this) //cuando se usa this, es comodecir , yo te estoy atacnado, sta clase
-        //enemigos[posicion].vida -= daño
+
+    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int) {
+        val daño = Daño()
+        val nuevavida = enemigos.get(posicion)!!.vida - daño
+        enemigos.get(posicion)!!.vida = nuevavida
     }
 
-    fun lanzaImperial(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = calcularDaño() * 2
-        enemigos[posicion].vida -= daño
+    fun Lanza_Imperial(enemigos: ArrayList<Tropa?>, posicion: Int) {
+        var daño = Daño()
+        daño = daño * 2
+        val nuevavida = enemigos.get(posicion)!!.vida - daño
+        enemigos.get(posicion)!!.vida = nuevavida
     }
 
-    fun bloqueoReal() {
-        this.vida += 120
+    fun Bloqueo_real(enemigos: ArrayList<Tropa?>?, posicion: Int) {
+        this.vida = this.vida + 120
     }
 
-    fun tormentaDeLanzas(enemigos: ArrayList<Tropa>, posicion: Int) {
-        var dañoTotal = 0
-        val ataqueOriginal = ataque_base
-        repeat(25) {
-            ataque_base = 10
-            dañoTotal += calcularDaño()
+    fun Tormenta_de_Lanzas(enemigos: ArrayList<Tropa?>, posicion: Int) {
+        val ataque = this.ataque_base
+        var daño_total = 0
+        for (i in 0..24) {
+            this.ataque_base = 10
+            daño_total = daño_total + Daño()
         }
-        // opcional: restaurar el ataque original (en Java original se quedaba en 10)
-        ataque_base = ataqueOriginal
-
-        enemigos[posicion].vida -= dañoTotal
+        val nuevavida = enemigos.get(posicion)!!.vida - daño_total
+        enemigos.get(posicion)!!.vida = nuevavida
     }
 
-    override fun recibirDaño(cantidad: Int, atacante: Tropa) {
-        // La tropa recibe el daño normal
-        this.vida -= cantidad
-        // Refleja el 50% del daño al atacante
-        atacante.vida -= (cantidad * 0.5).toInt()
-
-
-    }
 }

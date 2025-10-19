@@ -5,6 +5,7 @@ import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
+
 class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     nombre = "Rey_de_los_Gigantes",
     nivel = Nivel,
@@ -17,20 +18,43 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     rutaviva = R.drawable.rey_de_los_gigantes,  // tu imagen en drawable
     rutamuerta = R.drawable.tropa_muerta,       // tu imagen en drawable
     turnoActivo = true,
-    turnoDoble = false
+    turnoDoble =  false
 ), Serializable {
-    private fun calcularDaño(): Int {
-        val suerte = Random.nextDouble()
-        return if (suerte < probabilidad_de_critico) {
-            ceil(ataque_base * daño_critico).toInt()
+    override fun toString(): String {
+        return """
+            Nombre: $nombre
+            Nivel: $nivel
+            Vida: $vida
+            Ataque base: $ataque_base
+            Daño crítico: $daño_critico
+            Prob. crítico: $probabilidad_de_critico
+            Aéreo: $aereo
+            Estado vida: $estado_de_vida
+            Turno activo: $turnoActivo
+            Turno doble: $turnoDoble
+        """.trimIndent()
+    }
+    private fun Daño(): Int {
+        val daño: Int
+        val random = Random.Default
+        val suerte = random.nextDouble()
+
+        if (suerte < this.probabilidad_de_critico) {
+            val x = this.ataque_base * this.daño_critico
+            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
         } else {
-            ataque_base
+            daño = this.ataque_base // golpe normal
         }
+
+        return daño
     }
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = calcularDaño()
-        val enemigo = enemigos[posicion]
-        enemigo.vida -= daño
+    //metodo principal para atcar
+    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int) {
+        val daño = Daño()
+        val nuevavida = enemigos.get(posicion)!!.vida - daño
+        enemigos.get(posicion)!!.vida = nuevavida
     }
+
+
 }

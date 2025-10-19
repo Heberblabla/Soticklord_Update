@@ -5,229 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/principal"
+    android:background="@drawable/principal2"
     tools:context=".Principal">
 
     <ImageView
-        android:id="@+id/Imagen_Tropa_Frontal1"
-        android:layout_width="42dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.606"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.226"
-        app:srcCompat="@drawable/tropa_default" />
-
-    <ImageView
-        android:id="@+id/Cinco"
-        android:layout_width="16dp"
-        android:layout_height="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.657"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.247"
-        app:srcCompat="@drawable/boton2" />
-
-    <TextView
-        android:id="@+id/Vida_Tropa_Frontal1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="❤ - "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.165" />
-
-    <ImageView
         android:id="@+id/Imagen_Tropa_Frontal2"
-        android:layout_width="42dp"
-        android:layout_height="40dp"
+        android:layout_width="88dp"
+        android:layout_height="83dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.601"
+        app:layout_constraintHorizontal_bias="0.622"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.543"
+        app:layout_constraintVertical_bias="0.524"
         app:srcCompat="@drawable/tropa_default" />
-
-    <ImageView
-        android:id="@+id/Imagen_Tropa_Frontal3"
-        android:layout_width="42dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.599"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.849"
-        app:srcCompat="@drawable/tropa_default" />
-
-    <ImageView
-        android:id="@+id/Tres"
-        android:layout_width="16dp"
-        android:layout_height="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.657"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.853"
-        app:srcCompat="@drawable/boton2" />
-
-    <TextView
-        android:id="@+id/Vida_Tropa_Frontal3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="❤ - "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.587"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.747" />
-
-    <ImageView
-        android:id="@+id/Imagen_Tropa_Segunda1"
-        android:layout_width="42dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333"
-        app:srcCompat="@drawable/tropa_default" />
-
-    <ImageView
-        android:id="@+id/Imagen_Tropa_Segunda2"
-        android:layout_width="42dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.456"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.762"
-        app:srcCompat="@drawable/tropa_default" />
-
-    <ImageView
-        android:id="@+id/Imagen_Rey"
-        android:layout_width="42dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.534"
-        app:srcCompat="@drawable/tropa_default" />
-
-    <ImageView
-        android:id="@+id/Imagen_Central"
-        android:layout_width="205dp"
-        android:layout_height="132dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.028"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.174"
-        app:srcCompat="@drawable/tropa_default" />
-
-    <Button
-        android:id="@+id/Boton_Siguiente_Personaje"
-        android:layout_width="86dp"
-        android:layout_height="34dp"
-        android:backgroundTint="#000000"
-        android:onClick="Boton_siguiente_Mostrar"
-        android:text="Siguiente"
-        android:textColor="#FFFFFF"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.203"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
-
-    <Button
-        android:id="@+id/Boton_Anterior_Pesonaje"
-        android:layout_width="83dp"
-        android:layout_height="34dp"
-        android:backgroundTint="#000000"
-        android:onClick="Boton_Anterior_Mostrar"
-        android:text="Anterior"
-        android:textColor="#FFFFFF"
-        android:textColorLink="#BA7A7A"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
-
-    <TextView
-        android:id="@+id/Nombre_Waos"
-        android:layout_width="113dp"
-        android:layout_height="28dp"
-        android:text="Nombre"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.044" />
-
-    <TextView
-        android:id="@+id/Descripcion"
-        android:layout_width="203dp"
-        android:layout_height="132dp"
-        android:layout_marginTop="136dp"
-        android:text="Informacion"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.608" />
-
-    <Button
-        android:id="@+id/Boton_Guardar"
-        android:layout_width="83dp"
-        android:layout_height="40dp"
-        android:backgroundTint="#000000"
-        android:text="Guardar"
-        android:textColor="#FFFEFE"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.206"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
-
-    <Button
-        android:id="@+id/Boton_Seleccionar"
-        android:layout_width="83dp"
-        android:layout_height="40dp"
-        android:backgroundTint="#090909"
-        android:onClick="seleccionar"
-        android:text="Escoger"
-        android:textColor="#FAFAFA"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
 
     <TextView
         android:id="@+id/Vida_Rey"
@@ -236,10 +27,109 @@
         android:text="❤ - "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.348"
+        app:layout_constraintHorizontal_bias="0.322"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.456" />
+        app:layout_constraintVertical_bias="0.403" />
+
+    <TextView
+        android:id="@+id/Vida_Tropa_Frontal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="❤ - "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.663" />
+
+    <ImageView
+        android:id="@+id/Imagen_Tropa_Segunda2"
+        android:layout_width="88dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.792"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <TextView
+        android:id="@+id/Vida_Tropa_Segunda2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="❤ - "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.443"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.614" />
+
+    <ImageView
+        android:id="@+id/Dos"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.618"
+        app:srcCompat="@drawable/boton2" />
+
+    <TextView
+        android:id="@+id/Vida_Tropa_Frontal2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="❤ - "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.568"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39" />
+
+    <ImageView
+        android:id="@+id/Cero"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.409"
+        app:srcCompat="@drawable/boton2" />
+
+    <ImageView
+        android:id="@+id/Imagen_Tropa_Segunda1"
+        android:layout_width="88dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.359"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/Uno"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26"
+        app:srcCompat="@drawable/boton2" />
 
     <TextView
         android:id="@+id/Vida_Tropa_Segunda1"
@@ -251,53 +141,219 @@
         app:layout_constraintHorizontal_bias="0.443"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.267" />
+        app:layout_constraintVertical_bias="0.252" />
+
+    <ImageView
+        android:id="@+id/Imagen_Tropa_Frontal1"
+        android:layout_width="88dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.622"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/Cuatro"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.612"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.396"
+        app:srcCompat="@drawable/boton2" />
+
+    <ImageView
+        android:id="@+id/Tres"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.623"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.666"
+        app:srcCompat="@drawable/boton2" />
+
+    <ImageView
+        android:id="@+id/Imagen_Rey"
+        android:layout_width="88dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.351"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.539"
+        app:srcCompat="@drawable/tropa_default" />
 
     <TextView
-        android:id="@+id/Vida_Tropa_Frontal2"
+        android:id="@+id/Vida_Tropa_Frontal1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="❤ - "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.588"
+        app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.117" />
 
-    <TextView
-        android:id="@+id/Vida_Tropa_Segunda2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="❤ - "
+    <ImageView
+        android:id="@+id/Cinco"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:rotation="-90"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintHorizontal_bias="0.612"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.668" />
+        app:layout_constraintVertical_bias="0.126"
+        app:srcCompat="@drawable/boton2" />
+
+    <ImageView
+        android:id="@+id/Imagen_Tropa_Frontal3"
+        android:layout_width="88dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.622"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <ImageView
+        android:id="@+id/Imagen_Central"
+        android:layout_width="86dp"
+        android:layout_height="61dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.317"
+        app:srcCompat="@drawable/tropa_default" />
+
+    <Button
+        android:id="@+id/Boton_Siguiente_Personaje"
+        android:layout_width="83dp"
+        android:layout_height="35dp"
+        android:backgroundTint="#00000000"
+        android:onClick="Boton_siguiente_Mostrar"
+        android:text="Siguiente"
+        android:textColor="#070707"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.194"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.151" />
+
+    <Button
+        android:id="@+id/Boton_Anterior_Pesonaje"
+        android:layout_width="83dp"
+        android:layout_height="34dp"
+        android:backgroundTint="#00000000"
+        android:onClick="Boton_Anterior_Mostrar"
+        android:text="Anterior"
+        android:textColor="#050505"
+        android:textColorLink="#BA7A7A"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.151" />
+
+    <TextView
+        android:id="@+id/Nombre_Waos"
+        android:layout_width="113dp"
+        android:layout_height="28dp"
+        android:text="Nombre"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.629" />
+
+    <TextView
+        android:id="@+id/Descripcion"
+        android:layout_width="115dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="136dp"
+        android:text="Informacion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.621" />
+
+    <Button
+        android:id="@+id/Boton_Guardar"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:backgroundTint="#00000000"
+        android:onClick="batalla"
+        android:text="Guardar"
+        android:textColor="#070707"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.199"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.933" />
+
+    <Button
+        android:id="@+id/Boton_Seleccionar"
+        android:layout_width="72dp"
+        android:layout_height="29dp"
+        android:backgroundTint="#00090909"
+        android:onClick="seleccionar"
+        android:rotation="6"
+        android:text="Escoger"
+        android:textColor="#070707"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.931" />
 
     <ImageButton
         android:id="@+id/Avanzar"
-        android:layout_width="34dp"
-        android:layout_height="27dp"
+        android:layout_width="25dp"
+        android:layout_height="41dp"
         android:adjustViewBounds="true"
+        android:background="@drawable/boton"
         android:backgroundTint="#00FFFFFF"
         android:onClick="Boton_siguiente_tropa"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
+        app:layout_constraintHorizontal_bias="0.251"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.046"
         app:srcCompat="@drawable/boton" />
 
     <ImageButton
         android:id="@+id/Retroceder"
-        android:layout_width="34dp"
-        android:layout_height="27dp"
+        android:layout_width="27dp"
+        android:layout_height="26dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
         android:onClick="Boton_Anterior_tropa"
@@ -305,59 +361,24 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.046"
+        app:layout_constraintVertical_bias="0.488"
         app:srcCompat="@drawable/boton2" />
 
     <ImageView
-        android:id="@+id/Cuatro"
-        android:layout_width="16dp"
-        android:layout_height="15dp"
+        android:id="@+id/imageView"
+        android:layout_width="67dp"
+        android:layout_height="32dp"
+        android:rotation="6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.556"
-        app:srcCompat="@drawable/boton2" />
-
-    <ImageView
-        android:id="@+id/Uno"
-        android:layout_width="16dp"
-        android:layout_height="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.351"
-        app:srcCompat="@drawable/boton2" />
-
-    <ImageView
-        android:id="@+id/Dos"
-        android:layout_width="16dp"
-        android:layout_height="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.769"
-        app:srcCompat="@drawable/boton2" />
-
-    <ImageView
-        android:id="@+id/Cero"
-        android:layout_width="16dp"
-        android:layout_height="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.545"
-        app:srcCompat="@drawable/boton2" />
+        app:layout_constraintVertical_bias="0.511"
+        app:srcCompat="@drawable/border_image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

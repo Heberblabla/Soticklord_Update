@@ -1,6 +1,7 @@
 package Data
 
 import com.waos.soticklord.R
+import kotlinx.coroutines.awaitCancellation
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
@@ -19,8 +20,9 @@ class Rey_Arquero (
         estado_de_vida = true,
         rutaviva = R.drawable.rey_arquero,
         rutamuerta = R.drawable.tropa_muerta,
+        turnoActivo = true,
+        turnoDoble =  false
 ), Serializable {
-
 
 
     override fun toString(): String {
@@ -38,44 +40,57 @@ class Rey_Arquero (
         """.trimIndent()
     }
 
-    private fun calcularDaño(): Int {
-        val suerte = Random.nextDouble()
-        return if (suerte < probabilidad_de_critico) {
-            ceil(ataque_base * daño_critico).toInt()
+    private fun daño(): Int {
+        val random = Random.Default
+        val suerte = random.nextDouble()
+
+        return if (suerte < this.probabilidad_de_critico) {
+            val x = this.ataque_base * this.daño_critico
+            ceil(x).toInt() // redondea hacia arriba
         } else {
-            ataque_base
+            this.ataque_base // golpe normal
         }
     }
 
     fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = calcularDaño()
-        enemigos[posicion].recibirDaño(daño,this) //cuando se usa this, es comodecir , yo te estoy atacnado, sta clase
-        enemigos[posicion].vida -= daño
+        val daño = daño()
+        val nuevaVida = enemigos[posicion].vida - daño
+        enemigos[posicion].vida = nuevaVida
     }
 
     fun disparoReal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val suerte = Random.nextDouble()
-        val probabilidad = probabilidad_de_critico / 2
+        val random = Random.Default
+        val suerte = random.nextDouble()
+        val probabilidad = this.probabilidad_de_critico / 2
+
         val daño = if (suerte < probabilidad) {
-            ceil(ataque_base * 5.0).toInt()
+            (this.ataque_base * 5).toInt()
         } else {
-            ataque_base
+            this.ataque_base
         }
-        enemigos[posicion].vida -= daño
+
+        val nuevaVida = (enemigos[posicion].vida - daño)
+        enemigos[posicion].vida = nuevaVida
     }
 
     fun flechaExplosiva(enemigos: ArrayList<Tropa>, posicion: Int) {
         val num = Random.nextInt(100)
-        if (num < 15) {
+
+        if (num < 15) { // 15% de probabilidad
             this.vida -= 200
         } else {
-            val daño = calcularDaño() * 4
-            enemigos[posicion].vida -= daño
+            var daño = daño() * 4
+            val nuevaVida = enemigos[posicion].vida - daño
+            enemigos[posicion].vida = nuevaVida
         }
     }
 
-
-
+    fun furiaDelRey(enemigos: ArrayList<Tropa>, posicion: Int) {
+        this.vida += 50
+        this.ataque_base += 50
+        this.probabilidad_de_critico += 0.1
+        this.daño_critico += 0.1
+    }
 
 
 }

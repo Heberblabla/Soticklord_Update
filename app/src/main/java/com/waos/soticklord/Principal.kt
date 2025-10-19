@@ -7,9 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import Data.Tropa
+import Data.Tropa_Espadachin
+import android.content.Intent
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import kotlin.collections.get
 
 
 class Principal : AppCompatActivity() {
@@ -51,6 +54,11 @@ class Principal : AppCompatActivity() {
     //metodos
 
 
+    fun batalla(view: View){
+        val intent = Intent(this, Batalla::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     fun Ocultar_imagenes() {
         for (img in imagenes) {
@@ -73,22 +81,30 @@ class Principal : AppCompatActivity() {
     private fun mostrarImagen(direccion: Int) {
         val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
 
-        if (indice_waos == 0) { // 🔹 Mostrar reyes
+        if (indice_waos == 0) { //  Mostrar reyes
             val claves = GlobalData.Diccionario_Reyes.keys.toList()
+
             if (claves.isNotEmpty()) {
                 indice_reyes = (indice_reyes + direccion + claves.size) % claves.size
-                val seleccionada = GlobalData.Diccionario_Reyes[claves[indice_reyes]]
+                val claveActual = claves[indice_reyes]
+                val seleccionada = GlobalData.Diccionario_Reyes[claveActual]
+                GlobalData.ReySeleccionado = seleccionada
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
             }
-        } else if (indice_waos in 1..5) { // 🔹 Mostrar tropas
+
+        } else if (indice_waos in 1..5) { //  Mostrar tropas
             val claves = GlobalData.Diccionario_Tropas.keys.toList()
+
             if (claves.isNotEmpty()) {
                 indice_tropas = (indice_tropas + direccion + claves.size) % claves.size
-                val seleccionada = GlobalData.Diccionario_Tropas[claves[indice_tropas]]
+                val claveActual = claves[indice_tropas]
+                val seleccionada = GlobalData.Diccionario_Tropas[claveActual]
+                GlobalData.TropaSeleccionada = seleccionada
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
             }
         }
     }
+
 
 
     //indice de la tropa para asignarle un personaje / avanzar
@@ -181,6 +197,7 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Tropa_Frontal1.setImageDrawable(drawableActual)
+            GlobalData.Jugador1[5] = GlobalData.TropaSeleccionada
             return
         }
         if (indice_waos == 4) {
@@ -190,6 +207,7 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Tropa_Frontal2.setImageDrawable(drawableActual)
+            GlobalData.Jugador1[4] = GlobalData.TropaSeleccionada
             return
         }
         if (indice_waos == 3) {
@@ -197,8 +215,9 @@ class Principal : AppCompatActivity() {
             val Imagen_Tropa_Frontal3 = findViewById<ImageView>(R.id.Imagen_Tropa_Frontal3)
             // Obtener el drawable actual de la imagen central
             val drawableActual = imagenCentral.drawable
-            // Asignarlo al ImageView del Rey
+            // Asignarlo al ImageView de Imagen_Tropa_Frontal3
             Imagen_Tropa_Frontal3.setImageDrawable(drawableActual)
+            GlobalData.Jugador1[3] = GlobalData.TropaSeleccionada
             return
         }
         if (indice_waos == 2) {
@@ -206,8 +225,9 @@ class Principal : AppCompatActivity() {
             val Imagen_Tropa_Segunda1 = findViewById<ImageView>(R.id.Imagen_Tropa_Segunda2)
             // Obtener el drawable actual de la imagen central
             val drawableActual = imagenCentral.drawable
-            // Asignarlo al ImageView del Rey
+            // Asignarlo al ImageView del Imagen_Tropa_Segunda2
             Imagen_Tropa_Segunda1.setImageDrawable(drawableActual)
+            GlobalData.Jugador1[2] = GlobalData.TropaSeleccionada
             return
         }
         if (indice_waos == 1) {
@@ -215,8 +235,10 @@ class Principal : AppCompatActivity() {
             val Imagen_Tropa_Segunda2 = findViewById<ImageView>(R.id.Imagen_Tropa_Segunda1)
             // Obtener el drawable actual de la imagen central
             val drawableActual = imagenCentral.drawable
-            // Asignarlo al ImageView del Rey
+            // Asignarlo al ImageView del Imagen_Tropa_Segunda1
             Imagen_Tropa_Segunda2.setImageDrawable(drawableActual)
+            GlobalData.Jugador1[1] = GlobalData.TropaSeleccionada
+
             return
         }
         if (indice_waos == 0) {
@@ -226,8 +248,10 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Rey.setImageDrawable(drawableActual)
+                GlobalData.Jugador1[0] = GlobalData.ReySeleccionado
             return
         }
+
 
 
     }
