@@ -10,6 +10,11 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import Data.*
+import Data.Rey_Cristian
+import Data.Rey_Fernando
+import Data.Rey_Heber
+import Data.Reyna_Darisce
+import Data.Reyna_Shantal
 import android.widget.ImageView
 
 class Mapa : AppCompatActivity() {
@@ -19,6 +24,7 @@ class Mapa : AppCompatActivity() {
     var nivel_cuatro = false
     var nivel_cinco = false
     var nivel_seis = false
+    var nivel_secreto = false
     lateinit var imagenes: ArrayList<ImageView>
 
 
@@ -86,6 +92,7 @@ class Mapa : AppCompatActivity() {
             imagenes[4].visibility = View.VISIBLE
         }
         if(GlobalData.nivel_de_progresion >= 6){
+            nivel_secreto = true
             imagenes[5].visibility = View.VISIBLE
         }
     }
@@ -103,7 +110,6 @@ class Mapa : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
     fun segundo_nivel(view: View){
         if(nivel_dos) {
             GlobalData.Jugador2[0] = Rey_Lanzatonio(7)
@@ -116,7 +122,6 @@ class Mapa : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
     fun tercer_nivel(view: View){
         if(nivel_tres) {
             GlobalData.Jugador2[0] = Rey_Arquero(10)
@@ -129,7 +134,6 @@ class Mapa : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
     fun cuarto_nivel(view: View){
         if(nivel_cuatro) {
             GlobalData.Jugador2[0] = Rey_Arquero(15)
@@ -166,6 +170,19 @@ class Mapa : AppCompatActivity() {
             startActivity(intent)
         }
     }
+    fun nivel_secreto(view: View){
+        if(nivel_secreto){
+            GlobalData.Jugador2[0] = Rey_Heber(1)
+            GlobalData.Jugador2[1] = Reyna_Darisce(1)
+            GlobalData.Jugador2[2] = Reyna_Shantal(1)
+            GlobalData.Jugador2[3] = Rey_Fernando(1)
+            GlobalData.Jugador2[4] = Tropa_Gigante(10)
+            GlobalData.Jugador2[5] = Rey_Cristian(1)
+            GlobalData.decision = 1
+            val intent = Intent(this, Principal::class.java)
+            startActivity(intent)
+        }
 
+    }
 
 }

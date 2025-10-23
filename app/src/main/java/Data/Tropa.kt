@@ -46,5 +46,33 @@ abstract class Tropa(
             return base + (0.02 * (nivel - 1))
         }
     }
+    open fun clonar(): Tropa {
+        try {
+            // Intenta obtener el constructor primario de la subclase
+            val constructor = this::class.constructors.firstOrNull()
+            val copia = constructor?.call(this.nivel) as? Tropa ?: return this
+
+            // Copiar todos los valores actuales
+            copia.nombre = this.nombre
+            copia.vida = this.vida
+            copia.ataque_base = this.ataque_base
+            copia.daño_critico = this.daño_critico
+            copia.probabilidad_de_critico = this.probabilidad_de_critico
+            copia.aereo = this.aereo
+            copia.estado_de_vida = this.estado_de_vida
+            copia.rutaviva = this.rutaviva
+            copia.rutamuerta = this.rutamuerta
+            copia.turnoActivo = this.turnoActivo
+            copia.turnoDoble = this.turnoDoble
+
+            return copia
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return this // fallback
+        }
+    }
+
+
+
 
 }

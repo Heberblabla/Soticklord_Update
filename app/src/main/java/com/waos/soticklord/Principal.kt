@@ -55,9 +55,15 @@ class Principal : AppCompatActivity() {
 
 
     fun batalla(view: View){
+        if(GlobalData.decision == 1){
+            val intent = Intent(this, Batalla_oculta::class.java)
+            startActivity(intent)
+            finish()
+        }else{
         val intent = Intent(this, Batalla::class.java)
         startActivity(intent)
         finish()
+        }
     }
 
     fun Ocultar_imagenes() {
@@ -88,7 +94,7 @@ class Principal : AppCompatActivity() {
                 indice_reyes = (indice_reyes + direccion + claves.size) % claves.size
                 val claveActual = claves[indice_reyes]
                 val seleccionada = GlobalData.Diccionario_Reyes[claveActual]
-                GlobalData.ReySeleccionado = seleccionada
+                GlobalData.ReySeleccionado = seleccionada?.clonar()
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
             }
 
@@ -99,12 +105,11 @@ class Principal : AppCompatActivity() {
                 indice_tropas = (indice_tropas + direccion + claves.size) % claves.size
                 val claveActual = claves[indice_tropas]
                 val seleccionada = GlobalData.Diccionario_Tropas[claveActual]
-                GlobalData.TropaSeleccionada = seleccionada
+                GlobalData.TropaSeleccionada = seleccionada?.clonar()
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
             }
         }
     }
-
 
 
     //indice de la tropa para asignarle un personaje / avanzar
@@ -197,7 +202,7 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Tropa_Frontal1.setImageDrawable(drawableActual)
-            GlobalData.Jugador1[5] = GlobalData.TropaSeleccionada
+            GlobalData.Jugador1[5] = GlobalData.TropaSeleccionada?.clonar()
             return
         }
         if (indice_waos == 4) {
@@ -207,7 +212,7 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Tropa_Frontal2.setImageDrawable(drawableActual)
-            GlobalData.Jugador1[4] = GlobalData.TropaSeleccionada
+            GlobalData.Jugador1[4] = GlobalData.TropaSeleccionada?.clonar()
             return
         }
         if (indice_waos == 3) {
@@ -217,7 +222,7 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView de Imagen_Tropa_Frontal3
             Imagen_Tropa_Frontal3.setImageDrawable(drawableActual)
-            GlobalData.Jugador1[3] = GlobalData.TropaSeleccionada
+            GlobalData.Jugador1[3] = GlobalData.TropaSeleccionada?.clonar()
             return
         }
         if (indice_waos == 2) {
@@ -227,7 +232,7 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Imagen_Tropa_Segunda2
             Imagen_Tropa_Segunda1.setImageDrawable(drawableActual)
-            GlobalData.Jugador1[2] = GlobalData.TropaSeleccionada
+            GlobalData.Jugador1[2] = GlobalData.TropaSeleccionada?.clonar()
             return
         }
         if (indice_waos == 1) {
@@ -237,7 +242,7 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Imagen_Tropa_Segunda1
             Imagen_Tropa_Segunda2.setImageDrawable(drawableActual)
-            GlobalData.Jugador1[1] = GlobalData.TropaSeleccionada
+            GlobalData.Jugador1[1] = GlobalData.TropaSeleccionada?.clonar()
 
             return
         }
@@ -248,10 +253,9 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Rey.setImageDrawable(drawableActual)
-                GlobalData.Jugador1[0] = GlobalData.ReySeleccionado
+                GlobalData.Jugador1[0] = GlobalData.ReySeleccionado?.clonar()
             return
         }
-
 
 
     }

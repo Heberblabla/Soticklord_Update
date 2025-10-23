@@ -74,29 +74,34 @@ class Pantalla_de_Carga : AppCompatActivity() {
         println("Tropas del jugador: $ids")
 
         for (id_tropa in ids) {
-            val id_tipo = sacar_id_Tipo(id_tropa)
-            val nivel = sacar_nivel(id_tropa)
-            val nombre = obtener_nombre_de_la_tropa(id_tipo)
-            val claseCompleta = "Data.$nombre"
-            // cargar la clase en tiempo de ejecución
-            var clazz = Class.forName(claseCompleta).kotlin
-            var constructor = clazz.primaryConstructor!!
-            // Buscar el parámetro "nivel" en el constructor
-            val parametroNivel = constructor.parameters.find { it.name == "Nivel" }
-            if (parametroNivel != null) {
-                // Crear objeto con el nivel si existe ese parámetro
-                var objeto = constructor.callBy(mapOf(parametroNivel to nivel)) as Tropa
-                if (nombre.startsWith("Rey_")) {
-                    GlobalData.Diccionario_Reyes[id_tropa] = objeto
-                    println("Rey guardado en Diccionario_Reyes con id=$id_tropa y Nivel=$nivel")
-                } else if (nombre.startsWith("Tropa_")) {
-                    GlobalData.Diccionario_Tropas[id_tropa] = objeto
-                    println("Tropa guardada en Diccionario_Tropas con id=$id_tropa y Nivel=$nivel")
+            try {
+                val id_tipo = sacar_id_Tipo(id_tropa)
+                val nivel = sacar_nivel(id_tropa)
+                val nombre = obtener_nombre_de_la_tropa(id_tipo)
+                val claseCompleta = "Data.${nombre.replace(" ", "_")}" // 👈 remplaza espacios por _
+                val clazz = Class.forName(claseCompleta).kotlin
+                val constructor = clazz.primaryConstructor!!
+                val parametroNivel = constructor.parameters.find { it.name == "Nivel" }
+
+                if (parametroNivel != null) {
+                    val objeto = constructor.callBy(mapOf(parametroNivel to nivel)) as Tropa
+                    if (nombre.startsWith("Rey_") || nombre.startsWith("Reyna_")) {
+                        GlobalData.Diccionario_Reyes[id_tropa] = objeto
+                        println("✅ Rey guardado con id=$id_tropa y Nivel=$nivel")
+                    } else if (nombre.startsWith("Tropa_")) {
+                        GlobalData.Diccionario_Tropas[id_tropa] = objeto
+                        println("✅ Tropa guardada con id=$id_tropa y Nivel=$nivel")
+                    }
+                } else {
+                    println("⚠️ ${nombre} no tiene parámetro 'Nivel'. Se omitió la creación.")
                 }
-            } else {
-                println("️ El constructor de ${nombre} no tiene parámetro 'Nivel'. Se omitió la creación.")
+                println("id_tropa=$id_tropa → id_tipo=$id_tipo, nombre='$nombre', nivel=$nivel")
+
+            } catch (e: Exception) {
+                println("❌ Error con id=$id_tropa → ${e.message}")
             }
         }
+
     }
 
     fun obtener_nombre_de_la_tropa(idTipo: Int): String {

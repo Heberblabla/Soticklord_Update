@@ -1,29 +1,28 @@
 package Data
 
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
-import kotlinx.coroutines.awaitCancellation
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Arquero (
+class Rey_Cristian (
     Nivel:Int = 1
 ):
     Tropa(
-        nombre = "Rey_Arquero",
+        nombre = "Rey_Cristian",
         nivel = Nivel,
-        vida = calcularVida(700,Nivel),
-        ataque_base = calcularAtaque(90,Nivel),
-        daño_critico = calcularDañoCritico(1.9,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.40,Nivel),
+        vida = calcularVida(950,Nivel),
+        ataque_base = calcularAtaque(50,Nivel),
+        daño_critico = calcularDañoCritico(10.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.rey_arquero,
+        rutaviva = R.drawable.rey_cristian,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false
-), Serializable {
-
+    ), Serializable {
 
     override fun toString(): String {
         return """
@@ -51,49 +50,34 @@ class Rey_Arquero (
             this.ataque_base // golpe normal
         }
     }
-
     fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
         val daño = daño()
         val nuevaVida = enemigos[posicion].vida - daño
         enemigos[posicion].vida = nuevaVida
     }
 
-    fun disparoReal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val random = Random.Default
-        val suerte = random.nextDouble()
-        val probabilidad = this.probabilidad_de_critico / 2
-
-        val daño = if (suerte < probabilidad) {
-            (this.ataque_base * 5).toInt()
-        } else {
-            this.ataque_base
-        }
-
-        val nuevaVida = (enemigos[posicion].vida - daño)
-        enemigos[posicion].vida = nuevaVida
-    }
-
-    fun flechaExplosiva(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val num = Random.nextInt(100)
-
-        if (num < 15) { // 15% de probabilidad
-            this.vida -= 200
-        } else {
-            var daño = daño() * 4
-            val nuevaVida = enemigos[posicion].vida - daño
-            enemigos[posicion].vida = nuevaVida
+    fun Baje_de_vida_estelar(enemigos: ArrayList<Tropa>, posicion: Int) {
+        for (i in enemigos.indices) {
+            enemigos[i].vida -= 200
         }
     }
 
-    fun furiaDelRey(enemigos: ArrayList<Tropa>, posicion: Int) {
-        this.vida += 50
-        this.ataque_base += 50
-        this.probabilidad_de_critico += 0.1
-        this.daño_critico += 0.1
+    fun Empeoramiento_estelar(enemigos: ArrayList<Tropa>, posicion: Int) {
+        for (i in enemigos.indices) {
+            enemigos[i].ataque_base -= 200
+        }
     }
+
+    fun Se_te_acabo_el_tiempo(enemigos: ArrayList<Tropa>, posicion: Int) {
+        for (i in enemigos.indices) {
+            enemigos[i].vida -= this.ataque_base
+        }
+    }
+
+
 
     override fun clonar(): Tropa {
-        val copia = Rey_Arquero(this.nivel)
+        val copia = Rey_Cristian(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base

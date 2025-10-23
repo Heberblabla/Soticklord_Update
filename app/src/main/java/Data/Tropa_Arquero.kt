@@ -65,10 +65,7 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
         enemigos.get(posicion)!!.vida = nuevavida
     }
 
-    fun Flecha_penetrante(
-        enemigos: ArrayList<Tropa?>,
-        posicion: Int
-    ) { //20% de probabilida de multiplicar tu daño x 5
+    fun Flecha_penetrante(enemigos: ArrayList<Tropa?>, posicion: Int) { //20% de probabilida de multiplicar tu daño x 5
         val daño: Int
         val random = Random.Default
         val suerte = random.nextDouble(0.0,1.0)
@@ -83,5 +80,23 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
         val nuevavida = enemigos.get(posicion)!!.vida - daño
         enemigos.get(posicion)!!.vida = nuevavida
     }
+
+    override fun clonar(): Tropa {
+        val copia = Tropa_Arquero(this.nivel)
+        copia.nombre = this.nombre
+        copia.vida = this.vida
+        copia.ataque_base = this.ataque_base
+        copia.daño_critico = this.daño_critico
+        copia.probabilidad_de_critico = this.probabilidad_de_critico
+        copia.aereo = this.aereo
+        copia.estado_de_vida = this.estado_de_vida
+        copia.rutaviva = this.rutaviva
+        copia.rutamuerta = this.rutamuerta
+        copia.turnoActivo = this.turnoActivo
+        copia.turnoDoble = this.turnoDoble
+        return copia
+    }
+
+
 
 }

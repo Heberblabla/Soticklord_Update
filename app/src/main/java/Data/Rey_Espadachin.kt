@@ -69,5 +69,21 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
         val nuevaVida = enemigos[posicion].vida - daño
         enemigos[posicion].vida = nuevaVida
     }
+    override fun clonar(): Tropa {
+        val copia = Rey_Espadachin(this.nivel)
+        copia.nombre = this.nombre
+        copia.vida = this.vida
+        copia.ataque_base = this.ataque_base
+        copia.daño_critico = this.daño_critico
+        copia.probabilidad_de_critico = this.probabilidad_de_critico
+        copia.aereo = this.aereo
+        copia.estado_de_vida = this.estado_de_vida
+        copia.rutaviva = this.rutaviva
+        copia.rutamuerta = this.rutamuerta
+        copia.turnoActivo = this.turnoActivo
+        copia.turnoDoble = this.turnoDoble
+        return copia
+    }
+
 
 }

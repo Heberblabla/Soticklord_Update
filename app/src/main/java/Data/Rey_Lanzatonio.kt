@@ -69,14 +69,31 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
     }
 
     fun Tormenta_de_Lanzas(enemigos: ArrayList<Tropa?>, posicion: Int) {
-        val ataque = this.ataque_base
+        var ataque = this.ataque_base
         var daño_total = 0
         for (i in 0..24) {
-            this.ataque_base = 10
+            ataque = 10
             daño_total = daño_total + Daño()
         }
         val nuevavida = enemigos.get(posicion)!!.vida - daño_total
         enemigos.get(posicion)!!.vida = nuevavida
     }
+
+    override fun clonar(): Tropa {
+        val copia = Rey_Lanzatonio(this.nivel)
+        copia.nombre = this.nombre
+        copia.vida = this.vida
+        copia.ataque_base = this.ataque_base
+        copia.daño_critico = this.daño_critico
+        copia.probabilidad_de_critico = this.probabilidad_de_critico
+        copia.aereo = this.aereo
+        copia.estado_de_vida = this.estado_de_vida
+        copia.rutaviva = this.rutaviva
+        copia.rutamuerta = this.rutamuerta
+        copia.turnoActivo = this.turnoActivo
+        copia.turnoDoble = this.turnoDoble
+        return copia
+    }
+
 
 }

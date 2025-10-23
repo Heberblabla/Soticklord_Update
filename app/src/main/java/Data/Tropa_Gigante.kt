@@ -58,7 +58,8 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
     }
 
     fun Terremoto(enemigos: ArrayList<Tropa?>, posicion: Int) {
-        val daño = 50
+        val daño = calcularAtaque(50,this.nivel)
+
         enemigos.get(0)!!.vida = enemigos.get(0)!!.vida - daño
         enemigos.get(1)!!.vida = enemigos.get(1)!!.vida - daño
         enemigos.get(2)!!.vida = enemigos.get(2)!!.vida - daño
@@ -66,5 +67,22 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
         enemigos.get(4)!!.vida = enemigos.get(4)!!.vida - daño
         enemigos.get(5)!!.vida = enemigos.get(5)!!.vida - daño
     }
+
+    override fun clonar(): Tropa {
+        val copia = Tropa_Gigante(this.nivel)
+        copia.nombre = this.nombre
+        copia.vida = this.vida
+        copia.ataque_base = this.ataque_base
+        copia.daño_critico = this.daño_critico
+        copia.probabilidad_de_critico = this.probabilidad_de_critico
+        copia.aereo = this.aereo
+        copia.estado_de_vida = this.estado_de_vida
+        copia.rutaviva = this.rutaviva
+        copia.rutamuerta = this.rutamuerta
+        copia.turnoActivo = this.turnoActivo
+        copia.turnoDoble = this.turnoDoble
+        return copia
+    }
+
 
 }

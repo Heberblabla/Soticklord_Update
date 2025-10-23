@@ -123,6 +123,19 @@
         app:layout_constraintVertical_bias="0.631" />
 
     <Button
+        android:id="@+id/boton_Avanzar7"
+        android:layout_width="92dp"
+        android:layout_height="66dp"
+        android:background="#00FFFFFF"
+        android:onClick="nivel_secreto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.295" />
+
+    <Button
         android:id="@+id/boton_Avanzar4"
         android:layout_width="22dp"
         android:layout_height="43dp"

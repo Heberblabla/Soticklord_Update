@@ -12,15 +12,15 @@
         android:id="@+id/Monedas"
         android:layout_width="48dp"
         android:layout_height="17dp"
-        android:fontFamily="@font/medievalsharp"
+        android:fontFamily="@font/unlock"
         android:text="0"
         android:textColor="#0B0808"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintHorizontal_bias="0.960"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintVertical_bias="0.060" />
 
     <ImageView
         android:id="@+id/Imagen"
@@ -39,36 +39,36 @@
         android:id="@+id/Nivel_General"
         android:layout_width="53dp"
         android:layout_height="16dp"
-        android:fontFamily="@font/medievalsharp"
+        android:fontFamily="@font/unlock"
         android:text="0"
         android:textColor="#0F0101"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.252"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintVertical_bias="0.070" />
 
     <TextView
         android:id="@+id/Medallas"
         android:layout_width="55dp"
         android:layout_height="17dp"
-        android:fontFamily="@font/medievalsharp"
+        android:fontFamily="@font/unlock"
         android:text="0"
         android:textColor="#0F0101"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.278"
+        app:layout_constraintHorizontal_bias="0.275"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.106" />
+        app:layout_constraintVertical_bias="0.100" />
 
     <TextView
         android:id="@+id/Nombre"
         android:layout_width="151dp"
         android:layout_height="20dp"
         android:backgroundTint="#050404"
-        android:fontFamily="@font/medievalsharp"
+        android:fontFamily="@font/unlock"
         android:text="TextView"
         android:textColor="#040000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -82,7 +82,7 @@
         android:id="@+id/Vida"
         android:layout_width="108dp"
         android:layout_height="18dp"
-        android:fontFamily="@font/medievalsharp"
+        android:fontFamily="@font/unlock"
         android:text="TextView"
         android:textColor="#120000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,13 +90,13 @@
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.609" />
+        app:layout_constraintVertical_bias="0.608" />
 
     <TextView
         android:id="@+id/Ataque_Base"
         android:layout_width="114dp"
         android:layout_height="17dp"
-        android:fontFamily="@font/medievalsharp"
+        android:fontFamily="@font/unlock"
         android:text="TextView"
         android:textColor="#0F0000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,7 +110,7 @@
         android:id="@+id/Nivel_Personaje"
         android:layout_width="61dp"
         android:layout_height="18dp"
-        android:fontFamily="@font/medievalsharp"
+        android:fontFamily="@font/unlock"
         android:text="TextView"
         android:textColor="#140000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -122,31 +122,31 @@
 
     <Button
         android:id="@+id/Boton_Avanzar"
-        android:layout_width="41dp"
-        android:layout_height="15dp"
+        android:layout_width="47dp"
+        android:layout_height="25dp"
         android:background="#00FFFFFF"
         android:onClick="siguiente_tropa"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.273"
+        app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.919" />
+        app:layout_constraintVertical_bias="0.936" />
 
     <Button
         android:id="@+id/Boton_Retroceder"
-        android:layout_width="41dp"
-        android:layout_height="15dp"
+        android:layout_width="43dp"
+        android:layout_height="25dp"
         android:background="#00FFFFFF"
         android:onClick="anterior_tropa"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintHorizontal_bias="0.186"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.921" />
+        app:layout_constraintVertical_bias="0.935" />
 
     <Switch
         android:id="@+id/Cambio"
@@ -163,16 +163,18 @@
 
     <TextView
         android:id="@+id/Descripcion"
-        android:layout_width="192dp"
-        android:layout_height="76dp"
-        android:fontFamily="@font/medievalsharp"
+        android:layout_width="195dp"
+        android:layout_height="87dp"
+        android:fontFamily="@font/unlock"
         android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintHorizontal_bias="0.557"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.826" />
+        app:layout_constraintVertical_bias="0.837" />
 
     <Button
         android:id="@+id/button"
@@ -180,13 +182,12 @@
         android:layout_height="29dp"
         android:background="#11FFFFFF"
         android:backgroundTint="#00FFFFFF"
-        android:onClick="entrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.081"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.138" />
+        app:layout_constraintVertical_bias="0.149" />
 
     <Button
         android:id="@+id/Boton_mapa"

@@ -24,7 +24,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class Perfil : AppCompatActivity() {
     private val client = OkHttpClient()
     private val supabaseUrl = "https://zropeiibzqefzjrkdzzp.supabase.co"
-    private val apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyb3BlaWlienFlZnpqcmtkenpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwMTc1NDYsImV4cCI6MjA3NDU5MzU0Nn0.ZJWqkOAbTul-RwIQrirajUSVdyI1w9Kh3kjek0vFMw8" //  key pública
+    private val apiKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyb3BlaWlienFlZnpqcmtkenpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwMTc1NDYsImV4cCI6MjA3NDU5MzU0Nn0.ZJWqkOAbTul-RwIQrirajUSVdyI1w9Kh3kjek0vFMw8" //  key pública
     var id = 0
     var misMonedas = 0
     var miExperiencia = 0
@@ -38,7 +39,6 @@ class Perfil : AppCompatActivity() {
         setContentView(R.layout.activity_perfil)
         val layoutPrincipal = findViewById<ConstraintLayout>(R.id.main)
         val switchCambio = findViewById<Switch>(R.id.Cambio)
-
         switchCambio.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 // 🟢 Modo tropas
@@ -47,7 +47,6 @@ class Perfil : AppCompatActivity() {
                 estado = false
                 val boton = findViewById<Button>(R.id.Boton_Avanzar)
                 siguiente_tropa(boton)
-
 
             } else {
                 // ⚪ Modo rey
@@ -58,6 +57,7 @@ class Perfil : AppCompatActivity() {
                 siguiente_tropa(boton)
             }
         }
+
         // Ocultar barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
@@ -90,6 +90,12 @@ class Perfil : AppCompatActivity() {
                 //lanza un mensaje emergente
             ).show()
         }
+
+        layoutPrincipal.setBackgroundResource(R.drawable.perfil_rey)
+        posicion = 0
+        estado = true
+        val boton = findViewById<Button>(R.id.Boton_Avanzar)
+        siguiente_tropa(boton)
 
     }
 
@@ -132,27 +138,25 @@ class Perfil : AppCompatActivity() {
         val nivelView = findViewById<TextView>(R.id.Nivel_Personaje)
         val vidaView = findViewById<TextView>(R.id.Vida)
         val ataqueBaseView = findViewById<TextView>(R.id.Ataque_Base)
+        val informacion_ataques = findViewById<TextView>(R.id.Descripcion)
 
         nombreView.text = tropa.nombre
         nivelView.text = "Nivel: ${tropa.nivel}"
         vidaView.text = "Vida: ${tropa.vida}"
         ataqueBaseView.text = "Ataque: ${tropa.ataque_base}"
+        informacion_ataques.text = obtener_Ataques(tropa)
+
     }
 
-    //boton menu
-    fun entrar(view: View) {
-        val intent = Intent(this, Principal::class.java)
-        startActivity(intent)
-    }
-
-    fun mapear(view: View){
+    fun mapear(view: View) {
         val intent = Intent(this, Mapa::class.java)
         startActivity(intent)
     }
+
     // sacar datos principales de cuenta
-    private fun asignar_datos_principales(){
+    private fun asignar_datos_principales() {
         val Nivel = findViewById<TextView>(R.id.Nivel_General)
-        val nuevo =  calcularNivel(miExperiencia)
+        val nuevo = calcularNivel(miExperiencia)
         Nivel.text = nuevo.toString()
         val monedas = findViewById<TextView>(R.id.Monedas)
         monedas.text = misMonedas.toString()
@@ -211,9 +215,15 @@ class Perfil : AppCompatActivity() {
                         val textoLimpio = body.replace("[", "").replace("]", "").trim()
 
                         // Usa una expresión regular para sacar los valores
-                        val monedas = Regex("\"monedas\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)?.toIntOrNull() ?: 0
-                        val experiencia = Regex("\"experiencia\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)?.toIntOrNull() ?: 0
-                        val medallas = Regex("\"medallas\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)?.toIntOrNull() ?: 0
+                        val monedas =
+                            Regex("\"monedas\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)
+                                ?.toIntOrNull() ?: 0
+                        val experiencia =
+                            Regex("\"experiencia\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)
+                                ?.toIntOrNull() ?: 0
+                        val medallas =
+                            Regex("\"medallas\":(\\d+)").find(textoLimpio)?.groupValues?.get(1)
+                                ?.toIntOrNull() ?: 0
 
                         // Devuelve los datos al callback en el hilo principal
                         runOnUiThread {
@@ -223,6 +233,23 @@ class Perfil : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    fun obtener_Ataques(obj: Any): String {
+        val metodos_excluidos = listOf(
+            "toString", "equals", "hashCode",
+            "copyValueOf", "transform", "formatted", "intern",
+            "wait", "notify", "notifyAll", "getClass",
+            "clonar", "copyBase", "component1", "component2"
+        )
+
+        return obj::class.java.methods
+            .map { it.name }
+            .filter { it !in metodos_excluidos }
+            .filter { !it.startsWith("get") && !it.startsWith("set") } // 🚫 sin getters/setters
+            .distinct()
+            .sorted() // opcional: orden alfabético
+            .joinToString("\n") { "-$it" } // salida formateada
     }
 
 

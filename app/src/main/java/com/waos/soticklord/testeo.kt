@@ -1,29 +1,76 @@
 package com.waos.soticklord
 
-import Data.Tropa
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import kotlin.reflect.full.primaryConstructor
-import java.lang.reflect.Modifier
+import Data.Rey_Espadachin
+import Data.Rey_Lanzatonio
+import Data.Tropa_Arquero
+import Data.Tropa_Espadachin
+import Data.Tropa_Gigante
+import Data.Tropa_Lanzatonio
+
 
 fun main(){
     println("hola")
-    val lista = Obtener_Array_String("Data.Rey_Arquero")
-
+    prueba02()
+    imprimir()
+    simularataque()
+    println("--------------------------------------------------")
+    imprimir()
 }
+fun prueba02(){
+    GlobalData.Jugador2[0] = Rey_Espadachin(1)
+    GlobalData.Jugador2[1] = Tropa_Lanzatonio(1)
+    GlobalData.Jugador2[2] = Tropa_Lanzatonio(1)
+    GlobalData.Jugador2[3] = Tropa_Espadachin(1)
+    GlobalData.Jugador2[4] = Tropa_Espadachin(1)
+    GlobalData.Jugador2[5] = Tropa_Espadachin(1)
+
+    GlobalData.Jugador1[0] = Rey_Lanzatonio(1)
+    GlobalData.Jugador1[1] = Tropa_Arquero(1)
+    GlobalData.Jugador1[2] = Tropa_Arquero(1)
+    GlobalData.Jugador1[3] = Tropa_Gigante(1)
+    GlobalData.Jugador1[4] = Tropa_Gigante(1)
+    GlobalData.Jugador1[5] = Tropa_Gigante(1)
+}
+
+fun imprimir(){
+    println("-----jugador1----")
+    for (tropa in GlobalData.Jugador1 ){
+        println(tropa!!.nombre)
+        println(tropa!!.vida)
+        println("----------------")
+    }
+    println("-----jugador2----")
+    for (tropa in GlobalData.Jugador2 ){
+        println(tropa!!.nombre)
+        println(tropa!!.vida)
+        println("----------------")
+    }
+}
+
+fun simularataque(){
+    println("empezando turno")
+    val bot = Bot_Desiciones()
+    bot.Empezar_Analisis(5)
+}
+
+fun turno_del_enemigo(){
+        var turno_enemigo = 5
+        for(tropa in GlobalData.Jugador1 ){
+            println("-turno de la triopa $turno_enemigo ")
+            Thread.sleep(2000)
+            if(GlobalData.Jugador1[turno_enemigo]!!.estado_de_vida){
+                //val bot = Bot_Desiciones()
+               // bot.Empezar_Analisis(turno_enemigo)
+            }
+            println("Se ejecuto el atque sin problema")
+            turno_enemigo -= 1
+        }
+    }
+
+
 val supabaseUrl = "https://zropeiibzqefzjrkdzzp.supabase.co"
 val apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyb3BlaWlienFlZnpqcmtkenpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwMTc1NDYsImV4cCI6MjA3NDU5MzU0Nn0.ZJWqkOAbTul-RwIQrirajUSVdyI1w9Kh3kjek0vFMw8"
 
 
-fun Obtener_Array_String(nombreClase: String): List<String> {
-    return try {
-        val clase = Class.forName(nombreClase)
-        clase.declaredMethods // solo los definidos en la clase
-            .filter { Modifier.isPublic(it.modifiers) } // solo públicos
-            .map { it.name }
-            .filter { it != "toString" } // ignora toString aunque exista en la hija
-    } catch (e: ClassNotFoundException) {
-        println("No se encontró la clase: $nombreClase")
-        emptyList()
-    }
-}
+
+
