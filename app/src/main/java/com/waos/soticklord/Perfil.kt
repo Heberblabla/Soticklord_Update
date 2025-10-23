@@ -3,6 +3,7 @@ package com.waos.soticklord
 import Data.Tropa
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -153,13 +154,21 @@ class Perfil : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun Album(view: View){
+        val intent = Intent(this, Album()::class.java)
+        startActivity(intent)
+    }
+
     // sacar datos principales de cuenta
     private fun asignar_datos_principales() {
         val Nivel = findViewById<TextView>(R.id.Nivel_General)
         val nuevo = calcularNivel(miExperiencia)
+        GlobalData.experiencia_de_juego = miExperiencia
+        GlobalData.nivel_De_cuenta = nuevo
         Nivel.text = nuevo.toString()
         val monedas = findViewById<TextView>(R.id.Monedas)
         monedas.text = misMonedas.toString()
+        GlobalData.monedas = misMonedas
         val Medallas = findViewById<TextView>(R.id.Medallas)
         Medallas.text = misMedallas.toString()
     }

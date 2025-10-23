@@ -19,10 +19,15 @@ object GlobalData {
         add(null) // posición 4 (tropa)
         add(null) // posición 5 (tropa)
     }
-    var Diccionario_Reyes  = hashMapOf<Int, Tropa>()
-    var Diccionario_Tropas  = hashMapOf<Int, Tropa>()
-    var id_usuario  = 0
-    var nivel_de_progresion = 0
+    var Diccionario_Reyes = hashMapOf<Int, Tropa>()
+    var Diccionario_Tropas = hashMapOf<Int, Tropa>()
+    var id_usuario = 0 //id del usuario
+    var nivel_de_progresion = 0 //progresion del mapa
+    var experiencia_de_juego = 0 //su experincia del nivel
+    var nivel_De_cuenta = 0 //depdned de experiencia
+    var monedas = 0 // monedas q tiene el jugador
+    var ecencia_de_juego = 0//ecencia para mejorar personajes
+
 
 
     var ReySeleccionado: Tropa? = null

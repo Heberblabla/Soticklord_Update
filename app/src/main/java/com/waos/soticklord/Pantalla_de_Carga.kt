@@ -78,7 +78,7 @@ class Pantalla_de_Carga : AppCompatActivity() {
                 val id_tipo = sacar_id_Tipo(id_tropa)
                 val nivel = sacar_nivel(id_tropa)
                 val nombre = obtener_nombre_de_la_tropa(id_tipo)
-                val claseCompleta = "Data.${nombre.replace(" ", "_")}" // 👈 remplaza espacios por _
+                val claseCompleta = "Data.${nombre.replace(" ", "_")}" //  remplaza espacios por _
                 val clazz = Class.forName(claseCompleta).kotlin
                 val constructor = clazz.primaryConstructor!!
                 val parametroNivel = constructor.parameters.find { it.name == "Nivel" }
@@ -87,18 +87,18 @@ class Pantalla_de_Carga : AppCompatActivity() {
                     val objeto = constructor.callBy(mapOf(parametroNivel to nivel)) as Tropa
                     if (nombre.startsWith("Rey_") || nombre.startsWith("Reyna_")) {
                         GlobalData.Diccionario_Reyes[id_tropa] = objeto
-                        println("✅ Rey guardado con id=$id_tropa y Nivel=$nivel")
+                        println(" Rey guardado con id=$id_tropa y Nivel=$nivel")
                     } else if (nombre.startsWith("Tropa_")) {
                         GlobalData.Diccionario_Tropas[id_tropa] = objeto
-                        println("✅ Tropa guardada con id=$id_tropa y Nivel=$nivel")
+                        println(" Tropa guardada con id=$id_tropa y Nivel=$nivel")
                     }
                 } else {
-                    println("⚠️ ${nombre} no tiene parámetro 'Nivel'. Se omitió la creación.")
+                    println("⚠ ${nombre} no tiene parámetro 'Nivel'. Se omitió la creación.")
                 }
                 println("id_tropa=$id_tropa → id_tipo=$id_tipo, nombre='$nombre', nivel=$nivel")
 
             } catch (e: Exception) {
-                println("❌ Error con id=$id_tropa → ${e.message}")
+                println(" Error con id=$id_tropa → ${e.message}")
             }
         }
 

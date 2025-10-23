@@ -1,6 +1,8 @@
 package com.waos.soticklord
 
 import android.os.Bundle
+import android.provider.Settings
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,6 +29,7 @@ class Album : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        mostrar_datos_economicos()
 
     }
 
@@ -34,8 +37,15 @@ class Album : AppCompatActivity() {
     //Aparatdo derecho superior
 
     fun mostrar_datos_economicos(){
-
+        val Nivel = findViewById<TextView>(R.id.Nivel_de_cuenta)
+        Nivel.text = GlobalData.nivel_De_cuenta.toString()
+        val monedas = findViewById<TextView>(R.id.Monedass)
+        monedas.text = GlobalData.monedas.toString()
+        val ecencia = findViewById<TextView>(R.id.Nivel_de_cuenta)
+        ecencia.text = GlobalData.ecencia_de_juego.toString()
     }
+
+
     fun ordenar_por_nivel(){
 
     }
