@@ -10,11 +10,11 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import Data.*
-import Data.Rey_Cristian
-import Data.Rey_Fernando
-import Data.Rey_Heber
-import Data.Reyna_Darisce
-import Data.Reyna_Shantal
+import Data.Especiales.Rey_Cristian
+import Data.Especiales.Rey_Fernando
+import Data.Especiales.Rey_Heber
+import Data.Especiales.Reyna_Darisce
+import Data.Especiales.Reyna_Shantal
 import android.widget.ImageView
 
 class Mapa : AppCompatActivity() {
@@ -105,7 +105,7 @@ class Mapa : AppCompatActivity() {
             GlobalData.Jugador2[3] = Tropa_Espadachin(3)
             GlobalData.Jugador2[4] = Tropa_Espadachin(3)
             GlobalData.Jugador2[5] = Tropa_Espadachin(3)
-
+            GlobalData.decision = 0
             val intent = Intent(this, Principal::class.java)
             startActivity(intent)
         }
@@ -118,6 +118,7 @@ class Mapa : AppCompatActivity() {
             GlobalData.Jugador2[3] = Tropa_Lanzatonio(3)
             GlobalData.Jugador2[4] = Tropa_Espadachin(5)
             GlobalData.Jugador2[5] = Tropa_Lanzatonio(3)
+            GlobalData.decision = 0
             val intent = Intent(this, Principal::class.java)
             startActivity(intent)
         }
@@ -130,6 +131,7 @@ class Mapa : AppCompatActivity() {
             GlobalData.Jugador2[3] = Tropa_Lanzatonio(3)
             GlobalData.Jugador2[4] = Tropa_Lanzatonio(5)
             GlobalData.Jugador2[5] = Tropa_Lanzatonio(3)
+            GlobalData.decision = 0
             val intent = Intent(this, Principal::class.java)
             startActivity(intent)
         }
@@ -142,6 +144,7 @@ class Mapa : AppCompatActivity() {
             GlobalData.Jugador2[3] = Tropa_Gigante(3)
             GlobalData.Jugador2[4] = Tropa_Gigante(5)
             GlobalData.Jugador2[5] = Tropa_Gigante(3)
+            GlobalData.decision = 0
             val intent = Intent(this, Principal::class.java)
             startActivity(intent)
         }
@@ -154,6 +157,7 @@ class Mapa : AppCompatActivity() {
             GlobalData.Jugador2[3] = Tropa_Gigante(3)
             GlobalData.Jugador2[4] = Tropa_Lanzatonio(10)
             GlobalData.Jugador2[5] = Tropa_Gigante(3)
+            GlobalData.decision = 0
             val intent = Intent(this, Principal::class.java)
             startActivity(intent)
         }
@@ -166,6 +170,7 @@ class Mapa : AppCompatActivity() {
             GlobalData.Jugador2[3] = Tropa_Lanzatonio(7)
             GlobalData.Jugador2[4] = Tropa_Arquero(20)
             GlobalData.Jugador2[5] = Tropa_Lanzatonio(7)
+            GlobalData.decision = 0
             val intent = Intent(this, Principal::class.java)
             startActivity(intent)
         }

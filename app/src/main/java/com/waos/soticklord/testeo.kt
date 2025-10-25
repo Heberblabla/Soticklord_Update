@@ -9,13 +9,15 @@ import Data.Tropa_Lanzatonio
 
 
 fun main(){
+    GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)
+    val listaTropas = GlobalData.Diccionario_Tropas.values
     println("hola")
-    prueba02()
-    imprimir()
-    simularataque()
-    println("--------------------------------------------------")
-    imprimir()
+    println("Vida antes: ${GlobalData.Diccionario_Tropas[1]!!.vida}")
+    var nivel = listaTropas.first().nivel + 1
+    GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(nivel)
+    println("Vida después: ${GlobalData.Diccionario_Tropas[1]!!.vida}")
 }
+
 fun prueba02(){
     GlobalData.Jugador2[0] = Rey_Espadachin(1)
     GlobalData.Jugador2[1] = Tropa_Lanzatonio(1)
@@ -49,8 +51,8 @@ fun imprimir(){
 
 fun simularataque(){
     println("empezando turno")
-    val bot = Bot_Desiciones()
-    bot.Empezar_Analisis(5)
+    //val bot = Bot_Desiciones_aleatorio(this)
+    //bot.Empezar_Analisis(5)
 }
 
 fun turno_del_enemigo(){

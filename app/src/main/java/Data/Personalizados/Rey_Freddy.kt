@@ -1,26 +1,29 @@
-package Data
+package Data.Personalizados
 
+import Data.Tropa
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Reyna_Darisce (
+class Rey_Freddy (
     Nivel:Int = 1
 ):
     Tropa(
-        nombre = "Reyna_Darisce",
+        nombre = "Rey_Freddy",
         nivel = Nivel,
-        vida = calcularVida(1000,Nivel),
-        ataque_base = calcularAtaque(200,Nivel),
-        daño_critico = calcularDañoCritico(5.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.80,Nivel),
+        vida = calcularVida(950,Nivel),
+        ataque_base = calcularAtaque(50,Nivel),
+        daño_critico = calcularDañoCritico(10.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.reyna_darisce,
+        rutaviva = R.drawable.rey_freddy,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
-        turnoDoble =  false
+        turnoDoble =  false,
+        cantidad_espinas = 0,
+        cantidad_escudos = 0
     ), Serializable {
 
     override fun toString(): String {
@@ -50,22 +53,15 @@ class Reyna_Darisce (
         }
     }
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        val daño = daño() // calcula el daño según crítico o no
-        val nuevaVida = enemigos[posicion].vida - daño
-        enemigos[posicion].vida = nuevaVida
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        val daño = daño()
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
-    fun mejoramiento(enemigos: ArrayList<Tropa>, posicion: Int) {
-        this.vida += 500
-        this.ataque_base += 500
-        this.daño_critico += 5
-        this.probabilidad_de_critico += 0.05
-    }
 
 
     override fun clonar(): Tropa {
-        val copia = Reyna_Darisce(this.nivel)
+        val copia = Rey_Freddy(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -80,5 +76,17 @@ class Reyna_Darisce (
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
+
+        this.vida -= Ataque
+        return
+    }
 
 }

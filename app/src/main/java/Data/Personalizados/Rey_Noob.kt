@@ -1,27 +1,29 @@
-package Data
+package Data.Personalizados
 
-import com.waos.soticklord.GlobalData
+import Data.Tropa
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Heber (
+class Rey_Noob (
     Nivel:Int = 1
 ):
     Tropa(
-        nombre = "Rey_Heber",
+        nombre = "Rey_Noob",
         nivel = Nivel,
-        vida = calcularVida(500,Nivel),
-        ataque_base = calcularAtaque(200,Nivel),
-        daño_critico = calcularDañoCritico(5.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.80,Nivel),
+        vida = calcularVida(950,Nivel),
+        ataque_base = calcularAtaque(50,Nivel),
+        daño_critico = calcularDañoCritico(10.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.rey_heber,
+        rutaviva = R.drawable.rey_noob,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
-        turnoDoble =  false
+        turnoDoble =  false,
+        cantidad_espinas = 0,
+        cantidad_escudos = 0
     ), Serializable {
 
     override fun toString(): String {
@@ -51,24 +53,15 @@ class Rey_Heber (
         }
     }
 
-    fun Donde_corress(enemigos: ArrayList<Tropa>, posicion: Int) {
-        enemigos[posicion].vida = 1
-    }
-
-    fun Soy_inevitable(enemigos: ArrayList<Tropa>, posicion: Int) {
-        this.vida += 10000
-    }
-
-    fun Jugamos_jaja(enemigos: ArrayList<Tropa>, posicion: Int) {
-        enemigos[posicion].ataque_base = 10
-        enemigos[posicion].vida = 10
-
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        val daño = daño()
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
 
 
     override fun clonar(): Tropa {
-        val copia = Rey_Heber(this.nivel)
+        val copia = Rey_Noob(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -83,5 +76,17 @@ class Rey_Heber (
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
+
+        this.vida -= Ataque
+        return
+    }
 
 }

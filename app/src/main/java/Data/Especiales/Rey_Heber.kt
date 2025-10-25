@@ -1,27 +1,31 @@
-package Data
+package Data.Especiales
 
+import Data.Tropa
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
+class Rey_Heber (
+    Nivel:Int = 1
+):
+    Tropa(
+        nombre = "Rey_Heber",
+        nivel = Nivel,
+        vida = calcularVida(500,Nivel),
+        ataque_base = calcularAtaque(200,Nivel),
+        daño_critico = calcularDañoCritico(5.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.80,Nivel),
+        aereo = true,
+        estado_de_vida = true,
+        rutaviva = R.drawable.rey_heber,
+        rutamuerta = R.drawable.tropa_muerta,
+        turnoActivo = true,
+        turnoDoble =  false,
+        cantidad_espinas = 0,
+        cantidad_escudos = 0
+    ), Serializable {
 
-class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
-    nombre = "Tropa_Lanzatonio",
-    nivel = Nivel,
-    vida = calcularVida(550,Nivel),
-    ataque_base = calcularAtaque(100,Nivel),
-    daño_critico = calcularDañoCritico(1.5,Nivel),
-    probabilidad_de_critico = calcularProbCritico(0.5,Nivel),
-    aereo = false,
-    estado_de_vida = true,
-    rutaviva = R.drawable.lanzatonio_tropa,
-    rutamuerta = R.drawable.tropa_muerta,
-    turnoActivo = true,
-    turnoDoble =  false,
-    cantidad_espinas = 0,
-    cantidad_escudos = 0
-),Serializable {
     override fun toString(): String {
         return """
             Nombre: $nombre
@@ -37,48 +41,36 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
         """.trimIndent()
     }
 
-    private fun Daño(): Int {
-        val daño: Int
+    private fun daño(): Int {
         val random = Random.Default
         val suerte = random.nextDouble()
 
-        if (suerte < this.probabilidad_de_critico) {
+        return if (suerte < this.probabilidad_de_critico) {
             val x = this.ataque_base * this.daño_critico
-            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
+            ceil(x).toInt() // redondea hacia arriba
         } else {
-            daño = this.ataque_base // golpe normal
+            this.ataque_base // golpe normal
         }
-
-        return daño
     }
 
-    //metodo principal para atcar
-    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
-        val daño = Daño()
-        enemigos[posicion]!!.Recivir_daño(this,daño)
+    fun Donde_corress(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        enemigos[posicion].vida = 1
     }
 
-    fun Estocada(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) { //30%de probabilida de multiplicar tu daño x 4
-        val daño: Int
-        val random = Random.Default
-        val suerte = random.nextDouble()
-
-        if (suerte < 0.3) {
-            val x = (this.ataque_base * 4).toDouble()
-            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
-        } else {
-            daño = this.ataque_base // golpe normal
-        }
-
-        enemigos[posicion]!!.Recivir_daño(this,daño)
+    fun Soy_inevitable(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        this.vida += 10000
     }
 
-    fun Bloqueo(enemigos: ArrayList<Tropa?>?, posicion: Int,Waos: Boolean) { //aumenta + 100 puntos de vida
-        this.vida += (this.vida * 0.15).toInt()
+    fun Jugamos_jaja(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        enemigos[posicion].ataque_base = 10
+        enemigos[posicion].vida = 10
+
     }
+
+
 
     override fun clonar(): Tropa {
-        val copia = Tropa_Lanzatonio(this.nivel)
+        val copia = Rey_Heber(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -94,7 +86,6 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
         copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
-
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
             this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()

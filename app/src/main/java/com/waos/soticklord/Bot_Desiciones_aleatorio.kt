@@ -16,7 +16,7 @@ class Bot_Desiciones_aleatorio (private val context: Context){
         //sacamos el nombre de la tropa
         val nombre = GlobalData.Jugador2[Posicion]!!.nombre
         //sacamos todos los ataques q puede hacer
-        var Ataques = Obtener_Ataques_disponibles(nombre)
+        var Ataques = Obtener_Array_String(nombre)
         //vemos q tropas podemos atacar
         val tropas_disponibles = Tropas_disponibles(Posicion)
         //seleccionamos la tropa a la q atacaremos (por ahora random)
@@ -64,26 +64,29 @@ class Bot_Desiciones_aleatorio (private val context: Context){
         return Tropas_disponibles
     }
 
-    fun Obtener_Ataques_disponibles(nombreClase: String): List<String> {
+    fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
-            val claseCompleta = "Data.$nombreClase"
-            val clase = Class.forName(claseCompleta)
-
-            clase.declaredMethods
-                .filter { Modifier.isPublic(it.modifiers) } // solo métodos públicos
-                .map { it.name }
-                .filter { !it.startsWith("get") && !it.startsWith("set") }
-                .filterNot {
-                    // Métodos que NO son ataques reales
-                    it in listOf(
-                        "toString", "equals", "hashCode",
-                        "copyValueOf", "transform", "formatted", "intern",
-                        "wait", "notify", "notifyAll", "getClass",
-                        "clonar", "copyBase", "component1", "component2"
-                    )
-                }
-        } catch (e: ClassNotFoundException) {
-            println("No se encontró la clase: $nombreClase")
+            // Buscar la clase directamente en el diccionario
+            val claseKotlin = GlobalData.Diccionario_Clases[nombreClase]
+            if (claseKotlin != null) {
+                claseKotlin.java.declaredMethods
+                    .filter { Modifier.isPublic(it.modifiers) }
+                    .map { it.name }
+                    .filter { !it.startsWith("get") && !it.startsWith("set") }
+                    .filterNot {
+                        it in listOf(
+                            "toString", "equals", "hashCode",
+                            "copyValueOf", "transform", "formatted", "intern",
+                            "wait", "notify", "notifyAll", "getClass",
+                            "clonar", "copyBase", "component1", "component2"
+                        )
+                    }
+            } else {
+                println("No se encontró la clase '$nombreClase' en el diccionario.")
+                emptyList()
+            }
+        } catch (e: Exception) {
+            println("Error al obtener métodos de '$nombreClase': ${e.message}")
             emptyList()
         }
     }
@@ -169,7 +172,7 @@ class Bot_Desiciones_aleatorio (private val context: Context){
 
                 // Invocar el método sobre la instancia de la tropa atacante
                 // Le pasamos jugador2 y la posición del enemigo
-                metodo.invoke(tropaAtacante, jugador2, posicion2)
+                metodo.invoke(tropaAtacante, jugador2, posicion2,false)
             } else {
                 println("No se encontró el método '$nombreMetodo' en la clase $nombreClase")
             }

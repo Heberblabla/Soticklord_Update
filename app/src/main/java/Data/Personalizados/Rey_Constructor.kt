@@ -1,27 +1,29 @@
-package Data
+package Data.Personalizados
 
-import com.waos.soticklord.GlobalData
+import Data.Tropa
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Reyna_Shantal (
+class Rey_Constructor (
     Nivel:Int = 1
 ):
     Tropa(
-        nombre = "Reyna_Shantal",
+        nombre = "Rey_Constructor",
         nivel = Nivel,
-        vida = calcularVida(1000,Nivel),
-        ataque_base = calcularAtaque(100,Nivel),
-        daño_critico = calcularDañoCritico(3.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.50,Nivel),
+        vida = calcularVida(950,Nivel),
+        ataque_base = calcularAtaque(50,Nivel),
+        daño_critico = calcularDañoCritico(10.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.reyna_shantal,
+        rutaviva = R.drawable.rey_constructor,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
-        turnoDoble =  false
+        turnoDoble =  false,
+        cantidad_espinas = 0,
+        cantidad_escudos = 0
     ), Serializable {
 
     override fun toString(): String {
@@ -51,26 +53,15 @@ class Reyna_Shantal (
         }
     }
 
-
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         val daño = daño()
-        val nuevaVida = enemigos[posicion].vida - daño
-        enemigos[posicion].vida = nuevaVida
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
-    fun tiro_perfecto(enemigos: ArrayList<Tropa>, posicion: Int) {
-        enemigos[posicion].vida -= 10000
-    }
-
-    fun lluvia_de_flechas(enemigos: ArrayList<Tropa>, posicion: Int) {
-        for (i in enemigos.indices) {
-            enemigos[i].vida -= 50
-        }
-    }
 
 
     override fun clonar(): Tropa {
-        val copia = Reyna_Shantal(this.nivel)
+        val copia = Rey_Constructor(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -85,5 +76,17 @@ class Reyna_Shantal (
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
+
+        this.vida -= Ataque
+        return
+    }
 
 }

@@ -21,6 +21,8 @@ import android.widget.AdapterView
 import androidx.lifecycle.lifecycleScope
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.widget.ImageButton
+import com.google.android.material.button.MaterialButton
 
 
 class Batalla_oculta : AppCompatActivity() {
@@ -32,6 +34,7 @@ class Batalla_oculta : AppCompatActivity() {
     var turno_enemigo = 5
     var es_mi_turno = true
     var es_turno_del_enemigo = false
+    lateinit var botonPasarTurno: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,7 @@ class Batalla_oculta : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        botonPasarTurno = findViewById(R.id.Atacar)
         // Referencia al Spinner
         val spinnerAtaques: Spinner = findViewById(R.id.Ataques)
         // Listener del Spinner
@@ -147,23 +151,20 @@ class Batalla_oculta : AppCompatActivity() {
 
 
     suspend fun turno_del_enemigo() {
+        es_mi_turno = false
+        botonPasarTurno.isEnabled = false // 🔒 bloquea botón visualmente
         actualizar_datos()
-        if(GlobalData.Jugador1[0]!!.estado_de_vida ||
-            GlobalData.Jugador1[1]!!.estado_de_vida ||
-            GlobalData.Jugador1[2]!!.estado_de_vida ||
-            GlobalData.Jugador1[3]!!.estado_de_vida ||
-            GlobalData.Jugador1[4]!!.estado_de_vida ||
-            GlobalData.Jugador1[5]!!.estado_de_vida
-            ) {
+
+        if (GlobalData.Jugador1.any { it?.estado_de_vida == true }) {
             turno_activo = 5
             es_turno_del_enemigo = true
             visualizar_posicion()
 
             for (i in 5 downTo 0) {
-                val tropa = GlobalData.Jugador2.getOrNull(i) // evita crash por índice inválido
+                val tropa = GlobalData.Jugador2.getOrNull(i)
                 if (tropa != null && tropa.estado_de_vida) {
                     visualizar_posicion_enemiga(i)
-                    delay(5000) // Espera sin bloquear la UI
+                    delay(3000)
 
                     val bot = Bot_Desiciones_aleatorio(this)
                     bot.Empezar_Analisis(i)
@@ -171,59 +172,62 @@ class Batalla_oculta : AppCompatActivity() {
                 }
             }
 
-            // Verificar si todas las tropas enemigas murieron
             val enemigos_vivos = GlobalData.Jugador2.filter { it?.estado_de_vida == true }
             if (enemigos_vivos.isEmpty()) {
                 Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
-                finish() // termina la Activity actual
+                finish()
                 return
             }
 
+            // 🔓 Reactivar turno del jugador
             es_turno_del_enemigo = false
             es_mi_turno = true
             turno_activo = 5
+            botonPasarTurno.isEnabled = true // vuelve a habilitar el botón
+
             bucle_principal()
             visualizar_posicion_enemiga(5)
-        }else{
-            Toast.makeText(this, "Perdisdes", Toast.LENGTH_LONG).show()
-            finish() // termina la Activity actual
-            return
+        } else {
+            Toast.makeText(this, "Perdiste", Toast.LENGTH_LONG).show()
+            finish()
         }
     }
 
     fun atacar_pasarturno(view: View) {
+        // Desactiva el botón para evitar múltiples clics rápidos
+        view.isEnabled = false
 
-        // Solo actuamos si es tu turno
-        if (es_mi_turno) {
-            if (turno_activo < 0 || turno_activo >= 6) {
-                pasar_turno_al_enemigo()
-                }
-            }
-            // Verificamos que la tropa actual esté viva
-            val tropaActual = GlobalData.Jugador1.getOrNull(turno_activo)
+        // Si no es tu turno, no hagas nada
+        if (!es_mi_turno) return
 
-            if (tropaActual != null && tropaActual.estado_de_vida) {
-                Ejecutar_ataque(
-                    GlobalData.Jugador1,
-                    GlobalData.Jugador2,
-                    turno_activo,
-                    Enemigo_Seleccionado,
-                    ataqueSeleccionado
-                )
-            }
-            actualizar_datos()
-            // Pasamos al siguiente turno
-            turno_activo--
-
-            // Si ya terminó el turno (índice fuera de rango), pasamos al enemigo
-            if (turno_activo < 0 || turno_activo >= 6) {
-                pasar_turno_al_enemigo()
-                return // ❌ evita ejecutar bucle_principal con turno -1
-            }
-
-            // Si todavía quedan tropas, continúa el bucle normal
-            bucle_principal()
+        if (turno_activo < 0 || turno_activo >= 6) {
+            pasar_turno_al_enemigo()
+            return
         }
+
+        val tropaActual = GlobalData.Jugador1.getOrNull(turno_activo)
+        if (tropaActual != null && tropaActual.estado_de_vida) {
+            Ejecutar_ataque(
+                GlobalData.Jugador1,
+                GlobalData.Jugador2,
+                turno_activo,
+                Enemigo_Seleccionado,
+                ataqueSeleccionado
+            )
+        }
+
+        actualizar_datos()
+        turno_activo--
+
+        if (turno_activo < 0 || turno_activo >= 6) {
+            pasar_turno_al_enemigo()
+            return
+        }
+
+        // Si todavía quedan tropas, continúa el turno y reactivamos el botón
+        bucle_principal()
+        view.isEnabled = true // 🔓 vuelve a activar el botón cuando termina la acción
+    }
 
 
     //--------------------------
@@ -340,33 +344,45 @@ class Batalla_oculta : AppCompatActivity() {
 
         }
     }
-    fun cargar_Espinner(Nombre: String){
-        if(es_mi_turno) {
-            val lista = Obtener_Array_String("Data.$Nombre")
+
+    fun cargar_Espinner(nombreClase: String) {
+        if (es_mi_turno) {
+            // Buscar la clase directamente en el diccionario
+            val lista = Obtener_Array_String(nombreClase)
             actualizarSpinnerAtaques(lista)
             cambiarFuenteConFondo(lista)
         }
     }
     fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
-            val clase = Class.forName(nombreClase)
-            clase.declaredMethods
-                .filter { Modifier.isPublic(it.modifiers) }
-                .map { it.name }
-                .filter { !it.startsWith("get") && !it.startsWith("set") }
-                .filterNot {
-                    it in listOf(
-                        "toString", "equals", "hashCode",
-                        "copyValueOf", "transform", "formatted", "intern",
-                        "wait", "notify", "notifyAll", "getClass",
-                        "clonar", "copyBase", "component1", "component2"
-                    )
-                }
-        } catch (e: ClassNotFoundException) {
-            println("No se encontró la clase: $nombreClase")
+            // Normaliza el nombre antes de buscarlo
+            val claveNormalizada = nombreClase.replace(" ", "_")
+
+            val claseKotlin = GlobalData.Diccionario_Clases[claveNormalizada]
+            if (claseKotlin != null) {
+                claseKotlin.java.declaredMethods
+                    .filter { Modifier.isPublic(it.modifiers) }
+                    .map { it.name }
+                    .filter { !it.startsWith("get") && !it.startsWith("set") }
+                    .filterNot {
+                        it in listOf(
+                            "toString", "equals", "hashCode",
+                            "copyValueOf", "transform", "formatted", "intern",
+                            "wait", "notify", "notifyAll", "getClass",
+                            "clonar", "copyBase", "component1", "component2"
+                        )
+                    }
+            } else {
+                println("❌ No se encontró la clase '$claveNormalizada' en el diccionario.")
+                emptyList()
+            }
+        } catch (e: Exception) {
+            println("⚠️ Error al obtener métodos de '$nombreClase': ${e.message}")
             emptyList()
         }
     }
+
+
     fun actualizarSpinnerAtaques(lista: List<String>) {
         val spinner = findViewById<Spinner>(R.id.Ataques)
 
@@ -485,7 +501,7 @@ class Batalla_oculta : AppCompatActivity() {
 
                 // Invocar el método sobre la instancia de la tropa atacante
                 // Le pasamos jugador2 y la posición del enemigo
-                metodo.invoke(tropaAtacante, jugador2, posicion2)
+                metodo.invoke(tropaAtacante, jugador2, posicion2,true)
             } else {
                 println("No se encontró el método '$nombreMetodo' en la clase $nombreClase")
             }

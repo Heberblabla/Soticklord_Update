@@ -1,5 +1,7 @@
 package Data
 
+import android.provider.Settings
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import kotlinx.coroutines.awaitCancellation
 import java.io.Serializable
@@ -21,7 +23,9 @@ class Rey_Arquero (
         rutaviva = R.drawable.rey_arquero,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
-        turnoDoble =  false
+        turnoDoble =  false,
+        cantidad_escudos = 0,
+        cantidad_espinas =  0
 ), Serializable {
 
 
@@ -52,13 +56,12 @@ class Rey_Arquero (
         }
     }
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         val daño = daño()
-        val nuevaVida = enemigos[posicion].vida - daño
-        enemigos[posicion].vida = nuevaVida
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
-    fun disparoReal(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Disparo_Real(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         val random = Random.Default
         val suerte = random.nextDouble()
         val probabilidad = this.probabilidad_de_critico / 2
@@ -68,28 +71,25 @@ class Rey_Arquero (
         } else {
             this.ataque_base
         }
-
-        val nuevaVida = (enemigos[posicion].vida - daño)
-        enemigos[posicion].vida = nuevaVida
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
-    fun flechaExplosiva(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Flecha_Explosiva(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         val num = Random.nextInt(100)
 
-        if (num < 15) { // 15% de probabilidad
-            this.vida -= 200
+        if (num < 21) { // 20% de probabilidad
+            this.vida -= this.ataque_base
         } else {
             var daño = daño() * 4
-            val nuevaVida = enemigos[posicion].vida - daño
-            enemigos[posicion].vida = nuevaVida
+            enemigos[posicion].Recivir_daño(this,daño)
         }
     }
 
-    fun furiaDelRey(enemigos: ArrayList<Tropa>, posicion: Int) {
-        this.vida += 50
-        this.ataque_base += 50
+    fun Furia_Del_Rey(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        this.vida += (this.vida * 0.2).toInt()
+        this.ataque_base += (this.ataque_base * 0.15).toInt()
         this.probabilidad_de_critico += 0.1
-        this.daño_critico += 0.1
+        this.daño_critico += 0.15
     }
 
     override fun clonar(): Tropa {
@@ -105,8 +105,23 @@ class Rey_Arquero (
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
+        copia.cantidad_escudos = this.cantidad_escudos
+        copia.cantidad_espinas = this.cantidad_espinas
+
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+            if(this.cantidad_escudos > 0){
+                this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            }
+            if(this.cantidad_espinas > 0){
+                tropa.vida -= (Ataque * cantidad_espinas).toInt()
+                return
+            }
+
+            this.vida -= Ataque
+            return
+    }
 
 }

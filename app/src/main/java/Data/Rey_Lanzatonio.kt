@@ -18,7 +18,9 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
     rutaviva = R.drawable.rey_lanzatonio,
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
-    turnoDoble =  false
+    turnoDoble =  false,
+    cantidad_espinas = 0,
+    cantidad_escudos = 0
 ), Serializable {
     override fun toString(): String {
         return """
@@ -51,32 +53,29 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
     }
 
 
-    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
         val daño = Daño()
-        val nuevavida = enemigos.get(posicion)!!.vida - daño
-        enemigos.get(posicion)!!.vida = nuevavida
+        enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
-    fun Lanza_Imperial(enemigos: ArrayList<Tropa?>, posicion: Int) {
+    fun Lanza_Imperial(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
         var daño = Daño()
         daño = daño * 2
-        val nuevavida = enemigos.get(posicion)!!.vida - daño
-        enemigos.get(posicion)!!.vida = nuevavida
+        enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
-    fun Bloqueo_real(enemigos: ArrayList<Tropa?>?, posicion: Int) {
-        this.vida = this.vida + 120
+    fun Bloqueo_real(enemigos: ArrayList<Tropa?>?, posicion: Int,Waos: Boolean) {
+        this.vida += (this.vida * 0.25).toInt()
     }
 
-    fun Tormenta_de_Lanzas(enemigos: ArrayList<Tropa?>, posicion: Int) {
-        var ataque = this.ataque_base
-        var daño_total = 0
-        for (i in 0..24) {
-            ataque = 10
-            daño_total = daño_total + Daño()
+    fun Tormenta_de_Lanzas(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+        var ataque1 = this.ataque_base
+        this.ataque_base = 10
+        for (i in 0..25) {
+            var daño = Daño()
+            enemigos[posicion]!!.Recivir_daño(this,daño)
         }
-        val nuevavida = enemigos.get(posicion)!!.vida - daño_total
-        enemigos.get(posicion)!!.vida = nuevavida
+        this.ataque_base = ataque1
     }
 
     override fun clonar(): Tropa {
@@ -92,8 +91,22 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
+        copia.cantidad_espinas = this.cantidad_espinas
+        copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
+
+        this.vida -= Ataque
+        return
+    }
 
 }

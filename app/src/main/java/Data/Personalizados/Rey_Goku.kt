@@ -1,27 +1,31 @@
-package Data
+package Data.Personalizados
 
+import Data.Tropa
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
+class Rey_Goku (
+    Nivel:Int = 1
+):
+    Tropa(
+        nombre = "Rey_Goku",
+        nivel = Nivel,
+        vida = calcularVida(950,Nivel),
+        ataque_base = calcularAtaque(50,Nivel),
+        daño_critico = calcularDañoCritico(10.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
+        aereo = true,
+        estado_de_vida = true,
+        rutaviva = R.drawable.rey_goku,
+        rutamuerta = R.drawable.tropa_muerta,
+        turnoActivo = true,
+        turnoDoble =  false,
+        cantidad_espinas = 0,
+        cantidad_escudos = 0
+    ), Serializable {
 
-class Tropa_Gigante(Nivel:Int = 1) : Tropa(
-    nombre = "Tropa_Gigante",
-    nivel = Nivel,
-    vida = calcularVida(800,Nivel),
-    ataque_base = calcularAtaque(100,Nivel),
-    daño_critico = calcularDañoCritico(5.0,Nivel),
-    probabilidad_de_critico = calcularProbCritico(0.10,Nivel),
-    aereo = false,
-    estado_de_vida = true,
-    rutaviva = R.drawable.gigante_tropa,
-    rutamuerta = R.drawable.tropa_muerta,
-    turnoActivo = true,
-    turnoDoble =  false,
-    cantidad_espinas = 0,
-    cantidad_escudos = 0
-), Serializable {
     override fun toString(): String {
         return """
             Nombre: $nombre
@@ -37,39 +41,26 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
         """.trimIndent()
     }
 
-    private fun Daño(): Int {
-        val daño: Int
+    private fun daño(): Int {
         val random = Random.Default
         val suerte = random.nextDouble()
 
-        if (suerte < this.probabilidad_de_critico) {
+        return if (suerte < this.probabilidad_de_critico) {
             val x = this.ataque_base * this.daño_critico
-            daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
+            ceil(x).toInt() // redondea hacia arriba
         } else {
-            daño = this.ataque_base // golpe normal
+            this.ataque_base // golpe normal
         }
-
-        return daño
     }
 
-    //metodo principal para atcar
-    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
-        val daño: Int = Daño()
-        enemigos[posicion]!!.Recivir_daño(this,daño)
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        val daño = daño()
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
-    fun Terremoto(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
-        val daño = calcularAtaque(50,this.nivel)
-        enemigos[0]!!.Recivir_daño(this,daño)
-        enemigos[1]!!.Recivir_daño(this,daño)
-        enemigos[2]!!.Recivir_daño(this,daño)
-        enemigos[3]!!.Recivir_daño(this,daño)
-        enemigos[4]!!.Recivir_daño(this,daño)
-        enemigos[5]!!.Recivir_daño(this,daño)
-    }
 
     override fun clonar(): Tropa {
-        val copia = Tropa_Gigante(this.nivel)
+        val copia = Rey_Goku(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -81,11 +72,8 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
-        copia.cantidad_espinas = this.cantidad_espinas
-        copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
-
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
@@ -99,4 +87,5 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
         this.vida -= Ataque
         return
     }
+
 }

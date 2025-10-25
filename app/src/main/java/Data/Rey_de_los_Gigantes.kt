@@ -19,7 +19,9 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     rutaviva = R.drawable.rey_de_los_gigantes,  // tu imagen en drawable
     rutamuerta = R.drawable.tropa_muerta,       // tu imagen en drawable
     turnoActivo = true,
-    turnoDoble =  false
+    turnoDoble =  false,
+    cantidad_espinas = 0,
+    cantidad_escudos = 0
 )
 
     , Serializable {
@@ -55,20 +57,34 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     }
 
     //metodo principal para atcar
-    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos : Boolean) {
         val daño = Daño()
-        val nuevavida = enemigos.get(posicion)!!.vida - daño
-        enemigos.get(posicion)!!.vida = nuevavida
+        enemigos[posicion]!!.Recivir_daño(this,daño)
     }
-    fun Invocacion_de_Gigantes(enemigos: ArrayList<Tropa?>, posicion: Int){
-        if(this.invocacion){
-        GlobalData.Jugador1[1] = Tropa_Gigante(this.nivel)
-        GlobalData.Jugador1[2] = Tropa_Gigante(this.nivel)
-        GlobalData.Jugador1[3] = Tropa_Gigante(this.nivel)
-        GlobalData.Jugador1[4] = Tropa_Gigante(this.nivel)
-        GlobalData.Jugador1[5] = Tropa_Gigante(this.nivel)
-            this.invocacion = false
+    fun Invocacion_de_Gigantes(enemigos: ArrayList<Tropa?>, posicion: Int, Waos : Boolean){
+        if(Waos) {
+            if (this.invocacion) {
+                GlobalData.Jugador1[1] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador1[2] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador1[3] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador1[4] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador1[5] = Tropa_Gigante(this.nivel)
+                this.invocacion = false
+            }
         }
+        if(!Waos) {
+            if (this.invocacion) {
+                GlobalData.Jugador2[1] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador2[2] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador2[3] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador2[4] = Tropa_Gigante(this.nivel)
+                GlobalData.Jugador2[5] = Tropa_Gigante(this.nivel)
+                this.invocacion = false
+            }
+        }
+
+
+
 
     }
 
@@ -85,8 +101,22 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
+        copia.cantidad_espinas = this.cantidad_espinas
+        copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
+
+        this.vida -= Ataque
+        return
+    }
 
 }

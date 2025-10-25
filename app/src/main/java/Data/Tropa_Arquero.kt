@@ -18,7 +18,9 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
     rutaviva = R.drawable.arquero_tropa,
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
-    turnoDoble = false
+    turnoDoble =  false,
+    cantidad_espinas = 0,
+    cantidad_escudos = 0
 ), Serializable {
     override fun toString(): String {
         return """
@@ -51,21 +53,19 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
     }
 
     //metodo principal para atcar
-    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
         val daño = Daño()
-        val nuevavida = enemigos.get(posicion)!!.vida - daño
-        enemigos.get(posicion)!!.vida = nuevavida
+        enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
-    fun Flecha_de_Sangre(enemigos: ArrayList<Tropa?>, posicion: Int) {
-        this.vida = this.vida - 50
+    fun Flecha_de_Sangre(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+        this.vida -= (this.vida * 0.1).toInt()
         var daño = Daño()
         daño = daño * 3
-        val nuevavida = enemigos.get(posicion)!!.vida - daño
-        enemigos.get(posicion)!!.vida = nuevavida
+        enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
-    fun Flecha_penetrante(enemigos: ArrayList<Tropa?>, posicion: Int) { //20% de probabilida de multiplicar tu daño x 5
+    fun Flecha_penetrante(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) { //20% de probabilida de multiplicar tu daño x 5
         val daño: Int
         val random = Random.Default
         val suerte = random.nextDouble(0.0,1.0)
@@ -74,11 +74,10 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
             val x = (this.ataque_base * 5).toDouble()
             daño = ceil(x).toInt() // convertir a int redondeando hacia arriba
         } else {
-            daño = this.ataque_base // golpe normal
+            daño = (this.ataque_base/2).toInt() // golpe normal
         }
 
-        val nuevavida = enemigos.get(posicion)!!.vida - daño
-        enemigos.get(posicion)!!.vida = nuevavida
+        enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
     override fun clonar(): Tropa {
@@ -94,9 +93,23 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
+        copia.cantidad_espinas = this.cantidad_espinas
+        copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
+
+        this.vida -= Ataque
+        return
+    }
 
 
 }

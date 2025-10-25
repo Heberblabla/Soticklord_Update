@@ -26,7 +26,7 @@
         android:id="@+id/Ataques_disponibles"
         android:layout_width="143dp"
         android:layout_height="119dp"
-        android:fontFamily="@font/unlock"
+        android:fontFamily="@font/aladin"
         android:text="🗡"
         android:textColor="#050505"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +37,7 @@
         app:layout_constraintVertical_bias="0.897" />
 
     <ImageButton
-        android:id="@+id/avanzar16"
+        android:id="@+id/Imagen_grande"
         android:layout_width="135dp"
         android:layout_height="92dp"
         android:adjustViewBounds="true"
@@ -53,11 +53,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar"
+        android:id="@+id/Personaje0"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,6 +75,7 @@
         android:layout_height="35dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="apretar_para_cambiar_a_otro_album"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -85,11 +87,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar2"
+        android:id="@+id/Personaje1"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,11 +104,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar3"
+        android:id="@+id/Personaje2"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -117,11 +121,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar4"
+        android:id="@+id/Personaje3"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -133,11 +138,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar5"
+        android:id="@+id/Personaje4"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -149,11 +155,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar6"
+        android:id="@+id/Personaje5"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -165,11 +172,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar7"
+        android:id="@+id/Personaje6"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -186,6 +194,7 @@
         android:layout_height="26dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="pasarSiguienteAtaque"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -202,6 +211,7 @@
         android:layout_height="14dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="pasar_siguiente_hoja"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -266,6 +276,7 @@
         android:layout_height="26dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="pasarAtaqueAnterior"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -282,6 +293,7 @@
         android:layout_height="15dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="pasar_hoja_anterior"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -293,11 +305,12 @@
         app:srcCompat="@drawable/boton2" />
 
     <ImageButton
-        android:id="@+id/avanzar8"
+        android:id="@+id/Personaje7"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -309,11 +322,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar9"
+        android:id="@+id/Personaje8"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -325,11 +339,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar10"
+        android:id="@+id/Personaje9"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -341,11 +356,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar11"
+        android:id="@+id/Personaje10"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -357,11 +373,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar12"
+        android:id="@+id/Personaje11"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -373,11 +390,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar13"
+        android:id="@+id/Personaje12"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -389,11 +407,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar14"
+        android:id="@+id/Personaje13"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -405,11 +424,12 @@
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
-        android:id="@+id/avanzar15"
+        android:id="@+id/Personaje14"
         android:layout_width="57dp"
         android:layout_height="48dp"
         android:adjustViewBounds="true"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="mostrarInfoPersonaje"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -449,12 +469,13 @@
         app:layout_constraintVertical_bias="0.401" />
 
     <TextView
-        android:id="@+id/Info_ataques_si"
+        android:id="@+id/Info_ataques"
         android:layout_width="174dp"
         android:layout_height="79dp"
-        android:fontFamily="@font/unlock"
+        android:fontFamily="@font/aladin"
         android:text="Waos"
         android:textColor="#050505"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.396"
@@ -463,7 +484,7 @@
         app:layout_constraintVertical_bias="0.789" />
 
     <TextView
-        android:id="@+id/Info_ataques_no"
+        android:id="@+id/Nombre_de_Ataque"
         android:layout_width="168dp"
         android:layout_height="20dp"
         android:fontFamily="@font/unlock"
@@ -576,7 +597,7 @@
         app:layout_constraintVertical_bias="0.113" />
 
     <TextView
-        android:id="@+id/Nivel_de_cuenta"
+        android:id="@+id/Nivel_de_cuentawaos"
         android:layout_width="60dp"
         android:layout_height="15dp"
         android:fontFamily="@font/unlock"
@@ -591,7 +612,7 @@
         app:layout_constraintVertical_bias="0.053" />
 
     <TextView
-        android:id="@+id/Esencia"
+        android:id="@+id/Ecencia"
         android:layout_width="61dp"
         android:layout_height="19dp"
         android:fontFamily="@font/unlock"

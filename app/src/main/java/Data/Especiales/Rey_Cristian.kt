@@ -1,6 +1,6 @@
-package Data
+package Data.Especiales
 
-import com.waos.soticklord.GlobalData
+import Data.Tropa
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -21,7 +21,10 @@ class Rey_Cristian (
         rutaviva = R.drawable.rey_cristian,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
-        turnoDoble =  false
+        turnoDoble =  false,
+        cantidad_espinas = 0,
+        cantidad_escudos = 0
+
     ), Serializable {
 
     override fun toString(): String {
@@ -50,30 +53,29 @@ class Rey_Cristian (
             this.ataque_base // golpe normal
         }
     }
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         val daño = daño()
-        val nuevaVida = enemigos[posicion].vida - daño
-        enemigos[posicion].vida = nuevaVida
+        enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
-    fun Baje_de_vida_estelar(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Baje_de_vida_estelar(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         for (i in enemigos.indices) {
-            enemigos[i].vida -= 200
+            var daño = (enemigos[i].vida * 0.3).toInt()
+            enemigos[posicion]!!.vida = enemigos[posicion]!!.vida - daño
         }
     }
 
-    fun Empeoramiento_estelar(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Empeoramiento_estelar(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         for (i in enemigos.indices) {
-            enemigos[i].ataque_base -= 200
+            enemigos[i].ataque_base -= (enemigos[1].ataque_base * 0.5).toInt()
         }
     }
 
-    fun Se_te_acabo_el_tiempo(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Se_te_acabo_el_tiempo(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         for (i in enemigos.indices) {
-            enemigos[i].vida -= this.ataque_base
+            enemigos[posicion]!!.Recivir_daño(this,this.ataque_base)
         }
     }
-
 
 
     override fun clonar(): Tropa {
@@ -89,8 +91,21 @@ class Rey_Cristian (
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
+        copia.cantidad_espinas = this.cantidad_espinas
+        copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
 
+        this.vida -= Ataque
+        return
+    }
 
 }

@@ -16,6 +16,8 @@ abstract class Tropa(
     var rutamuerta: Int = R.drawable.tropa_default,
     var turnoActivo: Boolean,
     var turnoDoble: Boolean,
+    var cantidad_escudos: Int,
+    var cantidad_espinas: Int
 ): Serializable  {
 
     companion object {
@@ -64,6 +66,8 @@ abstract class Tropa(
             copia.rutamuerta = this.rutamuerta
             copia.turnoActivo = this.turnoActivo
             copia.turnoDoble = this.turnoDoble
+            copia.cantidad_espinas = this.cantidad_espinas
+            copia.cantidad_escudos = this.cantidad_escudos
 
             return copia
         } catch (e: Exception) {
@@ -73,6 +77,7 @@ abstract class Tropa(
     }
 
 
+    abstract fun Recivir_daño(tropa: Tropa,Ataque :Int)
 
 
 }

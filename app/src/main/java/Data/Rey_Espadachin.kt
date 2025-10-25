@@ -17,7 +17,9 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
     rutaviva = R.drawable.rey_espadachin,   // tu imagen en drawable
     rutamuerta = R.drawable.tropa_muerta,   // imagen al morir
     turnoActivo = true,
-    turnoDoble =  false
+    turnoDoble =  false,
+    cantidad_espinas = 0,
+    cantidad_escudos = 0
 ), Serializable {
 
     override fun toString(): String {
@@ -46,28 +48,25 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
         }
     }
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         val daño = daño()
-        val nuevaVida = enemigos[posicion].vida - daño
-        enemigos[posicion].vida = nuevaVida
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
-    fun espadazoReal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        this.vida -= 50
+    fun Espadazo_Real(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        this.vida -= (this.vida * 0.1).toInt()
         var daño = daño() * 2
-        val nuevaVida = enemigos[posicion].vida - daño
-        enemigos[posicion].vida = nuevaVida
+        enemigos[posicion].Recivir_daño(this,daño)
     }
 
-    fun enGuardia(enemigos: ArrayList<Tropa>, posicion: Int) {
-        this.vida += 120
+    fun En_Guardia(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        this.vida += (this.vida * 0.15).toInt()
     }
 
-    fun ataqueFinal(enemigos: ArrayList<Tropa>, posicion: Int) {
-        this.vida -= 150
+    fun Ataque_Final(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        this.vida -= (this.vida * 0.1).toInt()
         var daño = daño() * 4
-        val nuevaVida = enemigos[posicion].vida - daño
-        enemigos[posicion].vida = nuevaVida
+        enemigos[posicion].Recivir_daño(this,daño)
     }
     override fun clonar(): Tropa {
         val copia = Rey_Espadachin(this.nivel)
@@ -82,8 +81,22 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
+        copia.cantidad_espinas = this.cantidad_espinas
+        copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
 
+    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+        if(this.cantidad_escudos > 0){
+            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+        }
+        if(this.cantidad_espinas > 0){
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            return
+        }
+
+        this.vida -= Ataque
+        return
+    }
 
 }
