@@ -369,15 +369,15 @@ class Batalla_oculta : AppCompatActivity() {
                             "toString", "equals", "hashCode",
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
-                            "clonar", "copyBase", "component1", "component2"
+                            "clonar", "Recivir_daño", "copyBase", "component1", "component2"
                         )
                     }
             } else {
-                println("❌ No se encontró la clase '$claveNormalizada' en el diccionario.")
+                println(" No se encontró la clase '$claveNormalizada' en el diccionario.")
                 emptyList()
             }
         } catch (e: Exception) {
-            println("⚠️ Error al obtener métodos de '$nombreClase': ${e.message}")
+            println("️ Error al obtener métodos de '$nombreClase': ${e.message}")
             emptyList()
         }
     }

@@ -384,7 +384,7 @@ class Batalla : AppCompatActivity() {
                             "toString", "equals", "hashCode",
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
-                            "clonar", "copyBase", "component1", "component2"
+                            "clonar", "Recivir_daño", "copyBase", "component1", "component2"
                         )
                     }
             } else {

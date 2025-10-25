@@ -80,10 +80,10 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.813"
+        app:layout_constraintHorizontal_bias="0.814"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.079"
+        app:layout_constraintVertical_bias="0.077"
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageButton
@@ -222,53 +222,6 @@
         app:layout_constraintVertical_bias="0.945"
         app:srcCompat="@drawable/boton" />
 
-    <ImageButton
-        android:id="@+id/Ordenar_por_nivel"
-        android:layout_width="61dp"
-        android:layout_height="10dp"
-        android:adjustViewBounds="true"
-        android:backgroundTint="#00FFFFFF"
-        android:padding="0dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.922"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.064"
-        app:srcCompat="@drawable/boton" />
-
-    <ImageButton
-        android:id="@+id/Ordenar_por_vida"
-        android:layout_width="61dp"
-        android:layout_height="10dp"
-        android:adjustViewBounds="true"
-        android:backgroundTint="#00FFFFFF"
-        android:padding="0dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.922"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.114"
-        app:srcCompat="@drawable/boton" />
-
-    <ImageButton
-        android:id="@+id/Ordenar_por_ataque"
-        android:layout_width="61dp"
-        android:layout_height="10dp"
-        android:adjustViewBounds="true"
-        android:backgroundTint="#00FFFFFF"
-        android:padding="0dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.922"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.162"
-        app:srcCompat="@drawable/boton" />
 
     <ImageButton
         android:id="@+id/Boton_anterior_ataque"
@@ -610,6 +563,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.053" />
+
+
+    <TextView
+        android:id="@+id/Ordenar_por_Nivel"
+        android:layout_width="60dp"
+        android:layout_height="13dp"
+        android:fontFamily="@font/unlock"
+        android:onClick="ordenar_por_nivel"
+        android:text="Order by 🎯"
+        android:textColor="#050505"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.922"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.057" />
+
+    <TextView
+        android:id="@+id/Ordenar_por_Vida"
+        android:layout_width="60dp"
+        android:layout_height="12dp"
+        android:fontFamily="@font/unlock"
+        android:onClick="ordenar_por_vida"
+        android:text="Order by ♡"
+        android:textColor="#050505"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.922"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.113" />
+
+    <TextView
+        android:id="@+id/ordenar_por_Ataque"
+        android:layout_width="60dp"
+        android:layout_height="11dp"
+        android:fontFamily="@font/unlock"
+        android:onClick="ordenar_por_ataque"
+        android:text="Order by ⚔"
+        android:textColor="#050505"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.922"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.164" />
 
     <TextView
         android:id="@+id/Ecencia"

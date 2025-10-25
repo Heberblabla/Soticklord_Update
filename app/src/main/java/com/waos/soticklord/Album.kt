@@ -19,11 +19,12 @@ import java.lang.reflect.Modifier
 class Album : AppCompatActivity() {
     val ataques = HashMap<Int, String>()
     var posicionAtaque = 0
-    var rey_o_tropa = 0 //1 = Rey , 0 = Tropa
+    var rey_o_tropa = 1 //1 = Rey , 0 = Tropa
     var aumento = 0 //parra pasar a la siguiente pagina :v
     var listaTropas = GlobalData.Diccionario_Tropas.values.toList()
     var listaReyes = GlobalData.Diccionario_Reyes.values.toList()
     var listaNombres = mutableListOf<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,28 +118,26 @@ class Album : AppCompatActivity() {
             R.id.Personaje10, R.id.Personaje11, R.id.Personaje12, R.id.Personaje13, R.id.Personaje14
         )
 
-        // Obtener índice del botón presionado
         val index = botonesIds.indexOf(view.id)
         if (index == -1) return
 
         val posicionReal = index + aumento
 
         if (rey_o_tropa == 0) {
-            // 🟢 Si estamos viendo tropas
-            val listaTropas = GlobalData.Diccionario_Tropas.values.toList()
+            // 🟢 Usar la listaTropas actual (ordenada o no)
             if (posicionReal < listaTropas.size) {
                 val tropa = listaTropas[posicionReal]
                 mostrarDatosDeTropa(tropa)
             }
         } else {
-            // 🔵 Si estamos viendo reyes
-            val listaReyes = GlobalData.Diccionario_Reyes.values.toList()
+            // 🔵 Usar la listaReyes actual (ordenada o no)
             if (posicionReal < listaReyes.size) {
                 val rey = listaReyes[posicionReal]
                 mostrarDatosDeRey(rey)
             }
         }
     }
+
 
     fun mostrarDatosDeTropa(tropa: Tropa) {
 
@@ -322,19 +321,101 @@ class Album : AppCompatActivity() {
         }
     } //para recorrer
 
-    fun ordenar_por_nivel(){
+    fun ordenar_por_nivel(view: View) {
+        val botonesIds = listOf(
+            R.id.Personaje0, R.id.Personaje1, R.id.Personaje2, R.id.Personaje3, R.id.Personaje4,
+            R.id.Personaje5, R.id.Personaje6, R.id.Personaje7, R.id.Personaje8, R.id.Personaje9,
+            R.id.Personaje10, R.id.Personaje11, R.id.Personaje12, R.id.Personaje13, R.id.Personaje14
+        )
+        if(rey_o_tropa == 1){
+            listaReyes = quickSort(GlobalData.Diccionario_Reyes.values.toMutableList()) { it.nivel }
+            val botones = botonesIds.map { findViewById<ImageButton>(it) }
+            cargar_botones_imagen(botones, listaReyes)
+        }
+        if(rey_o_tropa == 0){
+            listaTropas = quickSort(GlobalData.Diccionario_Tropas.values.toMutableList()) { it.nivel }
+            val botones = botonesIds.map { findViewById<ImageButton>(it) }
+            cargar_botones_imagen(botones, listaTropas)
+        }
+    }
 
+    fun ordenar_por_vida(view: View) {
+        val botonesIds = listOf(
+            R.id.Personaje0, R.id.Personaje1, R.id.Personaje2, R.id.Personaje3, R.id.Personaje4,
+            R.id.Personaje5, R.id.Personaje6, R.id.Personaje7, R.id.Personaje8, R.id.Personaje9,
+            R.id.Personaje10, R.id.Personaje11, R.id.Personaje12, R.id.Personaje13, R.id.Personaje14
+        )
+        if(rey_o_tropa == 1){
+            listaReyes = quickSort(GlobalData.Diccionario_Reyes.values.toMutableList()) { it.vida }
+            val botones = botonesIds.map { findViewById<ImageButton>(it) }
+            cargar_botones_imagen(botones, listaReyes)
+        }
+        if(rey_o_tropa == 0){
+            listaTropas = quickSort(GlobalData.Diccionario_Tropas.values.toMutableList()) { it.vida }
+            val botones = botonesIds.map { findViewById<ImageButton>(it) }
+            cargar_botones_imagen(botones, listaTropas)
+        }
     }
-    fun ordenar_por_vida(){
 
+    fun ordenar_por_ataque(view: View) {
+        val botonesIds = listOf(
+            R.id.Personaje0, R.id.Personaje1, R.id.Personaje2, R.id.Personaje3, R.id.Personaje4,
+            R.id.Personaje5, R.id.Personaje6, R.id.Personaje7, R.id.Personaje8, R.id.Personaje9,
+            R.id.Personaje10, R.id.Personaje11, R.id.Personaje12, R.id.Personaje13, R.id.Personaje14
+        )
+        if(rey_o_tropa == 1){
+            listaReyes = quickSort(GlobalData.Diccionario_Reyes.values.toMutableList()) { it.ataque_base }
+            val botones = botonesIds.map { findViewById<ImageButton>(it) }
+            cargar_botones_imagen(botones, listaReyes)
+        }
+        if(rey_o_tropa == 0){
+            listaTropas = quickSort(GlobalData.Diccionario_Tropas.values.toMutableList()) { it.ataque_base }
+            val botones = botonesIds.map { findViewById<ImageButton>(it) }
+            cargar_botones_imagen(botones, listaTropas)
+        }
     }
-    fun ordenar_por_ataque() {
+
+    // ==================== QUICK SORT GENÉRICO ====================
+    fun <T> quickSort(lista: MutableList<T>, criterio: (T) -> Int): MutableList<T> {
+        if (lista.size <= 1) return lista
+
+        val pivote = lista[lista.size / 2]
+        val valorPivote = criterio(pivote)
+
+        val menores = mutableListOf<T>()
+        val iguales = mutableListOf<T>()
+        val mayores = mutableListOf<T>()
+
+        for (elemento in lista) {
+            val valor = criterio(elemento)
+            when {
+                valor > valorPivote -> mayores.add(elemento)   // descendente
+                valor < valorPivote -> menores.add(elemento)
+                else -> iguales.add(elemento)
+            }
+        }
+
+        val resultado = mutableListOf<T>()
+        resultado.addAll(quickSort(mayores, criterio))
+        resultado.addAll(iguales)
+        resultado.addAll(quickSort(menores, criterio))
+
+        return resultado
     }
+
 
     fun subir_de_nivel(){
 
-    }
 
+    }
+    fun calcular_siguiente_atributos(tropa:Tropa){
+
+        var proximo_nivel = (tropa.nivel + 1)
+        var proxima_vida = Tropa.calcularAtaque(tropa.vida,2)
+        var proxima_ataque = Tropa.calcularAtaque(tropa.ataque_base,2)
+
+
+    }
 
 
 

@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import Data.Tropa
 import Data.Tropa_Espadachin
 import android.content.Intent
+import android.widget.Toast
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -55,14 +56,23 @@ class Principal : AppCompatActivity() {
 
 
     fun batalla(view: View){
-        if(GlobalData.decision == 1){
-            val intent = Intent(this, Batalla_oculta::class.java)
-            startActivity(intent)
-            finish()
+        if(GlobalData.Jugador1[0] != null &&
+            GlobalData.Jugador1[1] != null &&
+            GlobalData.Jugador1[2] != null &&
+            GlobalData.Jugador1[3] != null &&
+            GlobalData.Jugador1[4] != null &&
+            GlobalData.Jugador1[5] != null) {
+            if (GlobalData.decision == 1) {
+                val intent = Intent(this, Batalla_oculta::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this, Batalla::class.java)
+                startActivity(intent)
+                finish()
+            }
         }else{
-        val intent = Intent(this, Batalla::class.java)
-        startActivity(intent)
-        finish()
+            Toast.makeText(this, "Selecciona bien tus tropas", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -78,7 +88,7 @@ class Principal : AppCompatActivity() {
         mostrarImagen(1) // 1 = siguiente
 
     }
-    // Boton para q aparesca la siquiente imagen respectiva en el view grande
+    // Boton para q aparesca la anterior imagen respectiva en el view grande
     fun Boton_Anterior_Mostrar(view: View) {
         mostrarImagen(-1) // -1 = anterior
     }
@@ -118,36 +128,42 @@ class Principal : AppCompatActivity() {
                 imagenes[indice_waos].visibility = View.INVISIBLE
                 indice_waos = 4
                 imagenes[indice_waos].visibility = View.VISIBLE
+                mostrarImagen(1)
                 return
             }
             if (indice_waos == 4) {
                 imagenes[indice_waos].visibility = View.INVISIBLE
                 indice_waos = 3
                 imagenes[indice_waos].visibility = View.VISIBLE
+                mostrarImagen(1)
                 return
             }
             if (indice_waos == 3) {
                 imagenes[indice_waos].visibility = View.INVISIBLE
                 indice_waos = 2
                 imagenes[indice_waos].visibility = View.VISIBLE
+                mostrarImagen(1)
                 return
             }
             if (indice_waos == 2) {
                 imagenes[indice_waos].visibility = View.INVISIBLE
                 indice_waos = 1
                 imagenes[indice_waos].visibility = View.VISIBLE
+                mostrarImagen(1)
                 return
             }
             if (indice_waos == 1) {
                 imagenes[indice_waos].visibility = View.INVISIBLE
                 indice_waos = 0
                 imagenes[indice_waos].visibility = View.VISIBLE
+                mostrarImagen(1)
                 return
             }
             if (indice_waos == 0) {
                 imagenes[indice_waos].visibility = View.INVISIBLE
                 indice_waos = 5
                 imagenes[indice_waos].visibility = View.VISIBLE
+                mostrarImagen(1)
                 return
             }
 
