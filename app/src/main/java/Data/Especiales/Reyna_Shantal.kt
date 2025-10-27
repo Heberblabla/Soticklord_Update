@@ -54,7 +54,7 @@ class Reyna_Shantal (
     }
 
 
-    fun ataqueNormal(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {
         val daño = daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
 

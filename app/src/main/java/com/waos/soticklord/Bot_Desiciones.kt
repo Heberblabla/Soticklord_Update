@@ -69,11 +69,12 @@ class Bot_Desiciones (private val context: Context){
 
     fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
-            // Buscar la clase directamente en el diccionario
             val claseKotlin = GlobalData.Diccionario_Clases[nombreClase]
             if (claseKotlin != null) {
                 claseKotlin.java.declaredMethods
                     .filter { Modifier.isPublic(it.modifiers) }
+                    .filter { !it.name.contains("$") } //  quita los $r8$lambda
+                    .onEach { println(" Método público encontrado: ${it.name}") }
                     .map { it.name }
                     .filter { !it.startsWith("get") && !it.startsWith("set") }
                     .filterNot {
@@ -81,15 +82,18 @@ class Bot_Desiciones (private val context: Context){
                             "toString", "equals", "hashCode",
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
-                            "clonar", "Recivir_daño", "copyBase", "component1", "component2"
+                            "clonar", "copyBase", "reproducirVideoAtaque",
+                            "Ataque_Normal", "Recivir_daño",
+                            "component1", "component2"
                         )
                     }
+                    .onEach { println("Método válido agregado: $it") }
             } else {
                 println("No se encontró la clase '$nombreClase' en el diccionario.")
                 emptyList()
             }
         } catch (e: Exception) {
-            println("⚠Error al obtener métodos de '$nombreClase': ${e.message}")
+            println("Error al obtener métodos de '$nombreClase': ${e.message}")
             emptyList()
         }
     }

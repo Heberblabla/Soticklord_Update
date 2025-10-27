@@ -55,7 +55,7 @@ class Reyna_Darisce (
         }
     }
 
-    fun Ataque_Normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         val daño = daño() // calcula el daño según crítico o no
         enemigos[posicion]!!.Recivir_daño(this,daño)
 

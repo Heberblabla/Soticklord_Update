@@ -5,6 +5,19 @@ import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
+import android.app.Activity
+import android.graphics.Color
+import android.net.Uri
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.VideoView
+import android.view.View
+import android.view.Gravity
+
+
+
+
+import com.waos.soticklord.*
 
 class Reyna_paranormal (
     Nivel:Int = 1
@@ -53,11 +66,92 @@ class Reyna_paranormal (
         }
     }
 
-    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         val daño = daño()
-        enemigos[posicion].Recivir_daño(this,daño)
+        enemigos[posicion].Recivir_daño(this, daño)
     }
 
+    fun Ataque_Normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        val batalla = GlobalData.batalla ?: return
+
+        // Fondo oscuro semitransparente
+        val contenedor = FrameLayout(batalla).apply {
+            setBackgroundColor(Color.argb(220, 0, 0, 0)) // negro con transparencia
+            alpha = 0f // empieza invisible
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        }
+
+        // Crear el VideoView centrado y ajustado
+        val videoView = VideoView(batalla).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            ).apply {
+                gravity = Gravity.CENTER
+            }
+        }
+
+        contenedor.addView(videoView)
+        batalla.addContentView(contenedor, contenedor.layoutParams)
+
+        // Animación: fade in (aparecer suavemente)
+        contenedor.animate()
+            .alpha(1f)
+            .setDuration(400)
+            .start()
+
+        // URI del video
+        val uri = Uri.parse("android.resource://${batalla.packageName}/${R.raw.reyna_attack}")
+        videoView.setVideoURI(uri)
+
+        // Cuando el video está listo
+        videoView.setOnPreparedListener { mp ->
+            mp.setVolume(1f, 1f)
+            mp.isLooping = false
+
+            // Ajustar proporción del video (centrado sin recorte)
+            val videoWidth = mp.videoWidth.toFloat()
+            val videoHeight = mp.videoHeight.toFloat()
+            val viewWidth = videoView.width.toFloat()
+            val viewHeight = videoView.height.toFloat()
+
+            if (videoWidth != 0f && videoHeight != 0f) {
+                val scaleX = viewWidth / videoWidth
+                val scaleY = viewHeight / videoHeight
+                val scale = maxOf(scaleX, scaleY)
+                videoView.scaleX = scale
+                videoView.scaleY = scale
+            }
+
+            videoView.start()
+        }
+
+        // Cuando el video termina → ataque + fade out
+        videoView.setOnCompletionListener {
+            val daño = daño()
+            enemigos[posicion].Recivir_daño(this, daño)
+
+            // Animación de salida (fade out)
+            contenedor.animate()
+                .alpha(0f)
+                .setDuration(400)
+                .withEndAction {
+                    (contenedor.parent as? ViewGroup)?.removeView(contenedor)
+                }
+                .start()
+        }
+
+        // Si hay error → igual aplica el ataque
+        videoView.setOnErrorListener { _, _, _ ->
+            val daño = daño()
+            enemigos[posicion].Recivir_daño(this, daño)
+            (contenedor.parent as? ViewGroup)?.removeView(contenedor)
+            true
+        }
+    }
 
 
     override fun clonar(): Tropa {

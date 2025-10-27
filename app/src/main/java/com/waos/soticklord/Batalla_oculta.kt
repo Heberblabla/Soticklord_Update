@@ -87,6 +87,7 @@ class Batalla_oculta : AppCompatActivity() {
             findViewById(R.id.enemigoDa)
 
         )
+        GlobalData.batalla = this
         visualizar_posicion()
         visualizar_posicion_enemiga(5)
         actualizar_datos()
@@ -353,15 +354,15 @@ class Batalla_oculta : AppCompatActivity() {
             cambiarFuenteConFondo(lista)
         }
     }
+
     fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
-            // Normaliza el nombre antes de buscarlo
-            val claveNormalizada = nombreClase.replace(" ", "_")
-
-            val claseKotlin = GlobalData.Diccionario_Clases[claveNormalizada]
+            val claseKotlin = GlobalData.Diccionario_Clases[nombreClase]
             if (claseKotlin != null) {
                 claseKotlin.java.declaredMethods
                     .filter { Modifier.isPublic(it.modifiers) }
+                    .filter { !it.name.contains("$") } //  quita los $r8$lambda
+                    .onEach { println(" Método público encontrado: ${it.name}") }
                     .map { it.name }
                     .filter { !it.startsWith("get") && !it.startsWith("set") }
                     .filterNot {
@@ -369,15 +370,18 @@ class Batalla_oculta : AppCompatActivity() {
                             "toString", "equals", "hashCode",
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
-                            "clonar", "Recivir_daño", "copyBase", "component1", "component2"
+                            "clonar", "copyBase", "reproducirVideoAtaque",
+                            "Ataque_normal", "Recivir_daño",
+                            "component1", "component2"
                         )
                     }
+                    .onEach { println("Método válido agregado: $it") }
             } else {
-                println(" No se encontró la clase '$claveNormalizada' en el diccionario.")
+                println("No se encontró la clase '$nombreClase' en el diccionario.")
                 emptyList()
             }
         } catch (e: Exception) {
-            println("️ Error al obtener métodos de '$nombreClase': ${e.message}")
+            println("Error al obtener métodos de '$nombreClase': ${e.message}")
             emptyList()
         }
     }

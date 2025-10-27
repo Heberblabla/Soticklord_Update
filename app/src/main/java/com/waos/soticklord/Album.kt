@@ -15,6 +15,8 @@ import Data.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import java.lang.reflect.Modifier
+import android.widget.Toast
+
 
 
 class Album : AppCompatActivity() {
@@ -158,8 +160,21 @@ class Album : AppCompatActivity() {
         listaNombres = Obtener_Array_String(tropa.nombre).toMutableList()
         actualizarAtaques(listaNombres)
 
+        val Nuevo_nivel_rey_tropa = findViewById<TextView>(R.id.Nuevo_nivel_rey_tropa)
+        var Nuevo = (tropa.nivel + 1)
+        Nuevo_nivel_rey_tropa.text = "N :$Nuevo"
+
+        val Nueva_vida_rey_tropa = findViewById<TextView>(R.id.Nueva_vida_rey_tropa)
+        var nuevoN = Tropa.calcularAtaque(tropa.vida,2)
+        Nueva_vida_rey_tropa.text = "♡  : $nuevoN"
+
+        val Nuevo_ataque_rey_tropa = findViewById<TextView>(R.id.Nuevo_ataque_rey_tropa)
+        var proxima_ataque = Tropa.calcularAtaque(tropa.ataque_base,2)
+        Nuevo_ataque_rey_tropa.text = "⚔ : $proxima_ataque"
+
 
     }
+
     fun mostrarDatosDeRey(tropa: Tropa) {
         val Nombre_rey_tropa = findViewById<TextView>(R.id.Nombre_rey_tropa)
         Nombre_rey_tropa.text = "${tropa.nombre}"
@@ -176,6 +191,18 @@ class Album : AppCompatActivity() {
         Ataques_disponibles.text = ataquess
         listaNombres = Obtener_Array_String(tropa.nombre).toMutableList()
         actualizarAtaques(listaNombres)
+
+        val Nuevo_nivel_rey_tropa = findViewById<TextView>(R.id.Nuevo_nivel_rey_tropa)
+        var Nuevo = (tropa.nivel + 1)
+        Nuevo_nivel_rey_tropa.text = "N :$Nuevo"
+
+        val Nueva_vida_rey_tropa = findViewById<TextView>(R.id.Nueva_vida_rey_tropa)
+        var nuevoN = Tropa.calcularAtaque(tropa.vida,2)
+        Nueva_vida_rey_tropa.text = "♡  : $nuevoN"
+
+        val Nuevo_ataque_rey_tropa = findViewById<TextView>(R.id.Nuevo_ataque_rey_tropa)
+        var proxima_ataque = Tropa.calcularAtaque(tropa.ataque_base,2)
+        Nuevo_ataque_rey_tropa.text = "⚔ : $proxima_ataque"
 
     }
 
@@ -283,25 +310,33 @@ class Album : AppCompatActivity() {
             "toString", "equals", "hashCode",
             "copyValueOf", "transform", "formatted", "intern",
             "wait", "notify", "notifyAll", "getClass",
-            "clonar", "copyBase", "component1", "component2"
+            "clonar", "copyBase", "Recivir_daño",
+            "component1", "component2" ,"Ataque_Normal"
         )
 
         return obj::class.java.methods
+            .filter { Modifier.isPublic(it.modifiers) }             //  solo métodos públicos
+            .filter { !it.isSynthetic }                             //  descarta métodos del compilador
+            .filter { !it.name.contains("$") }                      //  descarta los $r8$lambda
             .map { it.name }
             .filter { it !in metodos_excluidos }
-            .filter { !it.startsWith("get") && !it.startsWith("set") } // 🚫 sin getters/setters
+            .filter { !it.startsWith("get") && !it.startsWith("set") }
             .distinct()
-            .sorted() // opcional: orden alfabético
-            .joinToString("\n") { "-$it" } // salida formateada
-    } //para impirmir
+            .sorted()
+            .joinToString("\n") { "- $it" } // formato limpio
+    }
+
+
+    //para impirmir
 
     fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
-            // Buscar la clase directamente en el diccionario
             val claseKotlin = GlobalData.Diccionario_Clases[nombreClase]
             if (claseKotlin != null) {
                 claseKotlin.java.declaredMethods
                     .filter { Modifier.isPublic(it.modifiers) }
+                    .filter { !it.name.contains("$") } //  quita los $r8$lambda
+                    .onEach { println(" Método público encontrado: ${it.name}") }
                     .map { it.name }
                     .filter { !it.startsWith("get") && !it.startsWith("set") }
                     .filterNot {
@@ -309,9 +344,12 @@ class Album : AppCompatActivity() {
                             "toString", "equals", "hashCode",
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
-                            "clonar", "copyBase", "component1", "component2"
+                            "clonar", "copyBase", "reproducirVideoAtaque",
+                            "Ataque_Normal", "Recivir_daño",
+                            "component1", "component2"
                         )
                     }
+                    .onEach { println("Método válido agregado: $it") }
             } else {
                 println("No se encontró la clase '$nombreClase' en el diccionario.")
                 emptyList()
@@ -320,7 +358,10 @@ class Album : AppCompatActivity() {
             println("Error al obtener métodos de '$nombreClase': ${e.message}")
             emptyList()
         }
-    } //para recorrer
+    }
+
+
+    //para recorrer
 
     fun ordenar_por_nivel(view: View) {
         val botonesIds = listOf(
@@ -404,21 +445,69 @@ class Album : AppCompatActivity() {
         return resultado
     }
 
+    fun subir_de_nivel(view: View) {
+        val nombreActual = findViewById<TextView>(R.id.Nombre_rey_tropa).text.toString()
+        if (nombreActual.isBlank()) return // nada seleccionado
 
-    fun subir_de_nivel(){
+        // Verificar si tiene monedas suficientes
+        if (GlobalData.monedas < 100) {
+            Toast.makeText(this, " No tienes suficientes monedas (100 necesarias)", Toast.LENGTH_SHORT).show()
+            return
+        }
 
+        //  Descontar monedas
+        GlobalData.monedas -= 100
+        mostrar_datos_economicos() // refresca la esquina superior
 
+        // Si estás viendo tropas
+        if (rey_o_tropa == 0) {
+            val tropaOriginal = GlobalData.Diccionario_Tropas.values.find { it.nombre == nombreActual }
+            if (tropaOriginal != null) {
+                val nuevoNivel = tropaOriginal.nivel + 1
+
+                // Crear nuevo objeto del mismo tipo pero con nivel +1
+                val claseTropa = GlobalData.Diccionario_Clases[tropaOriginal.nombre]
+                if (claseTropa != null) {
+                    val nuevoObjeto = claseTropa.constructors.first().call(nuevoNivel) as Tropa
+
+                    // Actualizar el diccionario
+                    val clave = GlobalData.Diccionario_Tropas.entries.find { it.value == tropaOriginal }?.key
+                    if (clave != null) {
+                        GlobalData.Diccionario_Tropas[clave] = nuevoObjeto
+                    }
+
+                    // Refrescar la lista y mostrar los nuevos datos
+                    listaTropas = GlobalData.Diccionario_Tropas.values.toList()
+                    mostrarDatosDeTropa(nuevoObjeto)
+
+                    Toast.makeText(this, "${nuevoObjeto.nombre} subió a nivel ${nuevoObjeto.nivel}!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        //Si estás viendo reyes
+        if (rey_o_tropa == 1) {
+            val reyOriginal = GlobalData.Diccionario_Reyes.values.find { it.nombre == nombreActual }
+            if (reyOriginal != null) {
+                val nuevoNivel = reyOriginal.nivel + 1
+
+                val claseRey = GlobalData.Diccionario_Clases[reyOriginal.nombre]
+                if (claseRey != null) {
+                    val nuevoObjeto = claseRey.constructors.first().call(nuevoNivel) as Tropa
+
+                    val clave = GlobalData.Diccionario_Reyes.entries.find { it.value == reyOriginal }?.key
+                    if (clave != null) {
+                        GlobalData.Diccionario_Reyes[clave] = nuevoObjeto
+                    }
+
+                    listaReyes = GlobalData.Diccionario_Reyes.values.toList()
+                    mostrarDatosDeRey(nuevoObjeto)
+
+                    Toast.makeText(this, " ${nuevoObjeto.nombre} subió a nivel ${nuevoObjeto.nivel}!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
-    fun calcular_siguiente_atributos(tropa:Tropa){
-
-        var proximo_nivel = (tropa.nivel + 1)
-        var proxima_vida = Tropa.calcularAtaque(tropa.vida,2)
-        var proxima_ataque = Tropa.calcularAtaque(tropa.ataque_base,2)
-
-
-    }
-
-
 
 
 

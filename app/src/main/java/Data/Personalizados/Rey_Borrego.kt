@@ -7,6 +7,10 @@ import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
+import Archivos_Extra.GestorEventos
+import Archivos_Extra.Evento
+import android.widget.Toast
+
 
 class Rey_Borrego (
     Nivel:Int = 1
@@ -60,11 +64,13 @@ class Rey_Borrego (
         val daño = daño()
         enemigos[posicion].Recivir_daño(this,daño)
     }
+
     fun Golpe_del_Reyno(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
         this.vida -= (this.vida * 0.5).toInt()
         val daño = ((enemigos[posicion]!!.vida * 0.5) + this.vida).toInt()
         enemigos[posicion].Recivir_daño(this,daño)
     }
+
     fun Bendicion_del_cetro(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
         if(Waos) {
                 val daño = (this.ataque_base * 0.5).toInt()
@@ -152,8 +158,6 @@ class Rey_Borrego (
 
 
 
-
-
     override fun clonar(): Tropa {
         val copia = Rey_Borrego(this.nivel)
         copia.nombre = this.nombre
@@ -171,16 +175,37 @@ class Rey_Borrego (
     }
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+
         if(this.cantidad_escudos > 0){
             this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            if(this.vida < 1){
+                GestorEventos.agregar(
+                    Evento(
+                        tipo = "revivir",
+                        objetivoIndex = 0,
+                        quien = 0,
+                        turnosRestantes = 3,
+                        efecto = { evento, batalla ->
+                            if (evento.turnosRestantes <= 1) {
+                                val tropa = GlobalData.Jugador1[0]
+                                if (!tropa!!.estado_de_vida) {
+                                    tropa.vida = 1000
+                                    tropa.estado_de_vida = true
+                                }
+                            }
+                        }
+                    )
+                )
+            }
             return
         }
 
         this.vida -= Ataque
         return
+
     }
 
 }

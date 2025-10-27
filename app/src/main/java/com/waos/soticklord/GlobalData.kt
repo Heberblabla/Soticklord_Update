@@ -1,5 +1,6 @@
 package com.waos.soticklord
 
+import android.app.Activity
 import Data.Tropa
 
 object GlobalData {
@@ -21,6 +22,8 @@ object GlobalData {
     }
     var Diccionario_Reyes = hashMapOf<Int, Tropa>()
     var Diccionario_Tropas = hashMapOf<Int, Tropa>()
+
+    var batalla: Activity? = null
 
     val Diccionario_Clases = mapOf(
         //defaults
