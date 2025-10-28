@@ -1,10 +1,27 @@
 package com.waos.soticklord
 
+import Data.Especiales.Rey_Fernando
+import Data.Especiales.Rey_Heber
+import Data.Especiales.Reyna_Darisce
+import Data.Especiales.Reyna_Shantal
+import Data.Personalizados.Rey_Borrego
+import Data.Personalizados.Reyna_paranormal
+import Data.Rey_Arquero
+import Data.Rey_Espadachin
+import Data.Rey_Lanzatonio
+import Data.Rey_de_los_Gigantes
+import Data.Tropa
+import Data.Tropa_Arquero
+import Data.Tropa_Espadachin
+import Data.Tropa_Gigante
+import Data.Tropa_Lanzatonio
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -62,13 +79,6 @@ class Iniciar_Sesion : AppCompatActivity() {
             validarUsuario(usuario, contraseña)
         }
 
-        btnRegistrar.setOnClickListener {
-            val intent = Intent(this, Principal::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        }
-
-
     }
 
 
@@ -86,6 +96,7 @@ class Iniciar_Sesion : AppCompatActivity() {
         mediaPlayer.isLooping = true  // Para que se repita
         mediaPlayer.start()           // Reproduce al abrir la ventana
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release() // Libera memoria al cerrar la Activity
@@ -150,12 +161,38 @@ class Iniciar_Sesion : AppCompatActivity() {
             }
         })
     }
+
     fun cargar_datos(view: View){
         usuario = edit_nombre.text.toString()
         password = edit_password.text.toString()
         validarUsuario(usuario, password)
     }
 
+    fun iniciar_como_invitado(view: View){
+        GlobalData.experiencia_de_juego = 100000
+        GlobalData.nivel_de_progresion = 10
+        GlobalData.monedas = 100
+        GlobalData.ecencia_de_juego = 100
 
+        GlobalData.Diccionario_Reyes[0] = Rey_de_los_Gigantes(1)
+        GlobalData.Diccionario_Reyes[1] = Rey_Arquero(1)
+        GlobalData.Diccionario_Reyes[2] = Rey_Lanzatonio(1)
+        GlobalData.Diccionario_Reyes[3] = Rey_Espadachin(1)
+        GlobalData.Diccionario_Reyes[4] = Rey_Borrego(1)
+        GlobalData.Diccionario_Reyes[5] = Reyna_paranormal(1)
+        GlobalData.Diccionario_Reyes[6] = Reyna_Darisce(1)
+        GlobalData.Diccionario_Reyes[7] = Reyna_Shantal(1)
+        GlobalData.Diccionario_Reyes[8] = Rey_Fernando(1)
+        GlobalData.Diccionario_Reyes[9] = Rey_Heber(1)
+
+        GlobalData.Diccionario_Tropas[0] = Tropa_Gigante(1)
+        GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)
+        GlobalData.Diccionario_Tropas[2] = Tropa_Lanzatonio(1)
+        GlobalData.Diccionario_Tropas[3] = Tropa_Espadachin(1)
+
+        val intent = Intent(this@Iniciar_Sesion, Perfil::class.java)
+        startActivity(intent)
+        finish()
+    }
 
 }

@@ -23,6 +23,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.ImageButton
 import com.google.android.material.button.MaterialButton
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+
 
 
 class Batalla_oculta : AppCompatActivity() {
@@ -371,7 +376,7 @@ class Batalla_oculta : AppCompatActivity() {
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
-                            "Ataque_normal", "Recivir_daño",
+                            "Ataque_normall", "Recivir_daño",
                             "component1", "component2"
                         )
                     }
@@ -386,6 +391,15 @@ class Batalla_oculta : AppCompatActivity() {
         }
     }
 
+
+   // fun efecto_ataque(){
+       // val base = (miImageView.drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
+     //   val overlay = BitmapFactory.decodeResource(resources, R.drawable.efecto_ataque)
+
+        //val canvas = Canvas(base)
+      // canvas.drawBitmap(overlay, 0f, 0f, null)
+     //   miImageView.setImageBitmap(base)
+  //  }
 
     fun actualizarSpinnerAtaques(lista: List<String>) {
         val spinner = findViewById<Spinner>(R.id.Ataques)

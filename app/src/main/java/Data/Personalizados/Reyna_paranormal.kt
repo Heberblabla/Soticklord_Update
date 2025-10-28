@@ -25,10 +25,10 @@ class Reyna_paranormal (
     Tropa(
         nombre = "Reyna_paranormal",
         nivel = Nivel,
-        vida = calcularVida(950,Nivel),
-        ataque_base = calcularAtaque(50,Nivel),
-        daño_critico = calcularDañoCritico(10.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
+        vida = calcularVida(1300,Nivel),
+        ataque_base = calcularAtaque(200,Nivel),
+        daño_critico = calcularDañoCritico(2.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.60,Nivel),
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.reyna_paranormal,
@@ -66,12 +66,12 @@ class Reyna_paranormal (
         }
     }
 
-    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    fun Ataque_normall(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         val daño = daño()
         enemigos[posicion].Recivir_daño(this, daño)
     }
 
-    fun Ataque_Normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    fun Porque_tan_solo(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         val batalla = GlobalData.batalla ?: return
 
         // Fondo oscuro semitransparente
@@ -131,8 +131,11 @@ class Reyna_paranormal (
 
         // Cuando el video termina → ataque + fade out
         videoView.setOnCompletionListener {
+
+
             val daño = daño()
             enemigos[posicion].Recivir_daño(this, daño)
+
 
             // Animación de salida (fade out)
             contenedor.animate()

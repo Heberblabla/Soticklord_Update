@@ -277,15 +277,16 @@
 
     <Spinner
         android:id="@+id/Ataques"
-        android:layout_width="87dp"
-        android:layout_height="32dp"
-        android:background="@drawable/m3_split_button_chevron_avd"
+        android:layout_width="183dp"
+        android:layout_height="31dp"
+        android:background="@android:color/transparent"
+        android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.012"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.042" />
 
     <TextView
         android:id="@+id/vidaAa"

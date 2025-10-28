@@ -172,6 +172,7 @@ class Album : AppCompatActivity() {
         var proxima_ataque = Tropa.calcularAtaque(tropa.ataque_base,2)
         Nuevo_ataque_rey_tropa.text = "⚔ : $proxima_ataque"
 
+        pasarSiguienteAtaque()
 
     }
 
@@ -204,6 +205,7 @@ class Album : AppCompatActivity() {
         var proxima_ataque = Tropa.calcularAtaque(tropa.ataque_base,2)
         Nuevo_ataque_rey_tropa.text = "⚔ : $proxima_ataque"
 
+        pasarSiguienteAtaque()
     }
 
     fun pasar_siguiente_hoja(view: View) {
@@ -273,6 +275,24 @@ class Album : AppCompatActivity() {
 
         // Pasar al siguiente
         posicionAtaque++
+        if (posicionAtaque >= ataques.size) {
+            posicionAtaque = 0 // vuelve al inicio
+        }
+    }
+
+    fun pasarSiguienteAtaque() {
+        if (ataques.isEmpty()) return
+
+        // Obtener nombre del ataque actual
+        val nombreAtaque = ataques[posicionAtaque]
+        val descripcion = GlobalData.Diccionario_Ataques[nombreAtaque] ?: "Descripción no encontrada"
+
+        val Nombre_de_Ataque = findViewById<TextView>(R.id.Nombre_de_Ataque)
+        Nombre_de_Ataque.text = nombreAtaque
+        val Info_ataques = findViewById<TextView>(R.id.Info_ataques)
+        Info_ataques.text = descripcion
+
+        // Pasar al siguiente
         if (posicionAtaque >= ataques.size) {
             posicionAtaque = 0 // vuelve al inicio
         }

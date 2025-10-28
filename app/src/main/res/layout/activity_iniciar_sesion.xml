@@ -79,6 +79,7 @@
         android:layout_width="46dp"
         android:layout_height="34dp"
         android:backgroundTint="#000000"
+        android:onClick="iniciar_como_invitado"
         android:text="-"
         android:textColor="#FFFEFE"
         android:textSize="8sp"

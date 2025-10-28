@@ -32,10 +32,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.ImageButton
 import androidx.core.view.RoundedCornerCompat
+import com.google.android.material.button.MaterialButton
 
 
 class Batalla : AppCompatActivity() {
-
     var Enemigo_Seleccionado = 5
     var turno_activo = 5
     var ataqueSeleccionado: String = " "
@@ -44,7 +44,7 @@ class Batalla : AppCompatActivity() {
     var turno_enemigo = 5
     var es_mi_turno = true
     var es_turno_del_enemigo = false
-    lateinit var botonPasarTurno: ImageButton
+    lateinit var botonPasarTurno: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +57,12 @@ class Batalla : AppCompatActivity() {
         controller.hide(WindowInsetsCompat.Type.systemBars())
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        botonPasarTurno = findViewById(R.id.Atacar)
         // Referencia al Spinner
         val spinnerAtaques: Spinner = findViewById(R.id.Ataques)
         // Listener del Spinner
@@ -99,12 +98,11 @@ class Batalla : AppCompatActivity() {
             findViewById(R.id.enemigoDa)
 
         )
+        GlobalData.batalla = this
         visualizar_posicion()
         visualizar_posicion_enemiga(5)
         actualizar_datos()
         bucle_principal()
-        GlobalData.batalla = this
-
     }
 
 
@@ -167,8 +165,8 @@ class Batalla : AppCompatActivity() {
     suspend fun turno_del_enemigo() {
         es_mi_turno = false
         botonPasarTurno.isEnabled = false // 🔒 bloquea botón visualmente
-
         actualizar_datos()
+
         if (GlobalData.Jugador1.any { it?.estado_de_vida == true }) {
             turno_activo = 5
             es_turno_del_enemigo = true
@@ -180,7 +178,7 @@ class Batalla : AppCompatActivity() {
                     visualizar_posicion_enemiga(i)
                     delay(3000)
 
-                    val bot = Bot_Desiciones(this)
+                    val bot = Bot_Desiciones_aleatorio(this)
                     bot.Empezar_Analisis(i)
                     actualizar_datos()
                 }
@@ -386,7 +384,7 @@ class Batalla : AppCompatActivity() {
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
-                            "Ataque_normal", "Recivir_daño",
+                            "Ataque_normall", "Recivir_daño",
                             "component1", "component2"
                         )
                     }
