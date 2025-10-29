@@ -19,8 +19,8 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
     turnoDoble =  false,
-    cantidad_espinas = 0,
-    cantidad_escudos = 0
+    cantidad_espinas = 0.00,
+    cantidad_escudos = 0.00
 ),Serializable {
     override fun toString(): String {
         return """
@@ -77,6 +77,8 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
         this.vida += (this.vida * 0.15).toInt()
     }
 
+
+
     override fun clonar(): Tropa {
         val copia = Tropa_Lanzatonio(this.nivel)
         copia.nombre = this.nombre
@@ -97,7 +99,7 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

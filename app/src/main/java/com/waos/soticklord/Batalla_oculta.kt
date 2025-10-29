@@ -377,7 +377,7 @@ class Batalla_oculta : AppCompatActivity() {
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
                             "Ataque_normall", "Recivir_daño",
-                            "component1", "component2"
+                            "component1", "component2","efectuardaño"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }

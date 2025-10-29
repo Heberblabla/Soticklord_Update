@@ -22,8 +22,8 @@ class Reyna_Shantal (
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
-        cantidad_espinas = 0,
-        cantidad_escudos = 0
+        cantidad_espinas = 0.00,
+        cantidad_escudos = 0.00
     ), Serializable {
 
     override fun toString(): String {
@@ -60,10 +60,10 @@ class Reyna_Shantal (
 
     }
 
+
     fun Tiro_Perfecto(enemigos: ArrayList<Tropa>, posicion: Int ,Waos : Boolean) {
         var daño = (this.ataque_base * 1000).toInt()
         enemigos[posicion]!!.Recivir_daño(this,daño)
-
     }
 
     fun Lluvia_de_Flechas_Magicas(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {

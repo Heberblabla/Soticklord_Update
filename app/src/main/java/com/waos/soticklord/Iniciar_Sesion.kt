@@ -1,10 +1,13 @@
 package com.waos.soticklord
 
+import Data.Especiales.Rey_Cristian
 import Data.Especiales.Rey_Fernando
 import Data.Especiales.Rey_Heber
 import Data.Especiales.Reyna_Darisce
 import Data.Especiales.Reyna_Shantal
 import Data.Personalizados.Rey_Borrego
+import Data.Personalizados.Rey_Kanox
+import Data.Personalizados.Rey_Lucas
 import Data.Personalizados.Reyna_paranormal
 import Data.Rey_Arquero
 import Data.Rey_Espadachin
@@ -184,6 +187,9 @@ class Iniciar_Sesion : AppCompatActivity() {
         GlobalData.Diccionario_Reyes[7] = Reyna_Shantal(1)
         GlobalData.Diccionario_Reyes[8] = Rey_Fernando(1)
         GlobalData.Diccionario_Reyes[9] = Rey_Heber(1)
+        GlobalData.Diccionario_Reyes[10] = Rey_Lucas(1)
+        GlobalData.Diccionario_Reyes[11] = Rey_Cristian(1)
+        GlobalData.Diccionario_Reyes[12] = Rey_Kanox(1)
 
         GlobalData.Diccionario_Tropas[0] = Tropa_Gigante(1)
         GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)

@@ -22,8 +22,8 @@ class Rey_Heber (
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
-        cantidad_espinas = 0,
-        cantidad_escudos = 0
+        cantidad_espinas = 0.00,
+        cantidad_escudos = 0.00
     ), Serializable {
 
     override fun toString(): String {
@@ -64,6 +64,10 @@ class Rey_Heber (
     fun Jugamos_jaja(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         enemigos[posicion].ataque_base = 10
         enemigos[posicion].vida = 10
+
+    }
+
+    fun irrespetar(){
 
     }
 

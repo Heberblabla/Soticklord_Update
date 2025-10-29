@@ -20,8 +20,8 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     rutamuerta = R.drawable.tropa_muerta,       // tu imagen en drawable
     turnoActivo = true,
     turnoDoble =  false,
-    cantidad_espinas = 0,
-    cantidad_escudos = 0
+    cantidad_espinas = 0.00,
+    cantidad_escudos = 0.00
 )
 
     , Serializable {

@@ -1,6 +1,5 @@
 package com.waos.soticklord
 
-import Data.Rey_Arquero
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -147,7 +146,6 @@ class Batalla : AppCompatActivity() {
             pasar_turno_al_enemigo()
             return
         }
-
         val tropa = GlobalData.Jugador1.getOrNull(turno_activo)
 
         if (tropa?.estado_de_vida == true) {
@@ -164,7 +162,7 @@ class Batalla : AppCompatActivity() {
 
     suspend fun turno_del_enemigo() {
         es_mi_turno = false
-        botonPasarTurno.isEnabled = false // 🔒 bloquea botón visualmente
+        botonPasarTurno.isEnabled = false //  bloquea botón visualmente
         actualizar_datos()
 
         if (GlobalData.Jugador1.any { it?.estado_de_vida == true }) {
@@ -191,7 +189,7 @@ class Batalla : AppCompatActivity() {
                 return
             }
 
-            // 🔓 Reactivar turno del jugador
+            //  Reactivar turno del jugador
             es_turno_del_enemigo = false
             es_mi_turno = true
             turno_activo = 5
@@ -238,8 +236,9 @@ class Batalla : AppCompatActivity() {
 
         // Si todavía quedan tropas, continúa el turno y reactivamos el botón
         bucle_principal()
-        view.isEnabled = true // 🔓 vuelve a activar el botón cuando termina la acción
+        view.isEnabled = true //  vuelve a activar el botón cuando termina la acción
     }
+
 
 
 
@@ -371,6 +370,7 @@ class Batalla : AppCompatActivity() {
     fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
             val claseKotlin = GlobalData.Diccionario_Clases[nombreClase]
+            println(claseKotlin)
             if (claseKotlin != null) {
                 claseKotlin.java.declaredMethods
                     .filter { Modifier.isPublic(it.modifiers) }

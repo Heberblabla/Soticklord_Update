@@ -23,7 +23,7 @@ object GlobalData {
     var Diccionario_Reyes = hashMapOf<Int, Tropa>()
     var Diccionario_Tropas = hashMapOf<Int, Tropa>()
 
-    var batalla: Activity? = null
+   var batalla: Activity? = null
 
     val Diccionario_Clases = mapOf(
         //defaults
@@ -34,7 +34,7 @@ object GlobalData {
 
         "Tropa_Arquero" to Data.Tropa_Arquero::class,
         "Tropa_Espadachin" to Data.Tropa_Espadachin::class,
-        "Tropa_Lanzatonio" to Data.Rey_Lanzatonio::class,
+        "Tropa_Lanzatonio" to Data.Tropa_Lanzatonio::class,
         "Tropa_Gigante" to Data.Tropa_Gigante::class,
         //Especiales
         "Rey_Heber" to Data.Especiales.Rey_Heber::class,
@@ -50,12 +50,53 @@ object GlobalData {
         "Rey_Borrego" to Data.Personalizados.Rey_Borrego::class,
         "Reyna_paranormal" to Data.Personalizados.Reyna_paranormal::class,
         "Rey_Freddy" to Data.Personalizados.Rey_Freddy::class,
-        "Rey_Constructor" to Data.Personalizados.Rey_Constructor::class
+        "Rey_Constructor" to Data.Personalizados.Rey_Constructor::class,
+        "Rey_Kanox" to Data.Personalizados.Rey_Kanox::class
 
 
     )
 
     val Diccionario_Ataques = mapOf(
+        "Puño_del_Dragón" to
+                """
+        Si el enemigo esta con turno perdido
+        y con defensa baja el siguiente golpe
+        bajara un daño igual al ataque base x5
+                """.trimIndent() ,
+        //---------------------------
+        "Destrucción_Divina" to
+                """
+        Si no tienes ninguna tropa viva
+        inflijes un daño del 70% de la vida
+        del rival + un daño de tu ataque base
+                """.trimIndent() ,
+        //---------------------------
+        "CORTE_DE_ESCALIBUR" to
+                """
+        Inflijees un daño igual a tu
+        ataque base a todos los 
+        enemigos
+                """.trimIndent() ,
+        //---------------------------
+        "Hakai" to
+                """
+        Ahi una probabilidad del 75% 
+        de hacer perder turno a una
+        tropa del rival
+                """.trimIndent() ,
+        //---------------------------
+        //---------------------------
+        "Aguja_Escarlata" to
+                """
+        Si el enemiog tiene menos de 500
+        de vida morira instantaneamente
+                """.trimIndent() ,
+        //---------------------------
+        "Ultra_Instinto" to
+                """
+        Ahi una probabilidad del 50%
+        de esquivar el siguiente ataque
+                """.trimIndent() ,
         //---------------------------
         "Ataque_normal" to
                 """
@@ -228,25 +269,6 @@ object GlobalData {
         los enemigos
                 """.trimIndent(),
         //---------------------------
-        "Baje_de_vida_estelar" to
-                """
-        (Ignora espinas y escudo)
-        Todos los enemigos bajan su vida en un 30%
-        de su vida restante
-                """.trimIndent(),
-        //---------------------------
-        "Empeoramiento_estelar" to
-                """
-        El ataque base de todos los enemigos
-        baja en un 50%
-                """.trimIndent(),
-        //---------------------------
-        "Se_te_acabo_el_tiempo" to
-                """
-        Todas las Tropas enemigas reciven
-        un daño igual a tu ataque base
-                """.trimIndent(),
-        //---------------------------
         "Compañia_cercana" to
                 """
         Todas tus tropas incluyendote 
@@ -272,6 +294,56 @@ object GlobalData {
         (Una ves por partida)
         Todaas tus tropas q esten muertas
         reviven al 100% 
+                """.trimIndent(),
+        //---------------------------
+        "Back_on_de_bit" to
+                """
+        Todas las tropas enemigas reducen
+        un 15% de su vida y su ataque 
+        restante
+                """.trimIndent(),
+        //---------------------------
+        "king_Crimson" to
+                """
+        Si no existe niguna tropa enemiga
+        o tropas aliadas vivas, invocas
+        3 Gigantes estelares y 
+        2 curanderas cosmicas
+                """.trimIndent(),
+        //---------------------------
+        "TUSK" to
+                """
+        Si todas las tropas aliadas estan 
+        muertas , las tropas restantes del 
+        rival se pasan a tu bando
+                """.trimIndent(),
+        //---------------------------
+        "Diamond" to
+                """
+        Probabilidad del 50% de revivir una
+        tropa aliada aleaotrio muerta con un
+        50% de vida y 5% con su 100% de vida
+                """.trimIndent(),
+        //---------------------------
+        "Calamidad" to
+                """
+        Transformas a una tropa del rival 
+        en un tropa de nivel 1
+                """.trimIndent(),
+        //---------------------------
+        "Killer_Queen" to
+                """
+        Una tropa aleatoria del bando enemigo
+        morira de forma instantanea, a cambio
+        otra tropa se curara al 100% y perdera
+        un 20% de punteria
+                """.trimIndent(),
+        //---------------------------
+        "Golden" to
+                """
+        Una ves por partida, te volveras inmune 
+        a buffs y efectos de combate, tus stats 
+        no se podras modificar 
                 """.trimIndent(),
 
     )

@@ -28,8 +28,8 @@ class Rey_Borrego (
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
-        cantidad_espinas = 0,
-        cantidad_escudos = 0
+        cantidad_espinas = 0.00,
+        cantidad_escudos = 0.00
     ), Serializable {
 
     var Resurreccion : Boolean = true
@@ -156,7 +156,9 @@ class Rey_Borrego (
 
     }
 
+    fun revivir(){
 
+    }
 
     override fun clonar(): Tropa {
         val copia = Rey_Borrego(this.nivel)

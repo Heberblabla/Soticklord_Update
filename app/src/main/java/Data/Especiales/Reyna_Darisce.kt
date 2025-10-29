@@ -24,8 +24,8 @@ class Reyna_Darisce (
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
-        cantidad_espinas = 0,
-        cantidad_escudos = 0
+        cantidad_espinas = 0.00,
+        cantidad_escudos = 0.00
     ), Serializable {
 
     override fun toString(): String {

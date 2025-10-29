@@ -18,8 +18,8 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
     rutamuerta = R.drawable.tropa_muerta,   // imagen al morir
     turnoActivo = true,
     turnoDoble =  false,
-    cantidad_espinas = 0,
-    cantidad_escudos = 0
+    cantidad_espinas = 0.00,
+    cantidad_escudos = 0.00
 ), Serializable {
 
     override fun toString(): String {

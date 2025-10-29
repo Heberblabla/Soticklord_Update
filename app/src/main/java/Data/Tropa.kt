@@ -16,8 +16,8 @@ abstract class Tropa(
     var rutamuerta: Int = R.drawable.tropa_default,
     var turnoActivo: Boolean,
     var turnoDoble: Boolean,
-    var cantidad_escudos: Int,
-    var cantidad_espinas: Int
+    var cantidad_escudos: Double,
+    var cantidad_espinas: Double
 ): Serializable  {
 
     companion object {

@@ -1,24 +1,29 @@
 package Data.Personalizados
 
 import Data.Tropa
+import Data.Tropa.Companion.calcularAtaque
+import Data.Tropa.Companion.calcularDañoCritico
+import Data.Tropa.Companion.calcularProbCritico
+import Data.Tropa.Companion.calcularVida
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Noob (
+class Rey_El_Pro (
     Nivel:Int = 1
 ):
     Tropa(
-        nombre = "Rey_Noob",
+        nombre = "Rey_El_Pro",
         nivel = Nivel,
-        vida = calcularVida(950,Nivel),
-        ataque_base = calcularAtaque(50,Nivel),
+        vida = calcularVida(1000,Nivel),
+        ataque_base = calcularAtaque(100,Nivel),
         daño_critico = calcularDañoCritico(10.0,Nivel),
         probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.rey_noob,
+        rutaviva = R.drawable.rey_el_pro,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
@@ -53,15 +58,30 @@ class Rey_Noob (
         }
     }
 
-    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         val daño = daño()
-        enemigos[posicion].Recivir_daño(this,daño)
+        enemigos[posicion].Recivir_daño(this, daño)
+    }
+
+    fun Transformacion(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+
+        if(Waos){
+
+            GlobalData.Jugador1[0] = GlobalData.Jugador2[0] //+10 nivels
+
+        }
+
+        if(!Waos){
+
+            GlobalData.Jugador2[0] = GlobalData.Jugador1[0]
+
+        }
+
     }
 
 
-
     override fun clonar(): Tropa {
-        val copia = Rey_Noob(this.nivel)
+        val copia = Rey_El_Pro(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -76,11 +96,11 @@ class Rey_Noob (
         return copia
     }
 
-    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
-        if(this.cantidad_escudos > 0){
+    override fun Recivir_daño(tropa: Tropa, Ataque: Int) {
+        if (this.cantidad_escudos > 0) {
             this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
         }
-        if(this.cantidad_espinas > 0){
+        if (this.cantidad_espinas > 0) {
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
             return
         }
