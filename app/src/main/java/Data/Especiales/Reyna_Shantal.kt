@@ -23,7 +23,8 @@ class Reyna_Shantal (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
 
     override fun toString(): String {
@@ -55,6 +56,12 @@ class Reyna_Shantal (
 
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
 
@@ -62,16 +69,30 @@ class Reyna_Shantal (
 
 
     fun Tiro_Perfecto(enemigos: ArrayList<Tropa>, posicion: Int ,Waos : Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         var daño = (this.ataque_base * 1000).toInt()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
     fun Lluvia_de_Flechas_Magicas(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         for (i in enemigos.indices) {
             enemigos[i].vida -= (this.ataque_base * 0.5).toInt()
         }
     }
+    override fun Habilidad_Especial(Waos: Boolean){
 
+    }
 
     override fun clonar(): Tropa {
         val copia = Reyna_Shantal(this.nivel)
@@ -93,7 +114,7 @@ class Reyna_Shantal (
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

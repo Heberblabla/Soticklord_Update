@@ -21,7 +21,8 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
     turnoActivo = true,
     turnoDoble =  false,
     cantidad_espinas = 0.00,
-    cantidad_escudos = 0.00
+    cantidad_escudos = 0.00,
+    precision = 100
 )
 
     , Serializable {
@@ -58,10 +59,22 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
 
     //metodo principal para atcar
     fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos : Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
     fun Invocacion_de_Gigantes(enemigos: ArrayList<Tropa?>, posicion: Int, Waos : Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         if(Waos) {
             if (this.invocacion) {
                 GlobalData.Jugador1[1] = Tropa_Gigante(this.nivel)
@@ -83,11 +96,12 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
             }
         }
 
-
-
-
     }
 
+
+    override fun Habilidad_Especial(Waos: Boolean){
+
+    }
     override fun clonar(): Tropa {
         val copia = Rey_de_los_Gigantes(this.nivel)
         copia.nombre = this.nombre
@@ -108,7 +122,7 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

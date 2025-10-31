@@ -4,20 +4,21 @@ import com.waos.soticklord.R
 import java.io.Serializable
 
 abstract class Tropa(
-    var nombre: String,
-    var nivel: Int,
-    var vida: Int,
-    var ataque_base: Int,
-    var daño_critico: Double,
-    var probabilidad_de_critico: Double,
-    var aereo: Boolean,
-    var estado_de_vida: Boolean,
-    var rutaviva: Int = R.drawable.tropa_default,
-    var rutamuerta: Int = R.drawable.tropa_default,
-    var turnoActivo: Boolean,
-    var turnoDoble: Boolean,
-    var cantidad_escudos: Double,
-    var cantidad_espinas: Double
+    open var nombre: String,
+    open var nivel: Int,
+    open var vida: Int,
+    open var ataque_base: Int,
+    open var daño_critico: Double,
+    open var probabilidad_de_critico: Double,
+    open var aereo: Boolean,
+    open var estado_de_vida: Boolean,
+    open var rutaviva: Int,
+    open var rutamuerta: Int,
+    open var turnoActivo: Boolean,
+    open var turnoDoble: Boolean,
+    open var cantidad_espinas: Double,
+    open var cantidad_escudos: Double,
+    open var precision: Int
 ): Serializable  {
 
     companion object {
@@ -68,6 +69,7 @@ abstract class Tropa(
             copia.turnoDoble = this.turnoDoble
             copia.cantidad_espinas = this.cantidad_espinas
             copia.cantidad_escudos = this.cantidad_escudos
+            copia.precision = this.precision
 
             return copia
         } catch (e: Exception) {
@@ -79,5 +81,6 @@ abstract class Tropa(
 
     abstract fun Recivir_daño(tropa: Tropa,Ataque :Int)
 
+    abstract fun Habilidad_Especial(Waos: Boolean)
 
 }

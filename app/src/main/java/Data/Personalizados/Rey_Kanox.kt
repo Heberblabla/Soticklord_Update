@@ -19,8 +19,8 @@ class Rey_Kanox (
         nivel = Nivel,
         vida = calcularVida(1600,Nivel),
         ataque_base = calcularAtaque(300,Nivel),
-        daño_critico = calcularDañoCritico(10.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
+        daño_critico = calcularDañoCritico(2.5,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.45,Nivel),
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_kronox,
@@ -28,7 +28,8 @@ class Rey_Kanox (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
         var esquivacion = 0.0
     override fun toString(): String {
@@ -60,29 +61,62 @@ class Rey_Kanox (
 
 
     fun Aguja_Escarlata(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         if(enemigos[posicion].vida <= 500){
             var daño = enemigos[posicion].vida
             enemigos[posicion].Recivir_daño(this,daño)
+        }else{
+            efectuardaño(enemigos,posicion,Waos)
         }
+
     }
 
     fun Rompimiento_de_Fe(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
-        enemigos[posicion].cantidad_escudos -= 0.25
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+        enemigos[posicion].cantidad_escudos -= 0.30
     }
 
     fun Ultra_Instinto(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.esquivacion += 0.50
 
     }
 
     fun CORTE_DE_ESCALIBUR(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         for (i in 1 until enemigos.size) {
             var daño = this.ataque_base
-            enemigos[posicion]!!.Recivir_daño(this,daño)
+            enemigos[i]!!.Recivir_daño(this,daño)
         }
     }
 
     fun Hakai(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val num = Random.nextInt(100)
         if(num < 75){
             enemigos[posicion].turnoActivo = false
@@ -90,9 +124,15 @@ class Rey_Kanox (
     }
 
     fun Puño_del_Dragón(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val num = Random.nextInt(100)
 
-        if(!enemigos[posicion].turnoActivo && enemigos[posicion].cantidad_escudos < 0) {
+        if(enemigos[posicion].cantidad_escudos < 0) {
             var daño = daño()
             daño = daño * 5
 
@@ -101,6 +141,12 @@ class Rey_Kanox (
     }
 
     fun Destrucción_Divina(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val num = Random.nextInt(100)
         if(Waos) {
             if (num < 25) {
@@ -132,6 +178,15 @@ class Rey_Kanox (
         }
     }
 
+    override fun Habilidad_Especial(Waos: Boolean){
+        var num = Random.nextInt(100)
+        if(this.vida > 0) {
+            if (num < 45) {
+                this.ataque_base += (this.ataque_base * 0.10).toInt()
+                this.vida += (this.vida * 0.10).toInt()
+            }
+        }
+    }
 
     fun efectuardaño(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
         if(posicion == 0) {

@@ -4,6 +4,7 @@ import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
@@ -20,7 +21,8 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
     turnoActivo = true,
     turnoDoble =  false,
     cantidad_espinas = 0.00,
-    cantidad_escudos = 0.00
+    cantidad_escudos = 0.00,
+    precision = 100
 ),Serializable {
     override fun toString(): String {
         return """
@@ -54,11 +56,26 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
 
     //metodo principal para atcar
     fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+
         val daño = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
     fun Estocada(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) { //30%de probabilida de multiplicar tu daño x 4
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño: Int
         val random = Random.Default
         val suerte = random.nextDouble()
@@ -74,10 +91,19 @@ class Tropa_Lanzatonio(Nivel:Int = 1) : Tropa(
     }
 
     fun Bloqueo(enemigos: ArrayList<Tropa?>?, posicion: Int,Waos: Boolean) { //aumenta + 100 puntos de vida
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida += (this.vida * 0.15).toInt()
     }
 
+    override fun Habilidad_Especial(Waos: Boolean){
 
+    }
 
     override fun clonar(): Tropa {
         val copia = Tropa_Lanzatonio(this.nivel)

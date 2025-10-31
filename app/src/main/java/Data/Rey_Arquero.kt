@@ -25,7 +25,8 @@ class Rey_Arquero (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_escudos = 0.00,
-        cantidad_espinas =  0.00
+        cantidad_espinas =  0.00,
+        precision = 100
 ), Serializable {
 
 
@@ -57,11 +58,23 @@ class Rey_Arquero (
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño()
         enemigos[posicion].Recivir_daño(this,daño)
     }
 
     fun Disparo_Real(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val random = Random.Default
         val suerte = random.nextDouble()
         val probabilidad = this.probabilidad_de_critico / 2
@@ -75,6 +88,12 @@ class Rey_Arquero (
     }
 
     fun Flecha_Explosiva(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val num = Random.nextInt(100)
 
         if (num < 21) { // 20% de probabilidad
@@ -86,11 +105,23 @@ class Rey_Arquero (
     }
 
     fun Furia_Del_Rey(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida += (this.vida * 0.2).toInt()
         this.ataque_base += (this.ataque_base * 0.15).toInt()
         this.probabilidad_de_critico += 0.1
         this.daño_critico += 0.15
     }
+
+    override fun Habilidad_Especial(Waos: Boolean){
+        var nombre = "Replica" //hace un ataque base al q le pega
+
+    }
+
 
     override fun clonar(): Tropa {
         val copia = Rey_Arquero(this.nivel)
@@ -113,14 +144,17 @@ class Rey_Arquero (
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
             if(this.cantidad_escudos > 0){
-                this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+                this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+
             }
             if(this.cantidad_espinas > 0){
                 tropa.vida -= (Ataque * cantidad_espinas).toInt()
+                tropa.vida -= ataque_base //replica
                 return
             }
 
             this.vida -= Ataque
+            tropa.vida -= ataque_base //replica
             return
     }
 

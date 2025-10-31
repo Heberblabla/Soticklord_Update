@@ -23,7 +23,8 @@ class Rey_Noob (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
 
     override fun toString(): String {
@@ -54,11 +55,19 @@ class Rey_Noob (
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño()
         enemigos[posicion].Recivir_daño(this,daño)
     }
 
+    override fun Habilidad_Especial(Waos: Boolean){
 
+    }
 
     override fun clonar(): Tropa {
         val copia = Rey_Noob(this.nivel)
@@ -78,7 +87,7 @@ class Rey_Noob (
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

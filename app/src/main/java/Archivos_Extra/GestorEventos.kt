@@ -1,44 +1,41 @@
 package Archivos_Extra
 
-import com.waos.soticklord.*
+import com.waos.soticklord.Batalla
 
 /**
- * Gestor de eventos global que maneja efectos persistentes en batalla
- * (por ejemplo, veneno, curaciones por turno, resurrecciones, etc.)
+ * Gestor global de eventos en la batalla.
+ * Se encarga de ejecutar efectos persistentes como veneno, regeneración, resurrección, etc.
  */
 object GestorEventos {
 
-    // Lista que guarda todos los eventos activos en la batalla
+    // Lista de todos los eventos activos
     private val eventosActivos = mutableListOf<Evento>()
 
     /**
-     * Agrega un nuevo evento a la lista
+     * Agrega un nuevo evento al sistema
      */
     fun agregar(evento: Evento) {
         eventosActivos.add(evento)
-        println("🌀 Evento agregado: ${evento.tipo} (${evento.turnosRestantes} turnos restantes)")
+        println(" Evento agregado: ${evento.tipo} (${evento.turnosRestantes} turnos restantes)")
     }
 
-    /**
-     * Procesa todos los eventos activos.
-     * Se debe llamar una vez por turno (al final del turno del jugador y del enemigo).
-     */
-    fun procesarTodos(batalla: Batalla) {
+
+    fun procesarTodos(batalla: Any?) {
+        if (eventosActivos.isEmpty()) return
+
+        println("\n Procesando eventos (${eventosActivos.size}) activos...")
+
         val iterator = eventosActivos.iterator()
         while (iterator.hasNext()) {
             val evento = iterator.next()
 
-            // Ejecuta el efecto del evento
             try {
                 evento.efecto(evento, batalla)
             } catch (e: Exception) {
-                e.printStackTrace()
+                println(" Error en evento ${evento.tipo}: ${e.message}")
             }
 
-            // Reduce el contador de turnos
             evento.turnosRestantes--
-
-            // Si ya terminó, lo quitamos
             if (evento.turnosRestantes <= 0) {
                 println(" Evento finalizado: ${evento.tipo}")
                 iterator.remove()
@@ -46,15 +43,17 @@ object GestorEventos {
         }
     }
 
+
     /**
-     * Muestra todos los eventos actuales (útil para depuración)
+     * 🔍 Devuelve una copia de todos los eventos actuales (para depuración)
      */
     fun listarEventos(): List<Evento> = eventosActivos.toList()
 
     /**
-     * Limpia todos los eventos activos (por si termina la batalla)
+     * 🧹 Limpia todos los eventos (por ejemplo, al terminar la batalla)
      */
     fun limpiar() {
         eventosActivos.clear()
+        println("🧽 Todos los eventos han sido limpiados.")
     }
 }

@@ -20,7 +20,8 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
     turnoActivo = true,
     turnoDoble =  false,
     cantidad_espinas = 0.00,
-    cantidad_escudos = 0.00
+    cantidad_escudos = 0.00,
+    precision = 100
 ), Serializable {
     override fun toString(): String {
         return """
@@ -54,21 +55,49 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
 
 
     fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
     fun Lanza_Imperial(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         var daño = Daño()
         daño = daño * 2
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
     fun Bloqueo_real(enemigos: ArrayList<Tropa?>?, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida += (this.vida * 0.25).toInt()
     }
 
     fun Tormenta_de_Lanzas(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         var ataque1 = this.ataque_base
         this.ataque_base = 10
         for (i in 0..25) {
@@ -76,6 +105,10 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
             enemigos[posicion]!!.Recivir_daño(this,daño)
         }
         this.ataque_base = ataque1
+    }
+
+    override fun Habilidad_Especial(Waos: Boolean){
+
     }
 
     override fun clonar(): Tropa {
@@ -98,7 +131,7 @@ class Rey_Lanzatonio(Nivel:Int = 1 ) : Tropa(
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

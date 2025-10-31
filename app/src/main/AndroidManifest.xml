@@ -15,6 +15,11 @@
         android:theme="@style/Theme.Soticklord"
         tools:targetApi="31">
         <activity
+            android:name=".Escoger_modo"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"  />
+        <activity
             android:name=".Album"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"

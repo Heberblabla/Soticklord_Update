@@ -2,6 +2,7 @@ package com.waos.soticklord
 
 import android.app.Activity
 import Data.Tropa
+import Archivos_Extra.*
 
 object GlobalData {
     var Jugador2 = ArrayList<Tropa?>().apply {
@@ -22,9 +23,7 @@ object GlobalData {
     }
     var Diccionario_Reyes = hashMapOf<Int, Tropa>()
     var Diccionario_Tropas = hashMapOf<Int, Tropa>()
-
-   var batalla: Activity? = null
-
+    //var batalla: Activity? = null
     val Diccionario_Clases = mapOf(
         //defaults
         "Rey_Arquero" to Data.Rey_Arquero::class,
@@ -36,6 +35,7 @@ object GlobalData {
         "Tropa_Espadachin" to Data.Tropa_Espadachin::class,
         "Tropa_Lanzatonio" to Data.Tropa_Lanzatonio::class,
         "Tropa_Gigante" to Data.Tropa_Gigante::class,
+
         //Especiales
         "Rey_Heber" to Data.Especiales.Rey_Heber::class,
         "Rey_Fernando" to Data.Especiales.Rey_Fernando::class,
@@ -43,25 +43,129 @@ object GlobalData {
         "Reyna_Darisce" to Data.Especiales.Reyna_Darisce::class,
         "Reyna_Shantal" to Data.Especiales.Reyna_Shantal::class,
 
+
         //personalizados
+        //creados
+        "Rey_Freddy" to Data.Personalizados.Rey_Freddy::class,
+        "Rey_Constructor" to Data.Personalizados.Rey_Constructor::class,
+        "Rey_El_Pro" to Data.Personalizados.Rey_El_Pro::class,
         "Rey_Noob" to Data.Personalizados.Rey_Noob::class,
         "Rey_Goku" to  Data.Personalizados.Rey_Goku::class,
         "Rey_Piero" to Data.Personalizados.Rey_Piero::class,
+
+        //torneo
         "Rey_Borrego" to Data.Personalizados.Rey_Borrego::class,
         "Reyna_paranormal" to Data.Personalizados.Reyna_paranormal::class,
-        "Rey_Freddy" to Data.Personalizados.Rey_Freddy::class,
-        "Rey_Constructor" to Data.Personalizados.Rey_Constructor::class,
-        "Rey_Kanox" to Data.Personalizados.Rey_Kanox::class
+        "Rey_Kanox" to Data.Personalizados.Rey_Kanox::class,
+        "Rey_Kratos" to Data.Personalizados.Rey_Kratos::class,
+        "Rey_Jerald" to Data.Personalizados.Rey_Jerald::class
+
 
 
     )
-
     val Diccionario_Ataques = mapOf(
+        "Transformacion" to
+                """
+        Te transformas en el rey enemigo
+        con +10 niveles
+                """.trimIndent() ,
+        //---------------------------
+        "Rompimiento_de_Fe" to
+                """
+        inflijes un daño igual a tu ataque base 
+        e inflijes -30% de denfensa
+                """.trimIndent() ,
+        //---------------------------
+        "Golpe_Helado_del_Leviatán" to
+                """
+        Inflijes un daño de 130% , con una probabilidad
+        del 30% de congelar al rival (perder turno) 
+        asi mismo si llegara a ser congelado obtienes 
+        +20% de presicion
+                """.trimIndent() ,
+        //---------------------------
+        "Torbellino_de_Njord" to
+                """
+        haces un daño igual del 120% de ataque base
+        a todos los enemigos , y les reduces un 15%
+        de defensa,
+        obtienes +10% de defensa
+                """.trimIndent() ,
+        //---------------------------
+        "Filo_del_Caos" to
+                """
+        Durante 2 turnos los enemigos sufren un daño 
+        igual al 15% de su vida restante
+                """.trimIndent() ,
+        //---------------------------
+        "Aplastamiento_de_Nemea" to
+                """
+        Todos los enemigos sufren un daño igual
+        al 250% . pierden 10% de defensa y sufren un daño
+        igual al 25% de su vida restante durnate 2 turnos
+                """.trimIndent() ,
+        //---------------------------
+        "Carga_de_raupnir" to
+                """
+        Un enemigo recive un daño de 300% , pierde turno 
+        y tu obtienes +20% de presicion
+                """.trimIndent() ,
+        //---------------------------
+        "Artillería_de_los_Antiguos" to
+                """
+        Todas las tropas obtiene -30% de defensa
+        y sufren un daño aumentado en un 280%
+                """.trimIndent() ,
+        //---------------------------
+        "Juicio_de_los_Dioses" to
+                """
+        Una ves por partida ,inglijes un daño * 400%
+        a todos los enemigos, con una probabilidad del 50%
+        de q pierdan turno y tu ganes un 25% de vida
+                """.trimIndent() ,
+        //---------------------------
+        "bye_bye" to
+                """
+        El enemigo se transforma en un Rey espadachin
+                """.trimIndent() ,
+        //---------------------------
+        "Angeles_Demoniacos" to
+                """
+        Dos Angeles inflijiran daño directo
+        al enemigo seleccionado
+                """.trimIndent() ,
+        //---------------------------
+        "Reflejo_Maldito" to
+                """
+        Copias la vida del enemigo
+                """.trimIndent() ,
+        //---------------------------
+        "Control_Sombra" to
+                """
+        Invocas un entorno sombrio 
+        rival : -150vida , -25% de Ataque Base y
+        precicion -5%
+        tu: +20% precicion +10% escudo +40% de 
+        daño critico y mas 20% de espinas
+                """.trimIndent() ,
+        //---------------------------
+        "Juguemos_un_juego" to
+                """
+        Bajas la precision de acertar
+        un ataque a todos en un 10% 
+                """.trimIndent() ,
+        //---------------------------
+        "Susto" to
+                """
+        Bajas la precision de acertar
+        un ataque a todos en un 10% 
+                """.trimIndent() ,
+        //---------------------------
         "Puño_del_Dragón" to
                 """
-        Si el enemigo esta con turno perdido
-        y con defensa baja el siguiente golpe
-        bajara un daño igual al ataque base x5
+        Si el enemigo esta con  defensa baja 
+        el siguiente golpe bajara un daño 
+        igual al ataque base x5
                 """.trimIndent() ,
         //---------------------------
         "Destrucción_Divina" to
@@ -347,7 +451,7 @@ object GlobalData {
                 """.trimIndent(),
 
     )
-
+    val listaEventos = mutableListOf<Evento>()
     var id_usuario = 0 //id del usuario
     var nivel_de_progresion = 0 //progresion del mapa
     var experiencia_de_juego = 0 //su experincia del nivel

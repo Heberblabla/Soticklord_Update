@@ -19,8 +19,8 @@ class Rey_El_Pro (
         nivel = Nivel,
         vida = calcularVida(1000,Nivel),
         ataque_base = calcularAtaque(100,Nivel),
-        daño_critico = calcularDañoCritico(10.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
+        daño_critico = calcularDañoCritico(1.5,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.10,Nivel),
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_el_pro,
@@ -28,7 +28,8 @@ class Rey_El_Pro (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
 
     override fun toString(): String {
@@ -59,26 +60,49 @@ class Rey_El_Pro (
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño()
         enemigos[posicion].Recivir_daño(this, daño)
     }
 
-    fun Transformacion(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
-
-        if(Waos){
-
-            GlobalData.Jugador1[0] = GlobalData.Jugador2[0] //+10 nivels
-
+    fun Transformacion(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
         }
+        if (Waos) {
+            val nombre = GlobalData.Jugador2[0]!!.nombre
+            val nuevo_nivel = GlobalData.Jugador2[0]!!.nivel + 10
+            val clase = GlobalData.Diccionario_Clases[nombre]
+             // crear una nueva instancia usando el constructor (por ejemplo, nivel 2)
+            val nuevaTropa = clase?.constructors?.firstOrNull()?.call(nuevo_nivel) as? Tropa
 
-        if(!Waos){
+            if (nuevaTropa != null) {
+                GlobalData.Jugador1[0] = nuevaTropa
+            }
+        } else {
+            val nombre = GlobalData.Jugador1[0]!!.nombre
+            val nuevo_nivel = GlobalData.Jugador1[0]!!.nivel + 10
+            val clase = GlobalData.Diccionario_Clases[nombre]
+            // crear una nueva instancia usando el constructor (por ejemplo, nivel 2)
+            val nuevaTropa = clase?.constructors?.firstOrNull()?.call(nuevo_nivel) as? Tropa
 
-            GlobalData.Jugador2[0] = GlobalData.Jugador1[0]
-
+            if (nuevaTropa != null) {
+                GlobalData.Jugador2[0] = nuevaTropa
+            }
         }
-
     }
 
+    override fun Habilidad_Especial(Waos: Boolean){
+
+    }
 
     override fun clonar(): Tropa {
         val copia = Rey_El_Pro(this.nivel)
@@ -98,7 +122,7 @@ class Rey_El_Pro (
 
     override fun Recivir_daño(tropa: Tropa, Ataque: Int) {
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if (this.cantidad_espinas > 0) {
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

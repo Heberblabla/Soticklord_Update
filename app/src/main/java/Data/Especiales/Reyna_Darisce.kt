@@ -25,7 +25,8 @@ class Reyna_Darisce (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
 
     override fun toString(): String {
@@ -56,12 +57,24 @@ class Reyna_Darisce (
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño() // calcula el daño según crítico o no
         enemigos[posicion]!!.Recivir_daño(this,daño)
 
     }
 
     fun mejoramiento(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida += 500
         this.ataque_base += 500
         this.daño_critico += 5
@@ -69,6 +82,12 @@ class Reyna_Darisce (
     }
 
     fun Compañia_cercana(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         if(Waos) {
                 GlobalData.Jugador1[0]!!.vida += (GlobalData.Jugador1[0]!!.vida * 0.25).toInt()
                 GlobalData.Jugador1[1]!!.vida += (GlobalData.Jugador1[1]!!.vida * 0.25).toInt()
@@ -88,6 +107,9 @@ class Reyna_Darisce (
 
     }
 
+    override fun Habilidad_Especial(Waos: Boolean){
+
+    }
 
     override fun clonar(): Tropa {
         val copia = Reyna_Darisce(this.nivel)
@@ -109,7 +131,7 @@ class Reyna_Darisce (
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

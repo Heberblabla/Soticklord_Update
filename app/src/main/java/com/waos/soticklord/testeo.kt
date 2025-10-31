@@ -8,6 +8,7 @@ import Data.Tropa_Gigante
 import Data.Tropa_Lanzatonio
 
 
+
 fun main(){
     GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)
     val listaTropas = GlobalData.Diccionario_Tropas.values
@@ -18,7 +19,7 @@ fun main(){
     println("Vida después: ${GlobalData.Diccionario_Tropas[1]!!.vida}")
 }
 
-fun prueba02(){
+fun prueba02() {
     GlobalData.Jugador2[0] = Rey_Espadachin(1)
     GlobalData.Jugador2[1] = Tropa_Lanzatonio(1)
     GlobalData.Jugador2[2] = Tropa_Lanzatonio(1)

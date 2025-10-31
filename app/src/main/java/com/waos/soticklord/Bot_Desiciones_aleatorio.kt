@@ -81,7 +81,7 @@ class Bot_Desiciones_aleatorio (private val context: Context){
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
                             "Ataque_Normal", "Recivir_daño",
-                            "component1", "component2"
+                            "component1", "component2","Habilidad_Especial"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }

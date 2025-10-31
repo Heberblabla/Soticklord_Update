@@ -199,10 +199,10 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.924"
+        app:layout_constraintVertical_bias="0.945"
         app:srcCompat="@drawable/boton" />
 
     <ImageButton
@@ -234,10 +234,10 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.327"
+        app:layout_constraintHorizontal_bias="0.332"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.924"
+        app:layout_constraintVertical_bias="0.945"
         app:srcCompat="@drawable/boton2" />
 
     <ImageButton
@@ -422,18 +422,18 @@
 
     <TextView
         android:id="@+id/Info_ataques"
-        android:layout_width="174dp"
-        android:layout_height="79dp"
+        android:layout_width="173dp"
+        android:layout_height="105dp"
         android:fontFamily="@font/aladin"
         android:text="Waos"
         android:textColor="#050505"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.396"
+        app:layout_constraintHorizontal_bias="0.401"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.789" />
+        app:layout_constraintVertical_bias="0.85" />
 
     <TextView
         android:id="@+id/Nombre_de_Ataque"
@@ -477,6 +477,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.255" />
+
+    <TextView
+        android:id="@+id/Probabilidad_tropa_rey"
+        android:layout_width="69dp"
+        android:layout_height="16dp"
+        android:fontFamily="@font/unlock"
+        android:text="✢ : --"
+        android:textColor="#050505"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.344"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.331" />
+
+    <TextView
+        android:id="@+id/Dano_critico_tropa_rey"
+        android:layout_width="69dp"
+        android:layout_height="16dp"
+        android:fontFamily="@font/unlock"
+        android:text="☠︎︎ : --"
+        android:textColor="#050505"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.344"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.397" />
 
     <TextView
         android:id="@+id/Nuevo_nivel_rey_tropa"

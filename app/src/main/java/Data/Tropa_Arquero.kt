@@ -20,7 +20,8 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
     turnoActivo = true,
     turnoDoble =  false,
     cantidad_espinas = 0.00,
-    cantidad_escudos = 0.00
+    cantidad_escudos = 0.00,
+    precision = 100
 ), Serializable {
     override fun toString(): String {
         return """
@@ -54,18 +55,43 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
 
     //metodo principal para atcar
     fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
     fun Flecha_de_Sangre(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida -= (this.vida * 0.1).toInt()
         var daño = Daño()
         daño = daño * 3
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
+    override fun Habilidad_Especial(Waos: Boolean){
+
+    }
+
     fun Flecha_penetrante(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) { //20% de probabilida de multiplicar tu daño x 5
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño: Int
         val random = Random.Default
         val suerte = random.nextDouble(0.0,1.0)
@@ -100,7 +126,7 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

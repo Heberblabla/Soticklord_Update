@@ -23,7 +23,8 @@ class Rey_Lucas (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
 
     override fun toString(): String {
@@ -54,11 +55,23 @@ class Rey_Lucas (
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño()
         enemigos[posicion].Recivir_daño(this,daño)
     }
 
     fun calabaza(){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
 
         //una ves por partida una tropa q el seleccionae enemiga ,
         // pierede un 70% de us punteria
@@ -68,6 +81,9 @@ class Rey_Lucas (
         //acumulable , 10% de q fallen
     }
 
+    override fun Habilidad_Especial(Waos: Boolean){
+
+    }
 
 
     override fun clonar(): Tropa {
@@ -88,7 +104,7 @@ class Rey_Lucas (
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

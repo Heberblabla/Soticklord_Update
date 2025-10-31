@@ -172,6 +172,14 @@ class Album : AppCompatActivity() {
         var proxima_ataque = Tropa.calcularAtaque(tropa.ataque_base,2)
         Nuevo_ataque_rey_tropa.text = "⚔ : $proxima_ataque"
 
+        val probabilidad = (tropa.probabilidad_de_critico * 100).toInt()
+        val dañoCritico = (tropa.daño_critico * 100).toInt()
+
+        val Probabilidad_tropa_rey = findViewById<TextView>(R.id.Probabilidad_tropa_rey)
+        Probabilidad_tropa_rey.text = "✢ : $probabilidad%"
+        val Daño_critico_tropa_rey = findViewById<TextView>(R.id.Dano_critico_tropa_rey)
+        Daño_critico_tropa_rey.text = "☠\uFE0E\uFE0E : +$dañoCritico%"
+
         pasarSiguienteAtaque()
 
     }
@@ -188,6 +196,16 @@ class Album : AppCompatActivity() {
         val Ataque_rey_tropa = findViewById<TextView>(R.id.Ataque_rey_tropa)
         Ataque_rey_tropa.text = "⚔ : ${tropa.ataque_base}"
         val Ataques_disponibles = findViewById<TextView>(R.id.Ataques_disponibles)
+
+
+        val probabilidad = (tropa.probabilidad_de_critico * 100).toInt()
+        val dañoCritico = (tropa.daño_critico * 100).toInt()
+
+        val Probabilidad_tropa_rey = findViewById<TextView>(R.id.Probabilidad_tropa_rey)
+        Probabilidad_tropa_rey.text = "✢ : $probabilidad%"
+        val Daño_critico_tropa_rey = findViewById<TextView>(R.id.Dano_critico_tropa_rey)
+        Daño_critico_tropa_rey.text = "☠\uFE0E\uFE0E : +$dañoCritico%"
+
         var ataquess =obtener_Ataques(tropa)
         Ataques_disponibles.text = ataquess
         listaNombres = Obtener_Array_String(tropa.nombre).toMutableList()
@@ -331,7 +349,7 @@ class Album : AppCompatActivity() {
             "copyValueOf", "transform", "formatted", "intern",
             "wait", "notify", "notifyAll", "getClass",
             "clonar", "copyBase", "Recivir_daño",
-            "component1", "component2" ,"Ataque_Normal"
+            "component1", "component2" ,"Ataque_Normal"," efectuardaño","Habilidad_Especial"
         )
 
         return obj::class.java.methods
@@ -364,9 +382,8 @@ class Album : AppCompatActivity() {
                             "toString", "equals", "hashCode",
                             "copyValueOf", "transform", "formatted", "intern",
                             "wait", "notify", "notifyAll", "getClass",
-                            "clonar", "copyBase", "reproducirVideoAtaque",
-                            "Ataque_Normal", "Recivir_daño",
-                            "component1", "component2"
+                            "clonar", "copyBase", "Recivir_daño",
+                            "component1", "component2" ,"Ataque_Normal","efectuardaño","Habilidad_Especial"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }

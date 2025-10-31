@@ -21,14 +21,9 @@ import android.widget.AdapterView
 import androidx.lifecycle.lifecycleScope
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.widget.ImageButton
 import com.google.android.material.button.MaterialButton
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-
-
+import Archivos_Extra.*
+import com.waos.soticklord.GlobalData.batalla
 
 class Batalla_oculta : AppCompatActivity() {
     var Enemigo_Seleccionado = 5
@@ -98,8 +93,6 @@ class Batalla_oculta : AppCompatActivity() {
         actualizar_datos()
         bucle_principal()
     }
-
-
     fun cambiarFuenteConFondo(items: List<String>) {
         val spinner = findViewById<Spinner>(R.id.Ataques)
 
@@ -109,16 +102,11 @@ class Batalla_oculta : AppCompatActivity() {
 
         spinner.adapter = adapter
     }
-
-
-
     fun pasar_turno_al_enemigo() {
         turno_activo = 5
         es_mi_turno = false
         lifecycleScope.launch { turno_del_enemigo() }
     }
-
-
     fun visualizar_posicion() {
         for (img in imagenes) {
             img.visibility = View.INVISIBLE
@@ -138,20 +126,21 @@ class Batalla_oculta : AppCompatActivity() {
 
     fun bucle_principal() {
         if (turno_activo !in 0..5) {
+            GestorAcciones.Procesar()
             pasar_turno_al_enemigo()
             return
         }
 
         val tropa = GlobalData.Jugador1.getOrNull(turno_activo)
 
-        if (tropa?.estado_de_vida == true) {
+        if (tropa?.estado_de_vida == true && tropa.turnoActivo) {
             visualizar_posicion()
             Imagenes_claras()
             actualizar_datos()
             cargar_Espinner(tropa.nombre ?: "Sin nombre")
         } else {
             turno_activo--
-            bucle_principal() // llamada recursiva segura
+            bucle_principal() // pasa a la siguiente tropa si no puede jugar
         }
     }
 
@@ -167,6 +156,8 @@ class Batalla_oculta : AppCompatActivity() {
             visualizar_posicion()
 
             for (i in 5 downTo 0) {
+                GestorAcciones.Procesar()
+                GestorAcciones.Procesar()
                 val tropa = GlobalData.Jugador2.getOrNull(i)
                 if (tropa != null && tropa.estado_de_vida) {
                     visualizar_posicion_enemiga(i)
@@ -185,7 +176,7 @@ class Batalla_oculta : AppCompatActivity() {
                 return
             }
 
-            // 🔓 Reactivar turno del jugador
+            // Reactivar turno del jugador
             es_turno_del_enemigo = false
             es_mi_turno = true
             turno_activo = 5
@@ -200,19 +191,11 @@ class Batalla_oculta : AppCompatActivity() {
     }
 
     fun atacar_pasarturno(view: View) {
-        // Desactiva el botón para evitar múltiples clics rápidos
         view.isEnabled = false
-
-        // Si no es tu turno, no hagas nada
         if (!es_mi_turno) return
 
-        if (turno_activo < 0 || turno_activo >= 6) {
-            pasar_turno_al_enemigo()
-            return
-        }
-
         val tropaActual = GlobalData.Jugador1.getOrNull(turno_activo)
-        if (tropaActual != null && tropaActual.estado_de_vida) {
+        if (tropaActual != null && tropaActual.estado_de_vida && tropaActual.turnoActivo) {
             Ejecutar_ataque(
                 GlobalData.Jugador1,
                 GlobalData.Jugador2,
@@ -220,19 +203,33 @@ class Batalla_oculta : AppCompatActivity() {
                 Enemigo_Seleccionado,
                 ataqueSeleccionado
             )
-        }
 
-        actualizar_datos()
-        turno_activo--
+            // si no tiene turno doble, pasa al siguiente
+            if (!tropaActual.turnoDoble) {
+                tropaActual.turnoActivo = false
+                turno_activo--
+            } else {
+                // si tiene turno doble, pierde el doble turno luego de usarlo
+                tropaActual.turnoDoble = false
+            }
+
+            actualizar_datos()
+        }
 
         if (turno_activo < 0 || turno_activo >= 6) {
+            GlobalData.Jugador1[0]!!.turnoActivo = true
+            GlobalData.Jugador1[1]!!.turnoActivo = true
+            GlobalData.Jugador1[2]!!.turnoActivo = true
+            GlobalData.Jugador1[3]!!.turnoActivo = true
+            GlobalData.Jugador1[4]!!.turnoActivo = true
+            GlobalData.Jugador1[5]!!.turnoActivo = true
             pasar_turno_al_enemigo()
-            return
-        }
+            GestorEventos.procesarTodos(GlobalData.batalla)
 
-        // Si todavía quedan tropas, continúa el turno y reactivamos el botón
-        bucle_principal()
-        view.isEnabled = true // 🔓 vuelve a activar el botón cuando termina la acción
+        } else {
+            bucle_principal()
+            view.isEnabled = true
+        }
     }
 
 
@@ -350,7 +347,6 @@ class Batalla_oculta : AppCompatActivity() {
 
         }
     }
-
     fun cargar_Espinner(nombreClase: String) {
         if (es_mi_turno) {
             // Buscar la clase directamente en el diccionario
@@ -359,7 +355,6 @@ class Batalla_oculta : AppCompatActivity() {
             cambiarFuenteConFondo(lista)
         }
     }
-
     fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
             val claseKotlin = GlobalData.Diccionario_Clases[nombreClase]
@@ -377,7 +372,7 @@ class Batalla_oculta : AppCompatActivity() {
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
                             "Ataque_normall", "Recivir_daño",
-                            "component1", "component2","efectuardaño"
+                            "component1", "component2","efectuardaño","Habilidad_Especial"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }
@@ -390,16 +385,6 @@ class Batalla_oculta : AppCompatActivity() {
             emptyList()
         }
     }
-
-
-   // fun efecto_ataque(){
-       // val base = (miImageView.drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
-     //   val overlay = BitmapFactory.decodeResource(resources, R.drawable.efecto_ataque)
-
-        //val canvas = Canvas(base)
-      // canvas.drawBitmap(overlay, 0f, 0f, null)
-     //   miImageView.setImageBitmap(base)
-  //  }
 
     fun actualizarSpinnerAtaques(lista: List<String>) {
         val spinner = findViewById<Spinner>(R.id.Ataques)
@@ -494,13 +479,7 @@ class Batalla_oculta : AppCompatActivity() {
             imagen.alpha = 0.5f  // 1.0 = totalmente visible, 0.0 = totalmente transparente
         }
     }
-    fun Ejecutar_ataque(
-        jugador1: ArrayList<Tropa?>,
-        jugador2: ArrayList<Tropa?>,
-        posicion1: Int,
-        posicion2: Int,
-        nombreMetodo: String
-    ) {
+    fun Ejecutar_ataque(jugador1: ArrayList<Tropa?>, jugador2: ArrayList<Tropa?>, posicion1: Int, posicion2: Int, nombreMetodo: String) {
         try {
             // Obtener la tropa atacante y la clase de esa tropa
             val tropaAtacante = jugador1[posicion1] ?: return
@@ -528,8 +507,5 @@ class Batalla_oculta : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-
-
-
 
 }

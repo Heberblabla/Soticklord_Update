@@ -1,5 +1,7 @@
 package com.waos.soticklord
 
+import Archivos_Extra.GestorAcciones
+import Archivos_Extra.GestorEventos
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -171,6 +173,7 @@ class Batalla : AppCompatActivity() {
             visualizar_posicion()
 
             for (i in 5 downTo 0) {
+                GestorAcciones.Procesar()
                 val tropa = GlobalData.Jugador2.getOrNull(i)
                 if (tropa != null && tropa.estado_de_vida) {
                     visualizar_posicion_enemiga(i)
@@ -185,11 +188,12 @@ class Batalla : AppCompatActivity() {
             val enemigos_vivos = GlobalData.Jugador2.filter { it?.estado_de_vida == true }
             if (enemigos_vivos.isEmpty()) {
                 Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
+                GestorEventos.limpiar()
                 finish()
                 return
             }
 
-            //  Reactivar turno del jugador
+            // Reactivar turno del jugador
             es_turno_del_enemigo = false
             es_mi_turno = true
             turno_activo = 5
@@ -199,24 +203,17 @@ class Batalla : AppCompatActivity() {
             visualizar_posicion_enemiga(5)
         } else {
             Toast.makeText(this, "Perdiste", Toast.LENGTH_LONG).show()
+            GestorEventos.limpiar()
             finish()
         }
     }
 
     fun atacar_pasarturno(view: View) {
-        // Desactiva el botón para evitar múltiples clics rápidos
         view.isEnabled = false
-
-        // Si no es tu turno, no hagas nada
         if (!es_mi_turno) return
 
-        if (turno_activo < 0 || turno_activo >= 6) {
-            pasar_turno_al_enemigo()
-            return
-        }
-
         val tropaActual = GlobalData.Jugador1.getOrNull(turno_activo)
-        if (tropaActual != null && tropaActual.estado_de_vida) {
+        if (tropaActual != null && tropaActual.estado_de_vida && tropaActual.turnoActivo) {
             Ejecutar_ataque(
                 GlobalData.Jugador1,
                 GlobalData.Jugador2,
@@ -224,22 +221,34 @@ class Batalla : AppCompatActivity() {
                 Enemigo_Seleccionado,
                 ataqueSeleccionado
             )
-        }
 
-        actualizar_datos()
-        turno_activo--
+            // si no tiene turno doble, pasa al siguiente
+            if (!tropaActual.turnoDoble) {
+                tropaActual.turnoActivo = false
+                turno_activo--
+            } else {
+                // si tiene turno doble, pierde el doble turno luego de usarlo
+                tropaActual.turnoDoble = false
+            }
+
+            actualizar_datos()
+        }
 
         if (turno_activo < 0 || turno_activo >= 6) {
+            GlobalData.Jugador1[0]!!.turnoActivo = true
+            GlobalData.Jugador1[1]!!.turnoActivo = true
+            GlobalData.Jugador1[2]!!.turnoActivo = true
+            GlobalData.Jugador1[3]!!.turnoActivo = true
+            GlobalData.Jugador1[4]!!.turnoActivo = true
+            GlobalData.Jugador1[5]!!.turnoActivo = true
             pasar_turno_al_enemigo()
-            return
+            GestorEventos.procesarTodos(GlobalData.batalla)
+
+        } else {
+            bucle_principal()
+            view.isEnabled = true
         }
-
-        // Si todavía quedan tropas, continúa el turno y reactivamos el botón
-        bucle_principal()
-        view.isEnabled = true //  vuelve a activar el botón cuando termina la acción
     }
-
-
 
 
     //--------------------------
@@ -385,7 +394,7 @@ class Batalla : AppCompatActivity() {
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
                             "Ataque_normall", "Recivir_daño",
-                            "component1", "component2"
+                            "component1", "component2","Habilidad_Especial"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }

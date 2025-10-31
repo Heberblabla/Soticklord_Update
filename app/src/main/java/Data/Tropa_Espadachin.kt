@@ -20,7 +20,8 @@ class Tropa_Espadachin(Nivel:Int = 1 ) : Tropa(
     turnoActivo = true,
     turnoDoble =  false,
     cantidad_espinas = 0.00,
-    cantidad_escudos = 0.00
+    cantidad_escudos = 0.00,
+    precision = 100
 ), Serializable {
     override fun toString(): String {
         return """
@@ -54,17 +55,34 @@ class Tropa_Espadachin(Nivel:Int = 1 ) : Tropa(
 
     //metodo principal para atcar
     fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
-
     fun Estocada_Veloz(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida -= (this.vida * 0.10).toInt()
         var daño = Daño()
         daño = daño * 2
         val nuevavida = enemigos.get(posicion)!!.vida - daño
         enemigos.get(posicion)!!.vida = nuevavida
+    }
+
+    override fun Habilidad_Especial(Waos: Boolean){
+
     }
 
     override fun clonar(): Tropa {
@@ -85,9 +103,10 @@ class Tropa_Espadachin(Nivel:Int = 1 ) : Tropa(
         return copia
     }
 
+
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

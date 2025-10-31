@@ -6,8 +6,12 @@ import Data.Especiales.Rey_Heber
 import Data.Especiales.Reyna_Darisce
 import Data.Especiales.Reyna_Shantal
 import Data.Personalizados.Rey_Borrego
+import Data.Personalizados.Rey_El_Pro
+import Data.Personalizados.Rey_Jerald
 import Data.Personalizados.Rey_Kanox
+import Data.Personalizados.Rey_Kratos
 import Data.Personalizados.Rey_Lucas
+import Data.Personalizados.Rey_Moises
 import Data.Personalizados.Reyna_paranormal
 import Data.Rey_Arquero
 import Data.Rey_Espadachin
@@ -42,56 +46,32 @@ import java.security.MessageDigest
 
 
 class Iniciar_Sesion : AppCompatActivity() {
-    private lateinit var edit_nombre: EditText
-    private lateinit var edit_password: EditText
     private lateinit var mediaPlayer: MediaPlayer
-    var usuario: String = "zzz"
-    var password: String = "123"
-    private val client = OkHttpClient()
-    private val supabaseUrl = "https://zropeiibzqefzjrkdzzp.supabase.co"
-    private val apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpyb3BlaWlienFlZnpqcmtkenpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwMTc1NDYsImV4cCI6MjA3NDU5MzU0Nn0.ZJWqkOAbTul-RwIQrirajUSVdyI1w9Kh3kjek0vFMw8" //  key pública
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        GlobalDataManager.cargar(this) // ← Intenta cargar los datos previos
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_iniciar_sesion)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.hide(WindowInsetsCompat.Type.systemBars())
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val editNombre = findViewById<EditText>(R.id.edit_nombre)
-        val editPassword = findViewById<EditText>(R.id.edit_password)
-        val btnimagen = findViewById<ImageButton>(R.id.Iniciarwaza)
-        val btnRegistrar = findViewById<Button>(R.id.Registrarse)
-        inciar_musica()
-
-        btnimagen.setOnClickListener {
-            usuario = editNombre.text.toString()
-            val password = editPassword.text.toString()
-            val contraseña = crearHash(password)
-            validarUsuario(usuario, contraseña)
+        // 👇 Solo crear datos de invitado si no hay datos guardados
+        if (GlobalData.Diccionario_Reyes.isEmpty()) {
+            iniciar_como_invitado()
         }
 
+        inciar_musica()
     }
 
-
-    private fun crearHash(password: String): String {
-        val bytes = MessageDigest
-            .getInstance("SHA-256")
-            .digest(password.toByteArray(Charsets.UTF_8))
-
-        return bytes.joinToString("") { "%02x".format(it) }
-    }
 
     fun inciar_musica(){
 
@@ -99,82 +79,14 @@ class Iniciar_Sesion : AppCompatActivity() {
         mediaPlayer.isLooping = true  // Para que se repita
         mediaPlayer.start()           // Reproduce al abrir la ventana
     }
-
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release() // Libera memoria al cerrar la Activity
     }
-
-    private fun validarUsuario(nombre: String, password: String) {
-        // primero me fijo si el user dejó vacío algún campo
-        if (nombre.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Completa los campos", Toast.LENGTH_SHORT).show() // le digo q ponga sus datos
-            return // y ya no sigo porque no tiene sentido :v
-        }
-
-        // armo la URL para consultar a la Base de Datos (supabase) con el user y pass q puse arriba
-        val url = "$supabaseUrl/rest/v1/jugadores?nombre_usuario=eq.$nombre&contrasena=eq.$password"
-
-        // preparo la petición HTTP con headers
-        val request = Request.Builder()
-            .url(url)
-            .addHeader("apikey", apiKey)
-            .addHeader("Authorization", "Bearer $apiKey")
-            .build()
-
-        // lanzo la petición
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                // si falla el request, o sea, no llega ni a supabase
-                runOnUiThread {
-                    Toast.makeText(
-                        this@Iniciar_Sesion,
-                        "Error de conexión: ${e.message}", // lanzo un mensaje q dice error de conexion
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-                runOnUiThread {
-                    //si stodo salió piola y me devolvió algo con nombre usuario
-                    if (response.isSuccessful && body != null) {
-                        val jsonArray = JSONArray(body)        // el body es un array JSON
-                        if (jsonArray.length() > 0) {
-                            val obj = jsonArray.getJSONObject(0)  // primer jugador
-                            val idJugador = obj.getInt("id_jugador")
-
-                            val intent = Intent(this@Iniciar_Sesion, Pantalla_de_Carga::class.java)
-                            GlobalData.id_usuario = idJugador
-                            startActivity(intent)
-                            finish()
-                        }
-                    }
-                    else {
-                        // si no encontró nada → usuario o pass mal
-                        Toast.makeText(
-                            this@Iniciar_Sesion,
-                            "Usuario o contraseña incorrectos",
-                            Toast.LENGTH_SHORT
-                            //lanza un mensaje emergente
-                        ).show()
-                    }
-                }
-            }
-        })
-    }
-
-    fun cargar_datos(view: View){
-        usuario = edit_nombre.text.toString()
-        password = edit_password.text.toString()
-        validarUsuario(usuario, password)
-    }
-
-    fun iniciar_como_invitado(view: View){
+    fun iniciar_como_invitado(){
         GlobalData.experiencia_de_juego = 100000
         GlobalData.nivel_de_progresion = 10
-        GlobalData.monedas = 100
+        GlobalData.monedas = 1500
         GlobalData.ecencia_de_juego = 100
 
         GlobalData.Diccionario_Reyes[0] = Rey_de_los_Gigantes(1)
@@ -187,18 +99,36 @@ class Iniciar_Sesion : AppCompatActivity() {
         GlobalData.Diccionario_Reyes[7] = Reyna_Shantal(1)
         GlobalData.Diccionario_Reyes[8] = Rey_Fernando(1)
         GlobalData.Diccionario_Reyes[9] = Rey_Heber(1)
-        GlobalData.Diccionario_Reyes[10] = Rey_Lucas(1)
+        //GlobalData.Diccionario_Reyes[10] = Rey_Lucas(1)
         GlobalData.Diccionario_Reyes[11] = Rey_Cristian(1)
         GlobalData.Diccionario_Reyes[12] = Rey_Kanox(1)
+        //GlobalData.Diccionario_Reyes[13] = Rey_Moises(1)
+        GlobalData.Diccionario_Reyes[14] = Rey_El_Pro(1)
+        GlobalData.Diccionario_Reyes[15] = Rey_Kratos(1)
+        GlobalData.Diccionario_Reyes[16] = Rey_Jerald(1)
+
 
         GlobalData.Diccionario_Tropas[0] = Tropa_Gigante(1)
         GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)
         GlobalData.Diccionario_Tropas[2] = Tropa_Lanzatonio(1)
         GlobalData.Diccionario_Tropas[3] = Tropa_Espadachin(1)
 
-        val intent = Intent(this@Iniciar_Sesion, Perfil::class.java)
+
+    }
+    fun Jugar(view: View) {
+        val intent = Intent(this@Iniciar_Sesion, Escoger_modo::class.java)
         startActivity(intent)
-        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+    fun Album(view: View) {
+        val intent = Intent(this@Iniciar_Sesion, Album::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+    fun Tienda(view: View) {
+        val intent = Intent(this@Iniciar_Sesion, Escoger_modo::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
 }

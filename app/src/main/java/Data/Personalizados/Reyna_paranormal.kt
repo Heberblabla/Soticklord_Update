@@ -1,6 +1,9 @@
 package Data.Personalizados
 
+import Archivos_Extra.Evento
+import Archivos_Extra.GestorEventos
 import Data.Tropa
+import Data.Tropa_Gigante
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -36,7 +39,8 @@ class Reyna_paranormal (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
 
     override fun toString(): String {
@@ -67,11 +71,23 @@ class Reyna_paranormal (
     }
 
     fun Ataque_normall(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if (xd < this.precision) {
+            //sigue realizando tu atque
+        } else {
+            return
+        }
         val daño = daño()
         enemigos[posicion].Recivir_daño(this, daño)
     }
 
     fun Porque_tan_solo(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if (xd < this.precision) {
+            //sigue realizando tu atque
+        } else {
+            return
+        }
         val batalla = GlobalData.batalla ?: return
 
         // Fondo oscuro semitransparente
@@ -156,6 +172,124 @@ class Reyna_paranormal (
         }
     }
 
+    fun Susto(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if (xd < this.precision) {
+            //sigue realizando tu atque
+        } else {
+            return
+        }
+
+        for (tropa in enemigos) {
+            tropa.precision -= 10
+        }
+
+    }
+
+    fun Control_Sombra(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if (xd < this.precision) {
+            //sigue realizando tu atque
+        } else {
+            return
+        }
+        //entorno de sombra al incio de cada turno pierden 5% de precicion ,
+        // 150 de vida 25% de ataque abse :v
+        //obtienes + 20% de prescion , +10% de escudo + 40% de daño critico
+        //y + 20% de espinas
+        var daño = daño()
+        enemigos[posicion].Recivir_daño(this, daño)
+    }
+
+    fun Juguemos_un_juego(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision) {
+            //sigue realizando tu atque
+            }else {
+            return
+            }
+        var num = Random.nextInt(100)
+        if(num < 100){
+            var daño = (daño() * 3)
+            enemigos[posicion]!!.vida -= daño
+        }else{
+            enemigos[posicion]!!.precision -= 15
+        }
+
+    }
+
+    fun Reflejo_Maldito(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision) {
+            //sigue realizando tu atque
+        }else {
+            return
+        }
+
+        this.vida = enemigos[posicion]!!.vida
+
+    }
+
+    fun Angeles_Demoniacos(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision) {
+            //sigue realizando tu atque
+        }else {
+            return
+        }
+        var Angel1 = Tropa_Gigante(5)
+        Angel1.Ataque_normal(ArrayList(enemigos.filterNotNull()), posicion, Waos)
+        var Angel2 = Tropa_Gigante(5)
+        Angel2.Ataque_normal(ArrayList(enemigos.filterNotNull()), posicion, Waos)
+
+    }
+
+    override fun Habilidad_Especial(Waos: Boolean){
+        if(Waos) {
+            if (this.vida > 0) {
+                GestorEventos.agregar(
+                    Evento(
+                        tipo = "Almas Malignas",
+                        objetivoIndex = GlobalData.Jugador1.indexOf(this), // o Jugador1 según el caso
+                        quien = 1, // 1 = jugador, 2 = enemigo
+                        turnosRestantes = 2, // revive en 3 turnos
+                        efecto = { evento, batalla ->
+                            if (evento.turnosRestantes == 1) {
+                                GlobalData.Jugador1[0]!!.vida += 50
+                                GlobalData.Jugador1[1]!!.vida += 50
+                                GlobalData.Jugador1[2]!!.vida += 50
+                                GlobalData.Jugador1[3]!!.vida += 50
+                                GlobalData.Jugador1[4]!!.vida += 50
+                                GlobalData.Jugador1[5]!!.vida += 50
+                            }
+                        }
+                    )
+                )
+            }
+        }
+        if(!Waos) {
+            if (this.vida > 0) {
+                GestorEventos.agregar(
+                    Evento(
+                        tipo = "Almas Malignas",
+                        objetivoIndex = GlobalData.Jugador2.indexOf(this), // o Jugador1 según el caso
+                        quien = 1, // 1 = jugador, 2 = enemigo
+                        turnosRestantes = 2, // revive en 3 turnos
+                        efecto = { evento, batalla ->
+                            if (evento.turnosRestantes == 1) {
+                                GlobalData.Jugador2[0]!!.vida += 50
+                                GlobalData.Jugador2[1]!!.vida += 50
+                                GlobalData.Jugador2[2]!!.vida += 50
+                                GlobalData.Jugador2[3]!!.vida += 50
+                                GlobalData.Jugador2[4]!!.vida += 50
+                                GlobalData.Jugador2[5]!!.vida += 50
+                            }
+                        }
+                    )
+                )
+            }
+        }
+    }
 
     override fun clonar(): Tropa {
         val copia = Reyna_paranormal(this.nivel)
@@ -175,10 +309,11 @@ class Reyna_paranormal (
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            this.cantidad_espinas -= 0.05
             return
         }
 

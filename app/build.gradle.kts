@@ -68,6 +68,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
     // 🔥 Supabase SDK
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("io.github.jan-tennert.supabase:supabase-kt:2.3.1")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.3.1") // Auth
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.3.1") // Base de datos

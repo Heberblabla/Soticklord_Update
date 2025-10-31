@@ -19,7 +19,8 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
     turnoActivo = true,
     turnoDoble =  false,
     cantidad_espinas = 0.00,
-    cantidad_escudos = 0.00
+    cantidad_escudos = 0.00,
+    precision = 100
 ), Serializable {
 
     override fun toString(): String {
@@ -49,25 +50,54 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño()
         enemigos[posicion].Recivir_daño(this,daño)
     }
 
     fun Espadazo_Real(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida -= (this.vida * 0.1).toInt()
         var daño = daño() * 2
         enemigos[posicion].Recivir_daño(this,daño)
     }
 
     fun En_Guardia(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida += (this.vida * 0.15).toInt()
     }
 
     fun Ataque_Final(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida -= (this.vida * 0.1).toInt()
         var daño = daño() * 4
         enemigos[posicion].Recivir_daño(this,daño)
     }
+
+    override fun Habilidad_Especial(Waos: Boolean){
+
+    }
+
     override fun clonar(): Tropa {
         val copia = Rey_Espadachin(this.nivel)
         copia.nombre = this.nombre
@@ -86,9 +116,11 @@ class Rey_Espadachin(Nivel:Int = 1): Tropa(
         return copia
     }
 
+
+
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

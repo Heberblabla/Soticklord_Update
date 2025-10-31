@@ -16,8 +16,8 @@ class Rey_Cristian (
         nivel = Nivel,
         vida = calcularVida(1000,Nivel),
         ataque_base = calcularAtaque(150,Nivel),
-        daño_critico = calcularDañoCritico(10.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
+        daño_critico = calcularDañoCritico(1.5,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.65,Nivel),
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_cristian,
@@ -25,9 +25,36 @@ class Rey_Cristian (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
 
     ), Serializable {
+    var esInmuneTotal = false
+    var unaves = true
+
+    override var vida: Int = calcularVida(1500, Nivel)
+        set(value) {
+            if (esInmuneTotal && value < field) {
+                return
+            }
+            field = value
+        }
+    override var ataque_base: Int = calcularAtaque(100, Nivel)
+        set(value) {
+            if (esInmuneTotal && value < field) {
+                return
+            }
+            field = value
+        }
+
+    override var precision: Int = 100
+        set(value) {
+            if (esInmuneTotal && value < field) {
+                return
+            }
+            field = value
+        }
+
 
     override fun toString(): String {
         return """
@@ -58,6 +85,13 @@ class Rey_Cristian (
 
 
     fun Back_on_de_bit(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         for (i in enemigos.indices) {
             var daño = (enemigos[i].vida * 0.15).toInt()
             enemigos[posicion]!!.vida = enemigos[posicion]!!.vida - daño
@@ -70,6 +104,13 @@ class Rey_Cristian (
     }
 
     fun king_Crimson(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
 
         if(Waos){
             var i = 0
@@ -126,6 +167,13 @@ class Rey_Cristian (
     }
 
     fun TUSK(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         if(Waos) {
             if (!GlobalData.Jugador1[1]!!.estado_de_vida &&
                 !GlobalData.Jugador1[2]!!.estado_de_vida &&
@@ -173,38 +221,172 @@ class Rey_Cristian (
     }
 
     fun Diamond(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
-        var num = Random.nextInt(100)
-        if(num < 50){
-            GlobalData.Jugador1[posicion]
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
         }
-        //prrobabilidad de 50% de q reviva con un 50% de vida una tropa aleaotria muerta y 5% con 100&
+        var num = Random.nextInt(100)
+        if(Waos) {
+            if (num < 50) {
+                var contador = 0
+                while (true) {
+                    var numero = Random.nextInt(1, 6)
+                    if (GlobalData.Jugador1[numero]!!.vida <= 0) {
+                        GlobalData.Jugador1[numero]!!.vida += 250
+                        var nums = Random.nextInt(100)
+                        if (nums < 5) {
+                            GlobalData.Jugador1[numero]!!.vida += 250
+                        }
+                        break
+                    } else {
+                        contador ++
+                        if(contador == 100){
+                            break
+                        }
+                    }
+                }
+            }
+        }
+        if(Waos) {
+            if (num < 50) {
+                var contador = 0
+                while (true) {
+                    var numero = Random.nextInt(1, 6)
+                    if (GlobalData.Jugador2[numero]!!.vida <= 0) {
+                        GlobalData.Jugador2[numero]!!.vida += 250
+                        var nums = Random.nextInt(100)
+                        if (nums < 5) {
+                            GlobalData.Jugador2[numero]!!.vida += 250
+                        }
+                        break
+                    } else {
+                        contador ++
+                        if(contador == 100){
+                            break
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-        val daño = daño()
-        enemigos[posicion]!!.Recivir_daño(this,daño)
-        //q cada vez q muera aliada ,muera una tropa del irivql 50% probabilidad
+    fun Calamidad(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+
+        val tropa = enemigos[posicion] ?: return
+        val nombreClase = tropa.nombre
+        val clase = GlobalData.Diccionario_Clases[nombreClase]
+
+        if (clase != null) {
+            // Crear una nueva instancia de esa clase con nivel 1
+            val nuevaTropa = clase.constructors.first().call(1) as Tropa
+            // Mantener posición y/o dueño si es necesario
+            enemigos[posicion] = nuevaTropa
+        }
 
     }
 
-    fun Calamidad(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
+    fun Killer_Queen(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+        val tropa = enemigos[posicion] ?: return
 
-           //bajar la tropa a nivel 1
+        val clase = GlobalData.Diccionario_Clases[tropa.nombre]
+        val copia = clase?.constructors?.first()?.call(tropa.nivel) as? Tropa ?: return
+        val vidaMaxima = copia.vida
+
+        // Si la tropa tiene menos vida que su máximo, la restaura
+        if (tropa.vida < vidaMaxima) {
+            tropa.vida = vidaMaxima
+            tropa.precision -= 20
+        }
+
+        // Buscar una tropa enemiga diferente al "posicion" y eliminarla
+        var contador = 0
+        while (contador < 100) { // evita bucle infinito
+            val nums = Random.nextInt(1, 6)
+            val objetivo = enemigos[nums]
+
+            if (nums != posicion && objetivo?.estado_de_vida == true) {
+                objetivo.vida = 0
+                objetivo.estado_de_vida = false
+                println("💀 ${objetivo.nombre} ha sido destruido por Killer Queen!")
+                break
+            }
+            contador++
+        }
     }
 
-    fun Killer_Queen(){
-           //seleccina a uno y elimina a una tropa aleatoria enemiga, ademas
-            // le resta 20% de acertar un ataque y regeenra vida si es la vida esta baja
+    fun Golden(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+        if(this.unaves) {
+            esInmuneTotal = true
+            this.unaves = false
+        }
     }
 
-    fun Golden(){
+    override fun Habilidad_Especial(Waos: Boolean) {
+        // Seleccionar jugador y enemigo según el turno
+        if(this.vida <= 0){
+            return
+        }
+        val (yo, enemigo) = if (Waos) {
+            GlobalData.Jugador1 to GlobalData.Jugador2
+        } else {
+            GlobalData.Jugador2 to GlobalData.Jugador1
+        }
 
-            //una ves por partida
-           //obtienes imnuidad total
-           // var = val
-           //no recibes efecto
+        // Función interna para contar cuántas tropas vivas hay (del 1 al 5)
+        fun contarVivas(lista: ArrayList<Tropa?>): Int {
+            var vivas = 0
+            for (i in 1..5) {
+                if (lista[i]?.estado_de_vida == true) vivas++
+            }
+            return vivas
+        }
+
+        var vivasmias = contarVivas(yo)
+        var vivasenemigas = contarVivas(enemigo)
+
+        // Mientras el enemigo tenga más tropas vivas, eliminar una aleatoria
+        while (vivasmias < vivasenemigas) {
+            val num = Random.nextInt(1, 6)
+            val tropaEnemiga = enemigo[num]
+
+            if (tropaEnemiga?.estado_de_vida == true) {
+                tropaEnemiga.vida = 0
+                tropaEnemiga.estado_de_vida = false
+
+            }
+
+            // Recontar tropas vivas después de cada cambio
+            vivasmias = contarVivas(yo)
+            vivasenemigas = contarVivas(enemigo)
+
+            // Si ya no quedan tropas enemigas vivas, romper bucle
+            if (enemigo.all { it == null || it.estado_de_vida == false }) break
+        }
+
 
     }
-
-
 
 
     override fun clonar(): Tropa {
@@ -227,7 +409,7 @@ class Rey_Cristian (
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()

@@ -9,7 +9,9 @@ import kotlin.math.ceil
 import kotlin.random.Random
 import Archivos_Extra.GestorEventos
 import Archivos_Extra.Evento
+import android.provider.Settings
 import android.widget.Toast
+import io.ktor.client.plugins.BodyProgress
 
 
 class Rey_Borrego (
@@ -29,10 +31,12 @@ class Rey_Borrego (
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00
+        cantidad_escudos = 0.00,
+        precision = 100
     ), Serializable {
 
-    var Resurreccion : Boolean = true
+    var Resurreccion : Boolean = true //troopas
+    var Revivir : Boolean = true //rey
     override fun toString(): String {
         return """
             Nombre: $nombre
@@ -61,17 +65,35 @@ class Rey_Borrego (
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = daño()
         enemigos[posicion].Recivir_daño(this,daño)
     }
 
     fun Golpe_del_Reyno(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         this.vida -= (this.vida * 0.5).toInt()
         val daño = ((enemigos[posicion]!!.vida * 0.5) + this.vida).toInt()
         enemigos[posicion].Recivir_daño(this,daño)
     }
 
     fun Bendicion_del_cetro(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         if(Waos) {
                 val daño = (this.ataque_base * 0.5).toInt()
                 enemigos[0].Recivir_daño(this,daño)
@@ -107,6 +129,12 @@ class Rey_Borrego (
     }
 
     fun Juicio_Celestial(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         if(Waos) {
             if(Resurreccion) {
                 for (i in 1..5) { // posiciones 1 al 5
@@ -156,8 +184,43 @@ class Rey_Borrego (
 
     }
 
-    fun revivir(){
-
+    override fun Habilidad_Especial(Waos: Boolean){
+        if(Waos){
+            if(this.vida < 1 && this.Revivir) {
+                GestorEventos.agregar(
+                    Evento(
+                        tipo = "Revivir",
+                        objetivoIndex = GlobalData.Jugador1.indexOf(this), // o Jugador1 según el caso
+                        quien = 1, // 1 = jugador, 2 = enemigo
+                        turnosRestantes = 3, // revive en 3 turnos
+                        efecto = { evento, batalla ->
+                            if (evento.turnosRestantes == 1 && GlobalData.Jugador1[0] != null && !GlobalData.Jugador1[0]!!.estado_de_vida) {
+                                GlobalData.Jugador1[0]!!.vida = calcularVida(1500,this.nivel)
+                            }
+                        }
+                    )
+                )
+                this.Revivir = false
+            }
+        }
+        if(!Waos){
+            if(this.vida < 1 && this.Revivir) {
+                GestorEventos.agregar(
+                    Evento(
+                        tipo = "Revivir",
+                        objetivoIndex = GlobalData.Jugador2.indexOf(this), // o Jugador1 según el caso
+                        quien = 2, // 1 = jugador, 2 = enemigo
+                        turnosRestantes = 3, // revive en 3 turnos
+                        efecto = { evento, batalla ->
+                            if (evento.turnosRestantes == 1 && GlobalData.Jugador2[0] != null && !GlobalData.Jugador2[0]!!.estado_de_vida) {
+                                GlobalData.Jugador2[0]!!.vida = calcularVida(1500,this.nivel)
+                            }
+                        }
+                    )
+                )
+                this.Revivir = false
+            }
+        }
     }
 
     override fun clonar(): Tropa {
@@ -179,29 +242,11 @@ class Rey_Borrego (
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
 
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
-            if(this.vida < 1){
-                GestorEventos.agregar(
-                    Evento(
-                        tipo = "revivir",
-                        objetivoIndex = 0,
-                        quien = 0,
-                        turnosRestantes = 3,
-                        efecto = { evento, batalla ->
-                            if (evento.turnosRestantes <= 1) {
-                                val tropa = GlobalData.Jugador1[0]
-                                if (!tropa!!.estado_de_vida) {
-                                    tropa.vida = 1000
-                                    tropa.estado_de_vida = true
-                                }
-                            }
-                        }
-                    )
-                )
-            }
+
             return
         }
 

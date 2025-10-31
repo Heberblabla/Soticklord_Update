@@ -18,9 +18,10 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
     rutaviva = R.drawable.gigante_tropa,
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
-    turnoDoble =  false,
+    turnoDoble =  true,
     cantidad_espinas = 0.00,
-    cantidad_escudos = 0.00
+    cantidad_escudos = 0.00,
+    precision = 100
 ), Serializable {
     override fun toString(): String {
         return """
@@ -54,11 +55,25 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
 
     //metodo principal para atcar
     fun Ataque_normal(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño: Int = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
     fun Terremoto(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
         val daño = calcularAtaque(50,this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)
         enemigos[1]!!.Recivir_daño(this,daño)
@@ -66,6 +81,10 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
         enemigos[3]!!.Recivir_daño(this,daño)
         enemigos[4]!!.Recivir_daño(this,daño)
         enemigos[5]!!.Recivir_daño(this,daño)
+    }
+
+    override fun Habilidad_Especial(Waos: Boolean){
+
     }
 
     override fun clonar(): Tropa {
@@ -89,7 +108,7 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
         if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque * (Ataque * cantidad_escudos)).toInt()
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
         }
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
