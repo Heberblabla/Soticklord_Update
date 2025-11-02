@@ -6,6 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads ="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/iniciar_sesion"
     tools:context=".Iniciar_Sesion">
 
@@ -59,4 +60,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.846" />
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/bannerView"
+        android:layout_width="271dp"
+        android:layout_height="39dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintVertical_bias="0.994"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads ="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/mapa_nocturno"
     tools:context=".Batalla_oculta">
+
+
+    <ImageView
+        android:id="@+id/fondo_batalla"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/mapa_nocturno"/>
 
     <Button
         android:id="@+id/Atacar"
@@ -606,4 +615,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.508" />
+
+    <ImageView
+        android:id="@+id/tablita"
+        android:layout_width="188dp"
+        android:layout_height="101dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/tabla" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="165dp"
+        android:layout_height="89dp"
+        android:fontFamily="@font/aladin"
+        android:text="info"
+        android:textColor="#0B0B0B"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.990" />
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/bannerView"
+        android:layout_width="196dp"
+        android:layout_height="47dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,11 +9,15 @@ import androidx.core.view.ViewCompat
 import Data.Tropa
 import Data.Tropa_Espadachin
 import android.content.Intent
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import kotlin.collections.get
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.AdView
 
 
 class Principal : AppCompatActivity() {
@@ -23,7 +27,7 @@ class Principal : AppCompatActivity() {
     var indice_waos = 0
     // Lista de imágenes (la llenamos en onCreate)
     lateinit var imagenes: ArrayList<ImageView>
-
+    private lateinit var bannerView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,6 +43,15 @@ class Principal : AppCompatActivity() {
             insets
         }
 
+        // 1️⃣ Inicializa el SDK de AdMob
+        MobileAds.initialize(this) {}
+        // 2️⃣ Conecta tu banner del XML
+        bannerView = findViewById(R.id.bannerView)
+        // 3️⃣ Crea una solicitud de anuncio
+        val adRequest = AdRequest.Builder().build()
+        // 4️⃣ Carga el anuncio
+        bannerView.loadAd(adRequest)
+
         // AHORA ya puedes hacer findViewById
         imagenes = arrayListOf(
             findViewById(R.id.Cero),
@@ -51,9 +64,7 @@ class Principal : AppCompatActivity() {
         Ocultar_imagenes()
     }
 
-
     //metodos
-
 
     fun batalla(view: View){
         if(GlobalData.Jugador1[0] != null &&
@@ -106,6 +117,8 @@ class Principal : AppCompatActivity() {
                 val seleccionada = GlobalData.Diccionario_Reyes[claveActual]
                 GlobalData.ReySeleccionado = seleccionada?.clonar()
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
+                seleccionada?.let { mostrar_datos(it) }
+
             }
 
         } else if (indice_waos in 1..5) { //  Mostrar tropas
@@ -117,8 +130,18 @@ class Principal : AppCompatActivity() {
                 val seleccionada = GlobalData.Diccionario_Tropas[claveActual]
                 GlobalData.TropaSeleccionada = seleccionada?.clonar()
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
+                seleccionada?.let { mostrar_datos(it) }
             }
         }
+    }
+
+
+    fun mostrar_datos(tropa: Tropa){
+        findViewById<TextView>(R.id.Nombre_Waos)?.text = tropa.nombre
+        findViewById<TextView>(R.id.nivel_rey_tropa)?.text = "N : ${tropa.nivel}"
+        findViewById<TextView>(R.id.ataque_rey_tropa)?.text = "⚔ : ${tropa.ataque_base}"
+        findViewById<TextView>(R.id.probabilidad_tropa_rey)?.text = "✢ : ${(tropa.probabilidad_de_critico * 100).toInt()}%"
+        findViewById<TextView>(R.id.dano_critico_tropa_rey)?.text = "☠︎︎ : +${(tropa.daño_critico * 100).toInt()}%"
     }
 
 
@@ -210,6 +233,7 @@ class Principal : AppCompatActivity() {
 
         }
 
+
     fun seleccionar(view: View){
         if (indice_waos == 5) {
             val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
@@ -219,6 +243,11 @@ class Principal : AppCompatActivity() {
             // Asignarlo al ImageView del Rey
             Imagen_Tropa_Frontal1.setImageDrawable(drawableActual)
             GlobalData.Jugador1[5] = GlobalData.TropaSeleccionada?.clonar()
+
+            var vida = GlobalData.Jugador1[5]!!.vida
+            val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Tropa_Frontal1)
+            Vida_rey_tropa.text = "♡  : $vida"
+
             return
         }
         if (indice_waos == 4) {
@@ -229,6 +258,11 @@ class Principal : AppCompatActivity() {
             // Asignarlo al ImageView del Rey
             Imagen_Tropa_Frontal2.setImageDrawable(drawableActual)
             GlobalData.Jugador1[4] = GlobalData.TropaSeleccionada?.clonar()
+
+            var vida = GlobalData.Jugador1[4]!!.vida
+            val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Tropa_Frontal2)
+            Vida_rey_tropa.text = "♡  : $vida"
+
             return
         }
         if (indice_waos == 3) {
@@ -239,6 +273,11 @@ class Principal : AppCompatActivity() {
             // Asignarlo al ImageView de Imagen_Tropa_Frontal3
             Imagen_Tropa_Frontal3.setImageDrawable(drawableActual)
             GlobalData.Jugador1[3] = GlobalData.TropaSeleccionada?.clonar()
+
+            var vida = GlobalData.Jugador1[3]!!.vida
+            val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Tropa_Frontal3)
+            Vida_rey_tropa.text = "♡  : $vida"
+
             return
         }
         if (indice_waos == 2) {
@@ -249,6 +288,11 @@ class Principal : AppCompatActivity() {
             // Asignarlo al ImageView del Imagen_Tropa_Segunda2
             Imagen_Tropa_Segunda1.setImageDrawable(drawableActual)
             GlobalData.Jugador1[2] = GlobalData.TropaSeleccionada?.clonar()
+
+            var vida = GlobalData.Jugador1[2]!!.vida
+            val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Tropa_Segunda2)
+            Vida_rey_tropa.text = "♡  : $vida"
+
             return
         }
         if (indice_waos == 1) {
@@ -260,6 +304,10 @@ class Principal : AppCompatActivity() {
             Imagen_Tropa_Segunda2.setImageDrawable(drawableActual)
             GlobalData.Jugador1[1] = GlobalData.TropaSeleccionada?.clonar()
 
+            var vida = GlobalData.Jugador1[1]!!.vida
+            val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Tropa_Segunda1)
+            Vida_rey_tropa.text = "♡  : $vida"
+
             return
         }
         if (indice_waos == 0) {
@@ -269,15 +317,27 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Rey.setImageDrawable(drawableActual)
-                GlobalData.Jugador1[0] = GlobalData.ReySeleccionado?.clonar()
+            GlobalData.Jugador1[0] = GlobalData.ReySeleccionado?.clonar()
+
+            var vida = GlobalData.Jugador1[0]!!.vida
+            val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Rey)
+            Vida_rey_tropa.text = "♡  : $vida"
+
             return
         }
 
 
     }
 
-
+    fun atras(view: View){
+            val intent = Intent(this, Mapa::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
+
+
+
+}
 
 
 

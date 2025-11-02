@@ -29,11 +29,16 @@ import android.util.Log
 import java.time.temporal.JulianFields
 import androidx.lifecycle.lifecycleScope
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.widget.ImageButton
 import androidx.core.view.RoundedCornerCompat
 import com.google.android.material.button.MaterialButton
+import kotlin.collections.get
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.AdView
 
 
 class Batalla : AppCompatActivity() {
@@ -46,11 +51,13 @@ class Batalla : AppCompatActivity() {
     var es_mi_turno = true
     var es_turno_del_enemigo = false
     lateinit var botonPasarTurno: MaterialButton
-
+    private lateinit var bannerView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_batalla)
+
+        EntornoManager.batalla = this
 
         // Oculta las barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -76,12 +83,26 @@ class Batalla : AppCompatActivity() {
             ) {
                 // Guardamos el texto seleccionado en la variable
                 ataqueSeleccionado = parent?.getItemAtPosition(position).toString()
+                cargarinfo(ataqueSeleccionado)
+
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Por si no selecciona nada , se asigan el ataque q todos tienen por defecto :v
                 ataqueSeleccionado = "Ataque_normal"
+                cargarinfo(ataqueSeleccionado)
             }
+
         }
+
+        // 1️⃣ Inicializa el SDK de AdMob
+        MobileAds.initialize(this) {}
+        // 2️⃣ Conecta tu banner del XML
+        bannerView = findViewById(R.id.bannerView)
+        // 3️⃣ Crea una solicitud de anuncio
+        val adRequest = AdRequest.Builder().build()
+        // 4️⃣ Carga el anuncio
+        bannerView.loadAd(adRequest)
+
         imagenes = arrayListOf(
             findViewById(R.id.Turno_TropaAa),
             findViewById(R.id.Turno_TropaBa),
@@ -104,8 +125,16 @@ class Batalla : AppCompatActivity() {
         visualizar_posicion_enemiga(5)
         actualizar_datos()
         bucle_principal()
+
+
     }
 
+
+    fun cargarinfo(nombre: String){
+        val descripcion = GlobalData.Diccionario_Ataques[nombre] ?: "Descripción no encontrada"
+        val Info_ataques = findViewById<TextView>(R.id.info)
+        Info_ataques.text = descripcion
+    }
 
     fun cambiarFuenteConFondo(items: List<String>) {
         val spinner = findViewById<Spinner>(R.id.Ataques)
@@ -144,7 +173,10 @@ class Batalla : AppCompatActivity() {
     }
 
     fun bucle_principal() {
+        GestorAcciones.Procesar()
         if (turno_activo !in 0..5) {
+            GestorAcciones.Procesar()
+            EntornoManager.aplicarEfecto()
             pasar_turno_al_enemigo()
             return
         }
@@ -163,6 +195,7 @@ class Batalla : AppCompatActivity() {
 
 
     suspend fun turno_del_enemigo() {
+        GestorAcciones.Procesar()
         es_mi_turno = false
         botonPasarTurno.isEnabled = false //  bloquea botón visualmente
         actualizar_datos()
@@ -172,23 +205,47 @@ class Batalla : AppCompatActivity() {
             es_turno_del_enemigo = true
             visualizar_posicion()
 
-            for (i in 5 downTo 0) {
+            var i = 5
+            while (i >= 0) {
+                EntornoManager.aplicarEfecto()
                 GestorAcciones.Procesar()
                 val tropa = GlobalData.Jugador2.getOrNull(i)
                 if (tropa != null && tropa.estado_de_vida) {
-                    visualizar_posicion_enemiga(i)
-                    delay(3000)
+                    if (tropa.turnoActivo) {
+                        visualizar_posicion_enemiga(i)
+                        delay(3000)
 
-                    val bot = Bot_Desiciones_aleatorio(this)
-                    bot.Empezar_Analisis(i)
-                    actualizar_datos()
+                        val bot = Bot_Desiciones_aleatorio(this)
+                        bot.Empezar_Analisis(i)
+                        actualizar_datos()
+                    } else {
+                        tropa.turnoActivo = true
+                    }
+
+                    // si tiene turno doble, repetir mismo índice
+                    if (tropa.turnoDoble) {
+                        tropa.turnoDoble = false // opcional, para evitar bucle infinito
+                    } else {
+                        i-- // bajar al siguiente
+                    }
+                } else {
+                    i-- // bajar si está muerta o null
                 }
             }
+
 
             val enemigos_vivos = GlobalData.Jugador2.filter { it?.estado_de_vida == true }
             if (enemigos_vivos.isEmpty()) {
                 Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
                 GestorEventos.limpiar()
+                if(GlobalData.nivel_actico == GlobalData.nivel_de_progresion){
+                    GlobalData.monedas += 100
+                    GlobalData.nivel_de_progresion += 1
+                }
+                val intent = Intent(this, Mapa::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                DataManager.guardarDatos(this)
                 finish()
                 return
             }
@@ -327,7 +384,7 @@ class Batalla : AppCompatActivity() {
         for (i in idsTextos.indices) {
             val textView = findViewById<TextView>(idsTextos[i])
             val vida = GlobalData.Jugador1[i]!!.vida
-            if(vida >= 1){
+            if(vida >= 1 && GlobalData.Jugador1[i]!!.estado_de_vida){
                 textView.text = "♡: $vida"
             }
             else{
@@ -353,7 +410,7 @@ class Batalla : AppCompatActivity() {
 
             val textView = findViewById<TextView>(idsTextos[i])
             val vida = GlobalData.Jugador2[i]!!.vida
-            if(vida >= 1){
+            if(vida >= 1 && GlobalData.Jugador2[i]!!.estado_de_vida){
                 GlobalData.Jugador2[i]!!.estado_de_vida = true
                 textView.text = "♡: $vida"
             }

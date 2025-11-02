@@ -5,8 +5,26 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads ="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/mapa_inicial"
     tools:context=".Mapa" >
+
+    <ImageButton
+        android:id="@+id/boton_atras"
+        android:layout_width="50dp"
+        android:layout_height="41dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="atras"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.002"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01"
+        app:srcCompat="@drawable/boton_atras" />
 
     <ImageView
         android:id="@+id/Estrella_nivel5"
@@ -14,23 +32,23 @@
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
+        app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.12"
-        app:srcCompat="@drawable/estrella2" />
+        app:layout_constraintVertical_bias="0.093"
+        app:srcCompat="@drawable/candado" />
 
     <ImageView
         android:id="@+id/Estrella_nivel6"
-        android:layout_width="93dp"
-        android:layout_height="115dp"
+        android:layout_width="66dp"
+        android:layout_height="88dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.826"
+        app:layout_constraintHorizontal_bias="0.813"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.054"
-        app:srcCompat="@drawable/estrella2" />
+        app:layout_constraintVertical_bias="0.071"
+        app:srcCompat="@drawable/candado" />
 
     <ImageView
         android:id="@+id/Estrella_nivel4"
@@ -40,8 +58,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-        app:srcCompat="@drawable/estrella2" />
+        app:layout_constraintVertical_bias="0.279"
+        app:srcCompat="@drawable/candado" />
 
     <ImageView
         android:id="@+id/Estrella_nivel3"
@@ -49,11 +67,10 @@
         android:layout_height="73dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.353"
+        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.523"
-        app:srcCompat="@drawable/estrella2" />
+        app:srcCompat="@drawable/candado" />
 
     <ImageView
         android:id="@+id/Estrella_nivel2"
@@ -64,8 +81,8 @@
         app:layout_constraintHorizontal_bias="0.189"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.594"
-        app:srcCompat="@drawable/estrella2" />
+        app:layout_constraintVertical_bias="0.57"
+        app:srcCompat="@drawable/candado" />
 
     <Button
         android:id="@+id/boton_Avanzar"
@@ -85,7 +102,7 @@
         android:layout_width="119dp"
         android:layout_height="95dp"
         android:background="#00FFFFFF"
-        android:onClick="cuarto_nivel"
+        android:onClick="practicar"
         android:text="⚔"
         android:textColor="#1B1B1B"
         android:textSize="60sp"
@@ -187,10 +204,23 @@
         android:layout_height="71dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.689"
-        app:srcCompat="@drawable/estrella2" />
+        app:layout_constraintVertical_bias="0.67"
+        app:srcCompat="@drawable/candado" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/bannerView"
+        android:layout_width="271dp"
+        android:layout_height="39dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.982"
+        app:layout_constraintVertical_bias="0.981" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -79,7 +79,7 @@ class Rey_El_Pro (
         }
         if (Waos) {
             val nombre = GlobalData.Jugador2[0]!!.nombre
-            val nuevo_nivel = GlobalData.Jugador2[0]!!.nivel + 10
+            val nuevo_nivel = GlobalData.Jugador2[0]!!.nivel + 5
             val clase = GlobalData.Diccionario_Clases[nombre]
              // crear una nueva instancia usando el constructor (por ejemplo, nivel 2)
             val nuevaTropa = clase?.constructors?.firstOrNull()?.call(nuevo_nivel) as? Tropa

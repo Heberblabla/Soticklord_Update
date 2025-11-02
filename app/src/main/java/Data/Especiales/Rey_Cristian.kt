@@ -31,6 +31,7 @@ class Rey_Cristian (
     ), Serializable {
     var esInmuneTotal = false
     var unaves = true
+    var invocacion = true
 
     override var vida: Int = calcularVida(1500, Nivel)
         set(value) {
@@ -104,7 +105,6 @@ class Rey_Cristian (
     }
 
     fun king_Crimson(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
-
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
@@ -112,58 +112,58 @@ class Rey_Cristian (
             return
         }
 
-        if(Waos){
-            var i = 0
-            while(true){
-                if(GlobalData.Diccionario_Tropas[i]!!.nombre == "Tropa_Gigante_estelar"){
-                    break
+
+        if (Waos) {
+            if(this.invocacion) {
+                val claseGigante = GlobalData.Diccionario_Clases["Tropa_Gigante_estelar"]
+                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Gurandera"]
+
+                val nivelGigante = this.nivel + 10
+                val nivelCurandera = this.nivel + 8
+
+                if (claseGigante != null && claseCurandera != null) {
+                    GlobalData.Jugador1[1] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador1[2] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador1[3] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador1[4] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador1[5] = claseGigante.constructors.first().call(nivelGigante)
+
+                    println("Tropas creadas para Jugador 1")
+                } else {
+                    println("No se encontró alguna clase en Diccionario_Clases")
                 }
-                i ++
-            }
-            var j = 0
-            while(true){
-                if(GlobalData.Diccionario_Tropas[j]!!.nombre == "Tropa_Gurandera"){
-                    break
-                }
-                j ++
+                this.invocacion = false
             }
 
-            GlobalData.Jugador1[1] = GlobalData.Diccionario_Tropas[j]!!.clonar()
-            GlobalData.Jugador1[2] = GlobalData.Diccionario_Tropas[j]!!.clonar()
-            GlobalData.Jugador1[3] = GlobalData.Diccionario_Tropas[i]!!.clonar()
-            GlobalData.Jugador1[4] = GlobalData.Diccionario_Tropas[i]!!.clonar()
-            GlobalData.Jugador1[5] = GlobalData.Diccionario_Tropas[i]!!.clonar()
+        } else {
+            if(this.invocacion) {
+                val claseGigante = GlobalData.Diccionario_Clases["Tropa_Gigante_estelar"]
+                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Gurandera"]
+
+                val nivelGigante = this.nivel + 10
+                val nivelCurandera = this.nivel + 8
+
+                if (claseGigante != null && claseCurandera != null) {
+                    GlobalData.Jugador2[1] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador2[2] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador2[3] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador2[4] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador2[5] = claseGigante.constructors.first().call(nivelGigante)
+
+                    println("ropas creadas para Jugador 2")
+                } else {
+                    println(" No se encontró alguna clase en Diccionario_Clases")
+                }
+                this.invocacion = false
+            }
         }
-        if(!Waos){
-            var i = 0
-            while(true){
-                if(GlobalData.Diccionario_Tropas[i]!!.nombre == "Tropa_Gigante_estelar"){
-                    break
-                }
-                i ++
-            }
-            var j = 0
-            while(true){
-                if(GlobalData.Diccionario_Tropas[j]!!.nombre == "Tropa_Gurandera"){
-                    break
-                }
-                j ++
-            }
-
-            GlobalData.Jugador2[1] = GlobalData.Diccionario_Tropas[j]!!.clonar()
-            GlobalData.Jugador2[2] = GlobalData.Diccionario_Tropas[j]!!.clonar()
-            GlobalData.Jugador2[3] = GlobalData.Diccionario_Tropas[i]!!.clonar()
-            GlobalData.Jugador2[4] = GlobalData.Diccionario_Tropas[i]!!.clonar()
-            GlobalData.Jugador2[5] = GlobalData.Diccionario_Tropas[i]!!.clonar()
-        }
 
 
-        //invocas 2 curadneros atras 150pv 50atq
-        //curan 100pv a todos expeto a ellosmismo
 
-        //invocas 3 gigantes estelares, 500pv y 100ataque
-
-        //solo si no tienes ninguna tropa viva y ni el rival
     }
 
     fun TUSK(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {

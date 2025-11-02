@@ -1,10 +1,13 @@
 package Data.Personalizados
 
+import Archivos_Extra.Evento
+import Archivos_Extra.GestorEventos
 import Data.Tropa
 import Data.Tropa.Companion.calcularAtaque
 import Data.Tropa.Companion.calcularDañoCritico
 import Data.Tropa.Companion.calcularProbCritico
 import Data.Tropa.Companion.calcularVida
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -16,10 +19,10 @@ class Rey_Jerald (
     Tropa(
         nombre = "Rey_Jerald",
         nivel = Nivel,
-        vida = calcularVida(950,Nivel),
-        ataque_base = calcularAtaque(50,Nivel),
-        daño_critico = calcularDañoCritico(10.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
+        vida = calcularVida(1000,Nivel),
+        ataque_base = calcularAtaque(100,Nivel),
+        daño_critico = calcularDañoCritico(2.0,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.30,Nivel),
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_jerald,
@@ -30,6 +33,10 @@ class Rey_Jerald (
         cantidad_escudos = 0.00,
         precision = 100
     ), Serializable {
+        var perro = true
+        var invocacion = true
+        var fase= true
+        var atropello = true
 
     override fun toString(): String {
         return """
@@ -65,10 +72,34 @@ class Rey_Jerald (
         }else{
             return
         }
+        if(Waos) {
+            if (perro) {
+                GlobalData.Jugador1[0]!!.vida = (500 + GlobalData.Jugador1[0]!!.vida) * 2
+                GlobalData.Jugador1[1]!!.vida = (500 + GlobalData.Jugador1[1]!!.vida) * 2
+                GlobalData.Jugador1[2]!!.vida = (500 + GlobalData.Jugador1[2]!!.vida) * 2
+                GlobalData.Jugador1[3]!!.vida = (500 + GlobalData.Jugador1[3]!!.vida) * 2
+                GlobalData.Jugador1[4]!!.vida = (500 + GlobalData.Jugador1[4]!!.vida) * 2
+                GlobalData.Jugador1[5]!!.vida = (500 + GlobalData.Jugador1[5]!!.vida) * 2
+                perro = false
+            }
+        }
+        if(!Waos) {
+            if (perro) {
+                GlobalData.Jugador2[0]!!.vida = (500 + GlobalData.Jugador2[0]!!.vida) * 2
+                GlobalData.Jugador2[1]!!.vida = (500 + GlobalData.Jugador2[1]!!.vida) * 2
+                GlobalData.Jugador2[2]!!.vida = (500 + GlobalData.Jugador2[2]!!.vida) * 2
+                GlobalData.Jugador2[3]!!.vida = (500 + GlobalData.Jugador2[3]!!.vida) * 2
+                GlobalData.Jugador2[4]!!.vida = (500 + GlobalData.Jugador2[4]!!.vida) * 2
+                GlobalData.Jugador2[5]!!.vida = (500 + GlobalData.Jugador2[5]!!.vida) * 2
+                perro = false
+            }
+        }
+
 
         //una ves por partida
         //invocas un perro  q les dara invencible por 3 turnos
     }
+
     fun Modo_cautel(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         var xd = Random.nextInt(100)
         if(xd < this.precision){
@@ -76,8 +107,12 @@ class Rey_Jerald (
         }else{
             return
         }
-        //Tu vida aumentara en un 25% y tu dañño se duplicara durante 2 turnos
+
+        this.vida += (this.vida * 0.25).toInt()
+        this.ataque_base += this.ataque_base
+
     }
+
     fun Salto_de_soga(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         var xd = Random.nextInt(100)
         if(xd < this.precision){
@@ -85,8 +120,46 @@ class Rey_Jerald (
         }else{
             return
         }
+
+        if(Waos) {
+            GestorEventos.agregar(
+                Evento(
+                    tipo = "Sangrado",
+                    objetivoIndex = posicion,
+                    quien = 2, // si el enemigo es Jugador2
+                    turnosRestantes = 5,
+                    efecto = { evento, batalla ->
+                        val lista = if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
+                        val tropa = lista[evento.objetivoIndex]
+                        if (tropa != null && tropa.estado_de_vida) {
+                            tropa.vida -= 100
+                        }
+                    }
+                )
+            )
+        }
+        if(!Waos) {
+            GestorEventos.agregar(
+                Evento(
+                    tipo = "Sangrado",
+                    objetivoIndex = posicion,
+                    quien = 1, // si el enemigo es Jugador2
+                    turnosRestantes = 5,
+                    efecto = { evento, batalla ->
+                        val lista = if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
+                        val tropa = lista[evento.objetivoIndex]
+                        if (tropa != null && tropa.estado_de_vida) {
+                            tropa.vida -= 100
+
+                        }
+                    }
+                )
+            )
+        }
+
         //Los proximos 5 turnos sufres un daño igual a 100
     }
+
     fun Ballesta(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         var xd = Random.nextInt(100)
         if(xd < this.precision){
@@ -94,19 +167,68 @@ class Rey_Jerald (
         }else{
             return
         }
-        //se coloca una ballesta q inflijira un daño iguala  tu aatque base
-        //a todos
+        this.rutaviva = R.drawable.gato_ballesta
+        for(tropa in enemigos){
+            tropa.Recivir_daño(this,ataque_base)
+        }
+
     }
-    fun invocacion_de_gato(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+
+    fun invocacion_de_gatos(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        //invocas a un gato aliado ,q mientras este vivo tus aatques inflijiran x3 de daño
-        //junto con el
+
+        if (Waos) {
+            if(this.invocacion) {
+                val claseGigante = GlobalData.Diccionario_Clases["Tropa_Gato_amigo1"]
+                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Gato_amigo2"]
+
+                val nivelGigante = this.nivel + 5
+                val nivelCurandera = this.nivel + 8
+
+                if (claseGigante != null && claseCurandera != null) {
+                    GlobalData.Jugador1[1] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador1[2] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador1[3] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador1[4] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador1[5] = claseGigante.constructors.first().call(nivelGigante)
+
+                    println("Tropas creadas para Jugador 1")
+                } else {
+                    println("No se encontró alguna clase en Diccionario_Clases")
+                }
+                this.invocacion = false
+            }
+
+        } else {
+            if (this.invocacion) {
+                val claseGigante = GlobalData.Diccionario_Clases["Tropa_Gato_amigo1"]
+                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Gato_amigo2"]
+                val nivelGigante = this.nivel + 5
+                val nivelCurandera = this.nivel + 8
+                if (claseGigante != null && claseCurandera != null) {
+                    GlobalData.Jugador2[1] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador2[2] =
+                        claseCurandera.constructors.first().call(nivelCurandera)
+                    GlobalData.Jugador2[3] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador2[4] = claseGigante.constructors.first().call(nivelGigante)
+                    GlobalData.Jugador2[5] = claseGigante.constructors.first().call(nivelGigante)
+                    println("ropas creadas para Jugador 2")
+                } else {
+                    println(" No se encontró alguna clase en Diccionario_Clases")
+                }
+                this.invocacion = false
+            }
+        }
     }
+
     fun Sube_de_fase(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
         var xd = Random.nextInt(100)
         if(xd < this.precision){
@@ -114,10 +236,21 @@ class Rey_Jerald (
         }else{
             return
         }
-        //UNA VES POR PARTIDA
+
+        if(this.fase) {
+            this.rutaviva = R.drawable.fato_fase
+            this.ataque_base += this.ataque_base * 3
+
+            for (tropa in enemigos) {
+                tropa.vida -= (tropa.vida / 2).toInt()
+            }
+            this.fase = false
+        }
+        //UNA   VES POR PARTIDA
         //tu vida y tu ataque sube en un 200%
         //todos los enemigos reciven un daño igual al 50% de su vida restante
     }
+
     fun Atropello(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
         var xd = Random.nextInt(100)
         if(xd < this.precision){
@@ -125,10 +258,20 @@ class Rey_Jerald (
         }else{
             return
         }
-        //una ves por partida
-        //invocas un bus de arequipa q inflije daño a todos de atqqeu base ,el rey sufre
-        //el doble , su defensa baja en un 70% , pierde turno y su ataque y vida se reduce
-        //en un 25%
+        if(this.atropello) {
+            for (i in 5 downTo 0 step -1) {
+                enemigos[i].Recivir_daño(this,ataque_base)
+                if(i == 0){
+                    enemigos[0].Recivir_daño(this, ataque_base)
+                    enemigos[0].cantidad_escudos -= 70
+                    enemigos[0].turnoActivo = false
+                    enemigos[0].vida -= (enemigos[0].vida * 0.25).toInt()
+                    enemigos[0].ataque_base -= (enemigos[0].ataque_base * 0.25).toInt()
+                }
+
+            }
+            this.atropello = false
+        }
     }
 
     override fun Habilidad_Especial(Waos: Boolean){

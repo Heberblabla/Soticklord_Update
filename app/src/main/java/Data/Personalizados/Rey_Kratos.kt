@@ -19,10 +19,10 @@ class Rey_Kratos (
     Tropa(
         nombre = "Rey_Kratos",
         nivel = Nivel,
-        vida = calcularVida(1500,Nivel),
-        ataque_base = calcularAtaque(50,Nivel),
-        daño_critico = calcularDañoCritico(2.5,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.45,Nivel),
+        vida = calcularVida(1300,Nivel),
+        ataque_base = calcularAtaque(75,Nivel),
+        daño_critico = calcularDañoCritico(1.2,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.25,Nivel),
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_kratos,
@@ -34,7 +34,7 @@ class Rey_Kratos (
         precision = 100
     ), Serializable {
     var Revivir = true
-
+    var juicio = true
     override fun toString(): String {
         return """
             Nombre: $nombre
@@ -51,8 +51,9 @@ class Rey_Kratos (
     }
 
     private fun daño(): Int {
-        val random = Random.Default
-        val suerte = random.nextDouble()
+        var random = Random.Default
+        var suerte = random.nextDouble()
+
 
         return if (suerte < this.probabilidad_de_critico) {
             val x = this.ataque_base * this.daño_critico
@@ -69,12 +70,15 @@ class Rey_Kratos (
         }else{
             return
         }
-        val daño = (daño() * 2.8).toInt()
+
+        val daño = (daño() * 1.3).toInt()
         enemigos[posicion].Recivir_daño(this,daño)
+
         var num = Random.nextInt(100)
-        if(num < 30){
+        if(num < 10){
             enemigos[posicion].turnoActivo = false
             this.precision += 20
+            this.ataque_base += 100
         }
     }
 
@@ -85,11 +89,13 @@ class Rey_Kratos (
         }else{
             return
         }
+
         for(tropa in enemigos){
-            var daño = (daño() * 2.2).toInt()
+            var daño = (daño() * 1.2).toInt()
             tropa.Recivir_daño(this,daño)
             tropa.cantidad_escudos -= 15
         }
+
         this.cantidad_escudos + 0.1
     }
 
@@ -145,52 +151,57 @@ class Rey_Kratos (
         }else{
             return
         }
-        if(Waos){
-            for(tropa in enemigos){
-                var daño = (daño() * 2.5).toInt()
-                tropa.Recivir_daño(this,daño)
-                tropa!!.cantidad_escudos -= 10
-            }
-            GestorEventos.agregar(
-                Evento(
-                    tipo = "Quemadura_Pesada",
-                    objetivoIndex = posicion,
-                    quien = 2, // si el enemigo es Jugador2
-                    turnosRestantes = 2,
-                    efecto = { evento, batalla ->
-                        val lista = if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
-                        val tropa = lista[evento.objetivoIndex]
-                        if (tropa != null && tropa.estado_de_vida || evento.turnosRestantes > 0) {
-                            tropa!!.vida -= (tropa!!.vida * 0.25).toInt()
+        if(this.vida > 800) {
+            if (Waos) {
+                for (tropa in enemigos) {
+                    var daño = (daño() * 0.5).toInt()
+                    tropa.Recivir_daño(this, daño)
+                    tropa!!.cantidad_escudos -= 8
+                }
+                GestorEventos.agregar(
+                    Evento(
+                        tipo = "Quemadura_Pesada",
+                        objetivoIndex = posicion,
+                        quien = 2, // si el enemigo es Jugador2
+                        turnosRestantes = 2,
+                        efecto = { evento, batalla ->
+                            val lista =
+                                if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
+                            val tropa = lista[evento.objetivoIndex]
+                            if (tropa != null && tropa.estado_de_vida || evento.turnosRestantes > 0) {
+                                tropa!!.vida -= (tropa!!.vida * 0.25).toInt()
 
 
+                            }
                         }
-                    }
+                    )
                 )
-            )
-        }
-        if(!Waos){
-            for(tropa in enemigos){
-                var daño = (daño() * 2.5).toInt()
-                tropa.Recivir_daño(this,daño)
-                tropa!!.cantidad_escudos -= 10
             }
-            GestorEventos.agregar(
-                Evento(
-                    tipo = "Quemadura_Pesada",
-                    objetivoIndex = posicion,
-                    quien = 1, // si el enemigo es Jugador2
-                    turnosRestantes = 2,
-                    efecto = { evento, batalla ->
-                        val lista = if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
-                        val tropa = lista[evento.objetivoIndex]
-                        if (tropa != null && tropa.estado_de_vida || evento.turnosRestantes > 0) {
-                            tropa!!.vida -= (tropa!!.vida * 0.25).toInt()
+            if (!Waos) {
+                for (tropa in enemigos) {
+                    var daño = (daño() * 0.5).toInt()
+                    tropa.Recivir_daño(this, daño)
+                    tropa!!.cantidad_escudos -= 8
+                }
+                GestorEventos.agregar(
+                    Evento(
+                        tipo = "Quemadura_Pesada",
+                        objetivoIndex = posicion,
+                        quien = 1, // si el enemigo es Jugador2
+                        turnosRestantes = 2,
+                        efecto = { evento, batalla ->
+                            val lista =
+                                if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
+                            val tropa = lista[evento.objetivoIndex]
+                            if (tropa != null && tropa.estado_de_vida || evento.turnosRestantes > 0) {
+                                tropa!!.vida -= (tropa!!.vida * 0.25).toInt()
 
+                            }
                         }
-                    }
+                    )
                 )
-            )
+            }
+            this.vida -= 100
         }
     }
 
@@ -203,13 +214,13 @@ class Rey_Kratos (
         }
 
         var daño = daño()
-        daño = daño * 3
+        daño = daño * 2
         enemigos[posicion].Recivir_daño(this, daño)
-        this.precision += 20
 
         var num = Random.nextInt(100)
-        if (num < 30) {
+        if (num < 18) {
             enemigos[posicion].turnoActivo = false
+            this.precision += 20
         }
 
     }
@@ -223,7 +234,7 @@ class Rey_Kratos (
         }
         for(tropa in enemigos){
             tropa!!.cantidad_escudos -= 30
-            var daño = (daño() * 3.8).toInt()
+            var daño = (daño() * 1.8).toInt()
             tropa.Recivir_daño(this,daño)
         }
 
@@ -237,15 +248,18 @@ class Rey_Kratos (
             return
         }
 
-        for(tropa in enemigos){
-            var daño = (daño() * 5).toInt()
-            tropa.Recivir_daño(this,daño)
+        if(this.juicio) {
+            for (tropa in enemigos) {
+                var daño = (daño() * 3).toInt()
+                tropa.Recivir_daño(this, daño)
 
-            var num = Random.nextInt(100)
-            if (num < 50) {
-                enemigos[posicion].turnoActivo = false
-                this.vida += (this.vida * 0.25).toInt()
+                var num = Random.nextInt(100)
+                if (num < 25) {
+                    enemigos[posicion].turnoActivo = false
+                    this.vida += (this.vida * 0.25).toInt()
+                }
             }
+            this.juicio = false
         }
 
     }

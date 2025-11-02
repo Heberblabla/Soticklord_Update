@@ -15,12 +15,15 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.waos.soticklord.Iniciar_Sesion
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.AdView
 
 class Escoger_modo : AppCompatActivity() {
 
     private lateinit var fondoVideo: TextureView
     private var mediaPlayer: MediaPlayer? = null
-
+    private lateinit var bannerView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,6 +43,15 @@ class Escoger_modo : AppCompatActivity() {
         }
 
         fondoVideo = findViewById(R.id.fondoVideo)
+
+        // 1️⃣ Inicializa el SDK de AdMob
+        MobileAds.initialize(this) {}
+        // 2️⃣ Conecta tu banner del XML
+        bannerView = findViewById(R.id.bannerView)
+        // 3️⃣ Crea una solicitud de anuncio
+        val adRequest = AdRequest.Builder().build()
+        // 4️⃣ Carga el anuncio
+        bannerView.loadAd(adRequest)
 
         // Espera a que el TextureView esté listo para usarlo
         fondoVideo.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
@@ -94,4 +106,12 @@ class Escoger_modo : AppCompatActivity() {
     fun tercer_modo(view: View){
         Toast.makeText(this, "Modo ahun no disponible", Toast.LENGTH_SHORT).show()
     }
+
+    fun atras(view: View){
+        val intent = Intent(this, Iniciar_Sesion::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
+
 }

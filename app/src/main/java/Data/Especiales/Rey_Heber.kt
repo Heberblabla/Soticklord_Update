@@ -114,24 +114,44 @@ class Rey_Heber (
         }else{
             return
         }
+        if(Waos) {
+            GestorEventos.agregar(
+                Evento(
+                    tipo = "veneno",
+                    objetivoIndex = posicion,
+                    quien = 2, // si el enemigo es Jugador2
+                    turnosRestantes = 5,
+                    efecto = { evento, batalla ->
+                        val lista =
+                            if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
+                        val tropa = lista[evento.objetivoIndex]
+                        if (tropa != null && tropa.estado_de_vida) {
+                            tropa.vida -= 100
 
-        GestorEventos.agregar(
-            Evento(
-                tipo = "veneno",
-                objetivoIndex = posicion,
-                quien = 2, // si el enemigo es Jugador2
-                turnosRestantes = 2,
-                efecto = { evento, batalla ->
-                    val lista = if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
-                    val tropa = lista[evento.objetivoIndex]
-                    if (tropa != null && tropa.estado_de_vida) {
-                        tropa.vida -= 100
-
+                        }
                     }
-                }
+                )
             )
-        )
+        }
+        if(!Waos) {
+            GestorEventos.agregar(
+                Evento(
+                    tipo = "veneno",
+                    objetivoIndex = posicion,
+                    quien = 1, // si el enemigo es Jugador2
+                    turnosRestantes = 5,
+                    efecto = { evento, batalla ->
+                        val lista =
+                            if (evento.quien == 1) GlobalData.Jugador1 else GlobalData.Jugador2
+                        val tropa = lista[evento.objetivoIndex]
+                        if (tropa != null && tropa.estado_de_vida) {
+                            tropa.vida -= 100
 
+                        }
+                    }
+                )
+            )
+        }
 
     }
 

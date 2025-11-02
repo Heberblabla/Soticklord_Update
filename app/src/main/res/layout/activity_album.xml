@@ -24,8 +24,8 @@
 
     <TextView
         android:id="@+id/Ataques_disponibles"
-        android:layout_width="143dp"
-        android:layout_height="119dp"
+        android:layout_width="163dp"
+        android:layout_height="123dp"
         android:fontFamily="@font/aladin"
         android:text="🗡"
         android:textColor="#050505"
@@ -239,6 +239,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.945"
         app:srcCompat="@drawable/boton2" />
+
+    <ImageButton
+        android:id="@+id/boton_atras"
+        android:layout_width="50dp"
+        android:layout_height="41dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="atras"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.002"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01"
+        app:srcCompat="@drawable/boton_atras" />
 
     <ImageButton
         android:id="@+id/Boton_aterior_pagina"
@@ -579,8 +596,8 @@
 
     <TextView
         android:id="@+id/Nivel_de_cuentawaos"
-        android:layout_width="60dp"
-        android:layout_height="15dp"
+        android:layout_width="64dp"
+        android:layout_height="14dp"
         android:fontFamily="@font/unlock"
         android:text="N : --"
         android:textColor="#050505"

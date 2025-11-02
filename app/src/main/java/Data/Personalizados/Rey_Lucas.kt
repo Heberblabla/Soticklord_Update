@@ -18,7 +18,7 @@ class Rey_Lucas (
         probabilidad_de_critico = calcularProbCritico(0.90,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.rey_lucas,
+        rutaviva = R.drawable.rey_noob,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,

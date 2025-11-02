@@ -16,10 +16,6 @@ import android.widget.FrameLayout
 import android.widget.VideoView
 import android.view.View
 import android.view.Gravity
-
-
-
-
 import com.waos.soticklord.*
 
 class Reyna_paranormal (
@@ -82,12 +78,7 @@ class Reyna_paranormal (
     }
 
     fun Porque_tan_solo(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
-        var xd = Random.nextInt(100)
-        if (xd < this.precision) {
-            //sigue realizando tu atque
-        } else {
-            return
-        }
+
         val batalla = GlobalData.batalla ?: return
 
         // Fondo oscuro semitransparente
@@ -181,7 +172,7 @@ class Reyna_paranormal (
         }
 
         for (tropa in enemigos) {
-            tropa.precision -= 10
+            tropa.precision -= 8
         }
 
     }
@@ -193,13 +184,33 @@ class Reyna_paranormal (
         } else {
             return
         }
-        //entorno de sombra al incio de cada turno pierden 5% de precicion ,
-        // 150 de vida 25% de ataque abse :v
-        //obtienes + 20% de prescion , +10% de escudo + 40% de daño critico
-        //y + 20% de espinas
-        var daño = daño()
-        enemigos[posicion].Recivir_daño(this, daño)
+        if(Waos) {
+            EntornoManager.cambiarEntorno(
+                nuevo = DataEntornos.Reino_Paranormal,
+                invocador = this, // la tropa que lo activó
+                enemigos = GlobalData.Jugador2.filterNotNull(),
+                aliados = GlobalData.Jugador1.filterNotNull()
+            )
+            var daño = daño()
+            enemigos[posicion].Recivir_daño(this, daño)
+        }
+        if(!Waos) {
+            EntornoManager.cambiarEntorno(
+                nuevo = DataEntornos.Reino_Paranormal,
+                invocador = this, // la tropa que lo activó
+                enemigos = GlobalData.Jugador1.filterNotNull(),
+                aliados = GlobalData.Jugador2.filterNotNull()
+            )
+            var daño = daño()
+            enemigos[posicion].Recivir_daño(this, daño)
+        }
+
+        EntornoManager.aplicarEfecto()
     }
+    //entorno de sombra al incio de cada turno pierden 5% de precicion ,
+    // 150 de vida 25% de ataque abse :v
+    //obtienes + 20% de prescion , +10% de escudo + 40% de daño critico
+    //y + 20% de espinas
 
     fun Juguemos_un_juego(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         var xd = Random.nextInt(100)
@@ -208,12 +219,13 @@ class Reyna_paranormal (
             }else {
             return
             }
+
         var num = Random.nextInt(100)
-        if(num < 100){
-            var daño = (daño() * 3)
+        if(num < 85){
+            var daño = (daño() * 2)
             enemigos[posicion]!!.vida -= daño
         }else{
-            enemigos[posicion]!!.precision -= 15
+            enemigos[posicion]!!.precision -= 10
         }
 
     }

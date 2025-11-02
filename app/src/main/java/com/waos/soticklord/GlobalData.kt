@@ -21,9 +21,10 @@ object GlobalData {
         add(null) // posición 4 (tropa)
         add(null) // posición 5 (tropa)
     }
+
     var Diccionario_Reyes = hashMapOf<Int, Tropa>()
     var Diccionario_Tropas = hashMapOf<Int, Tropa>()
-    //var batalla: Activity? = null
+    var batalla: Activity? = null
     val Diccionario_Clases = mapOf(
         //defaults
         "Rey_Arquero" to Data.Rey_Arquero::class,
@@ -58,70 +59,325 @@ object GlobalData {
         "Reyna_paranormal" to Data.Personalizados.Reyna_paranormal::class,
         "Rey_Kanox" to Data.Personalizados.Rey_Kanox::class,
         "Rey_Kratos" to Data.Personalizados.Rey_Kratos::class,
-        "Rey_Jerald" to Data.Personalizados.Rey_Jerald::class
+        "Rey_Jerald" to Data.Personalizados.Rey_Jerald::class,
+        "Rey_Moises" to Data.Personalizados.Rey_Moises::class,
+        "Rey_Han_Kong" to Data.Personalizados.Rey_Han_Kong::class,
+        "Rey_Aethelred" to Data.Personalizados.Rey_Aethelred::class,
+
+        //tropas fichas
+        "Tropa_Gigante_estelar" to Data.Tropas_personalizadas.Tropa_Gigante_estelar::class,
+        "Tropa_Gurandera" to Data.Tropas_personalizadas.Tropa_Gurandera::class,
+        "Tropa_Gato_amigo2" to Data.Tropas_personalizadas.Tropa_Gato_amigo2::class,
+        "Tropa_Gato_amigo1" to Data.Tropas_personalizadas.Tropa_Gato_amigo1::class
 
 
 
     )
+
     val Diccionario_Ataques = mapOf(
+        "uiiaiuiiiai" to
+                """
+        Inflijes un daño de 35 +15% por cada nivel 
+        a todos los enemigos
+                """.trimIndent() ,
+        //----------------------------
+        "Rasguño" to
+                """
+        Inflijes daño normal al enemigo
+                """.trimIndent() ,
+        //----------------------------
+        "Miasculu" to
+                """
+        Creas un daño aleatorio (1-100) +15%
+        por cada nivel ,y lo inflijes a todos
+        los enemigos
+                """.trimIndent() ,
+        //----------------------------
         "Transformacion" to
                 """
-        Te transformas en el rey enemigo
-        con +10 niveles
+        Te conviertes en el rey enemigo +5 niveles
+                """.trimIndent() ,
+        //----------------------------
+        "Porque_tan_solo" to
+                """
+        Inflijes daño normal al enemigo
+        (este golpe no depende de presision)
+                """.trimIndent() ,
+        //---------------------------
+        "Ataque_normall" to
+                """
+        Un Atque normal q inflije un daño respecto
+        a tu ataque base
+                """.trimIndent() ,
+        //---------------------------
+
+        "Ascensión_del_Rey_Inmortal" to
+                """
+        Una ves por partida (Situacional)
+        inflijes un daño x1.5 al enemigo ,si este 
+        muere se recarga la habilidad se puede
+        volver a usar y tu ataque base aumenta 
+        en un 50%
+                """.trimIndent() ,
+        //---------------------------
+        "Risa_del_Caos_Eterno" to
+                """
+        Tu vida aumenta en un 30% , inlfijes daño
+        al rival y el proximo golpe q recivas se
+        incrementara a tu ataque base
+                """.trimIndent() ,
+        //---------------------------
+        "Golpe_del_Sol_Primordial" to
+                """
+        Tu ataque base se incrementa en un 30% , 
+        inflijes un daño al rival y recargaras tu vida
+        un 60% del daño inflijido
+                """.trimIndent() ,
+        //---------------------------
+        "Clones_de_Sombrasque" to
+                """
+        La probabilidad de poder esquivar aumenta 
+        en un 45%, si se llega a esquivar un ataque
+        la probabilidad de esquivar baja 20%
+                """.trimIndent() ,
+        //---------------------------
+        "Grito_del_Dragón_Dorado" to
+                """
+        (ignora defensa y espinas)
+        Inflijes daño al enemigo asimismo reduces 
+        su taque base en un 20% y su defensa en 
+        un 20% tambien
+                """.trimIndent() ,
+        //---------------------------
+        "Nube_Voladora" to
+                """
+        Inflijes un daño x2 al enemigo
+        ignoras defensa y espinas
+        (presison no necesaria)
+                """.trimIndent() ,
+        //---------------------------
+        "Bastón_del_Cielo_Expandido" to
+                """
+        Todos los enemigos reciven daño
+        y ahi un 10% de probabilidad de
+        hacerle perder turno
+                """.trimIndent() ,
+        //---------------------------
+        "Égida_del_Eón" to
+                """
+        Todas tus tropas VIVAS moriran ,pero te 
+        eredaran toda su vida, ademas recives
+        +25% de defensa
+                """.trimIndent() ,
+        //---------------------------
+        "Campo_de_Estasis" to
+                """
+        Creas un entorno el caul todos los enemigos
+        receiben un daño igual al 8% de su ataque base
+                """.trimIndent() ,
+        //---------------------------
+        "Sincronización_Forzada" to
+                """
+        Inflijes un daño  de tu ataque base
+        multiplicado x2.5 , obtienes turno doble
+        y el pierde turno para la siguiente ronda
+                """.trimIndent() ,
+        //---------------------------
+        "Lanza_de_Cristal_Puro" to
+                """
+        Inflijes un daño de tu ataque base
+        multiplicado x2.5
+                """.trimIndent() ,
+        //---------------------------
+        "Ataque_Refracción_Temporal" to
+                """
+        Un enemigo pierde turno, si tienes
+        fragmento de geoda efectuas daño y lo 
+        recuperas como salud
+                """.trimIndent() ,
+        //---------------------------
+        "Geoda_Arcana" to
+                """
+        A la suerte:
+        - Todos los aliados obtienen +250 pv
+        - Todos los enemigo reciven un daño de 
+        tu aatque base
+        - Obtienes turno doble y un fragmento de Geoda
+                """.trimIndent() ,
+        //---------------------------
+        "Muralla_de_Cuarzo" to
+                """
+        (Una ves por partida)
+        aumentas la defensa de todos los 
+        aliados en un 35% (incluyendote)
+                """.trimIndent() ,
+        //---------------------------
+        "El_Último_Mandamiento" to
+                """
+       (Una ves por partida) , eliminas a un 
+        enemigo deuna ,si es el rey , le 
+        bajas su vida en un 65%
+                """.trimIndent() ,
+        //---------------------------
+        "Caminar_sobre_el_Vacío" to
+                """
+                    
+        Te vuelves de tipo aereo y el enemigo de
+        tipo terrestre, obtienes + 400pv y 
+        efectuas el ultimo daño q recivistes
+                """.trimIndent() ,
+        //---------------------------
+        "Mandamiento_del_Caos" to
+                """
+        (Una ves por partida)
+        todos resiven un daño de 150 puntos 
+        y su precicion se baja en un 10%
+                """.trimIndent() ,
+        //---------------------------
+        "Plaga_de_Oscuridad" to
+                """
+        durante 4 turnos todos sufren un daño 
+        de 150 por las plagas q estan en el 
+        terreno
+                """.trimIndent() ,
+        //---------------------------
+        "Separación_del_Mar" to
+                """
+        (una ves por partida)
+        todos los enemigos perderan 25 puntos 
+        de vida, 25 puntos de ataque base
+        y 25% de daño critico
+                """.trimIndent() ,
+        //---------------------------
+        "Mandamiento_del_Silencio" to
+                """
+        El ataque_base del enemigo se reduce 
+        en un 25% ,su defensa baja en un 20%
+        y pierde su siguiente turno
+                """.trimIndent() ,
+        //---------------------------
+        "Mar_Rojo_del_Fin" to
+                """
+        Creas un entorno el cual bajara 5% de
+        vida a todos los enenmigos por turno
+        haci mismo tambien se les bajara un 1% 
+        de precision
+                """.trimIndent() ,
+        //---------------------------
+
+        "Atropello" to
+                """
+        una ves por partida inflijes un
+        daño igual de tu ataque base a
+        todos y al rey le hacer perder un 
+        70% de defensa ,un 25%
+        de vida y ataque y un daño extra
+                """.trimIndent() ,
+        //---------------------------
+        "Sube_de_fase" to
+                """
+        Una ves por paartida tu ataque se 
+        incrementa en un 300% y tus 
+        enemigos se reduce su vida en 
+        un 50%
+       
+                """.trimIndent() ,
+        //---------------------------
+        "invocacion_de_gatos" to
+                """
+        (Una ves por partida)
+        invocas una manada de gatos, 
+        si existen tropas vivas
+        los gatos tomaran su lugar
+       
+                """.trimIndent() ,
+        //---------------------------
+        "Ballesta" to
+                """
+        Te equipas una ballesta q inglijira
+        un daño igual a tu ataque base a todos
+        los enemigos
+                """.trimIndent() ,
+        //---------------------------
+        "Llamada_De_perro" to
+                """
+        Una ves por partida , invocas a un ser 
+        superiro ,q les otorgara +500 de vida a
+        todas tus tropas, y seguidamente su vida
+        se duplicara
+                """.trimIndent() ,
+        //---------------------------
+        "Modo_cautel" to
+                """
+        Tu vida se aumentara + 25% y tu ataque
+        base se duplicara
+                """.trimIndent() ,
+        //---------------------------
+        "Salto_de_soga" to
+                """
+        El enemigo sufre sangrado
+        y perdera 100 de vida por cada
+        cierto turno
                 """.trimIndent() ,
         //---------------------------
         "Rompimiento_de_Fe" to
                 """
         inflijes un daño igual a tu ataque base 
-        e inflijes -30% de denfensa
+        e inflijes -30% de defensa
                 """.trimIndent() ,
         //---------------------------
         "Golpe_Helado_del_Leviatán" to
                 """
-        Inflijes un daño de 130% , con una probabilidad
-        del 30% de congelar al rival (perder turno) 
-        asi mismo si llegara a ser congelado obtienes 
-        +20% de presicion
+        Inflijes un daño de 130% a un enemigo,
+        con una probabilidad del 10% de congelar 
+        al rival (perder turno) asi mismo si 
+        llegara a ser congelado obtienes +20%
+        de presicion y 100 puntos de ataque
                 """.trimIndent() ,
         //---------------------------
         "Torbellino_de_Njord" to
                 """
-        haces un daño igual del 120% de ataque base
-        a todos los enemigos , y les reduces un 15%
-        de defensa,
-        obtienes +10% de defensa
+        haces un daño igual del 120% de ataque
+        base a todos los enemigos , y les 
+        reduces un 15%de defensa,obtienes 
+        +10% de defensa
                 """.trimIndent() ,
         //---------------------------
         "Filo_del_Caos" to
                 """
-        Durante 2 turnos los enemigos sufren un daño 
-        igual al 15% de su vida restante
+        Durante 2 turnos los enemigos sufren un 
+        daño igual al 15% de su vida restante
                 """.trimIndent() ,
         //---------------------------
         "Aplastamiento_de_Nemea" to
                 """
-        Todos los enemigos sufren un daño igual
-        al 250% . pierden 10% de defensa y sufren un daño
-        igual al 25% de su vida restante durnate 2 turnos
+        (si tienes mas de 800 pv)
+        Todos los enemigos sufren daño pero 
+        reducido en un 50%,y pierden 8% de 
+        defensa y sufren un daño igual al 25%
+        de su vida restante durnate 2 turnos,
+        y pierdes 100 pv
                 """.trimIndent() ,
         //---------------------------
         "Carga_de_raupnir" to
                 """
-        Un enemigo recive un daño de 300% , pierde turno 
-        y tu obtienes +20% de presicion
+        Un enemigo recive un daño x2 , y una 
+        probabilidad del 18% de hacerle 
+        perder turno y obtener +20% de presicion
                 """.trimIndent() ,
         //---------------------------
         "Artillería_de_los_Antiguos" to
                 """
         Todas las tropas obtiene -30% de defensa
-        y sufren un daño aumentado en un 280%
+        y sufren un daño aumentado en un 180%
                 """.trimIndent() ,
         //---------------------------
         "Juicio_de_los_Dioses" to
                 """
-        Una ves por partida ,inglijes un daño * 400%
-        a todos los enemigos, con una probabilidad del 50%
-        de q pierdan turno y tu ganes un 25% de vida
+        Una ves por partida ,inglijes un daño x3 
+        a todos los enemigos, con una probabilidad 
+        del 25%de q pierdan turno y tu ganes un 
+        25% de vida
                 """.trimIndent() ,
         //---------------------------
         "bye_bye" to
@@ -135,30 +391,38 @@ object GlobalData {
         al enemigo seleccionado
                 """.trimIndent() ,
         //---------------------------
+        "Envenenamiento" to
+                """
+        Durante 5 turnos un enemigo pierde 100 de vida
+                """.trimIndent() ,
+        //---------------------------
         "Reflejo_Maldito" to
                 """
-        Copias la vida del enemigo
+        Copias la vida del rey enemigo 
+        (varias veces por partida)
                 """.trimIndent() ,
         //---------------------------
         "Control_Sombra" to
                 """
         Invocas un entorno sombrio 
-        rival : -150vida , -25% de Ataque Base y
-        precicion -5%
+        enemigos : -10% de vida , -10% de Ataque 
+        Base y precicion -3%
         tu: +20% precicion +10% escudo +40% de 
-        daño critico y mas 20% de espinas
+        daño critico y mas 2% de espinas
+        aliados : + 10% de vida
                 """.trimIndent() ,
         //---------------------------
         "Juguemos_un_juego" to
                 """
-        Bajas la precision de acertar
-        un ataque a todos en un 10% 
+        85% de probabilidad de inflijir un daño x2
+        al enemigo, de lo contrario le bajas la 
+        precision un 10%
                 """.trimIndent() ,
         //---------------------------
         "Susto" to
                 """
         Bajas la precision de acertar
-        un ataque a todos en un 10% 
+        un ataque a todos en un 8% 
                 """.trimIndent() ,
         //---------------------------
         "Puño_del_Dragón" to
@@ -171,8 +435,8 @@ object GlobalData {
         "Destrucción_Divina" to
                 """
         Si no tienes ninguna tropa viva
-        inflijes un daño del 70% de la vida
-        del rival + un daño de tu ataque base
+        el enemigo pierde un 70% de su vida
+        seguidamente haces un daño de tu ataque base
                 """.trimIndent() ,
         //---------------------------
         "CORTE_DE_ESCALIBUR" to
@@ -184,7 +448,7 @@ object GlobalData {
         //---------------------------
         "Hakai" to
                 """
-        Ahi una probabilidad del 75% 
+        Ahi una probabilidad del 5% 
         de hacer perder turno a una
         tropa del rival
                 """.trimIndent() ,
@@ -192,8 +456,8 @@ object GlobalData {
         //---------------------------
         "Aguja_Escarlata" to
                 """
-        Si el enemiog tiene menos de 500
-        de vida morira instantaneamente
+        Si el enemigo tiene menos o igual a 750
+        de vida, morira instantaneamente
                 """.trimIndent() ,
         //---------------------------
         "Ultra_Instinto" to
@@ -235,7 +499,7 @@ object GlobalData {
         "Invocacion_de_Gigantes" to
                 """
         (Una ves por partida)
-        Invocas A 5 gigantes respecto a tu nivel
+        Invocas A 5 gigantes respecto a tu nivel,
         los 5 gigantes vendran aplastando todo,
         haci q destruiran tus tropas vivas restantes
                 """.trimIndent(),
@@ -323,7 +587,7 @@ object GlobalData {
                 """.trimIndent(),
         //---------------------------
         "Soy_inevitable" to
-                """"
+                """
         Tu vida aumenta + 10 000
                 """.trimIndent(),
         //---------------------------
@@ -409,8 +673,8 @@ object GlobalData {
         //---------------------------
         "king_Crimson" to
                 """
-        Si no existe niguna tropa enemiga
-        o tropas aliadas vivas, invocas
+        (Una ves por partida)
+        invocas
         3 Gigantes estelares y 
         2 curanderas cosmicas
                 """.trimIndent(),
@@ -451,6 +715,7 @@ object GlobalData {
                 """.trimIndent(),
 
     )
+
     val listaEventos = mutableListOf<Evento>()
     var id_usuario = 0 //id del usuario
     var nivel_de_progresion = 0 //progresion del mapa
@@ -462,4 +727,11 @@ object GlobalData {
     var ReySeleccionado: Tropa? = null
     var TropaSeleccionada: Tropa? = null
     var decision = 0
+    var Primer_inicio = true
+
+    var nivel_actico = 0;
+
+    var turno = true
+
+
 }

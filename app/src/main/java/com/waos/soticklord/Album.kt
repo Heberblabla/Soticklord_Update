@@ -12,11 +12,12 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import Data.*
+import android.content.Intent
 import android.widget.ImageButton
 import android.widget.ImageView
 import java.lang.reflect.Modifier
 import android.widget.Toast
-
+import com.waos.soticklord.Iniciar_Sesion
 
 
 class Album : AppCompatActivity() {
@@ -53,7 +54,7 @@ class Album : AppCompatActivity() {
     //Aparatdo derecho superior
     fun mostrar_datos_economicos(){
         val Nivel = findViewById<TextView>(R.id.Nivel_de_cuentawaos)
-        Nivel.text = "N : ${GlobalData.nivel_De_cuenta} "
+        Nivel.text = "N : ${GlobalData.nivel_de_progresion} "
         val monedas = findViewById<TextView>(R.id.Monedass)
         monedas.text = "\uD83E\uDE99 : ${GlobalData.monedas}"
         val ecencia = findViewById<TextView>(R.id.Ecencia)
@@ -155,8 +156,10 @@ class Album : AppCompatActivity() {
         val Ataque_rey_tropa = findViewById<TextView>(R.id.Ataque_rey_tropa)
         Ataque_rey_tropa.text = "⚔ : ${tropa.ataque_base}"
         val Ataques_disponibles = findViewById<TextView>(R.id.Ataques_disponibles)
+
         var ataquess =obtener_Ataques(tropa)
         Ataques_disponibles.text = ataquess
+
         listaNombres = Obtener_Array_String(tropa.nombre).toMutableList()
         actualizarAtaques(listaNombres)
 
@@ -544,8 +547,13 @@ class Album : AppCompatActivity() {
                 }
             }
         }
+        DataManager.guardarDatos(this)
     }
 
-
+    fun atras(view: View){
+        val intent = Intent(this, Iniciar_Sesion::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
 
 }

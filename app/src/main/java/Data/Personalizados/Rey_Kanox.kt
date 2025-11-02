@@ -67,7 +67,7 @@ class Rey_Kanox (
         }else{
             return
         }
-        if(enemigos[posicion].vida <= 500){
+        if(enemigos[posicion].vida <= 750){
             var daño = enemigos[posicion].vida
             enemigos[posicion].Recivir_daño(this,daño)
         }else{
@@ -118,7 +118,7 @@ class Rey_Kanox (
             return
         }
         val num = Random.nextInt(100)
-        if(num < 75){
+        if(num < 65){
             enemigos[posicion].turnoActivo = false
         }
     }
@@ -147,34 +147,29 @@ class Rey_Kanox (
         }else{
             return
         }
-        val num = Random.nextInt(100)
         if(Waos) {
-            if (num < 25) {
-                if (GlobalData.Jugador1[1]!!.estado_de_vida &&
-                    GlobalData.Jugador1[2]!!.estado_de_vida &&
-                    GlobalData.Jugador1[3]!!.estado_de_vida &&
-                    GlobalData.Jugador1[4]!!.estado_de_vida &&
-                    GlobalData.Jugador1[5]!!.estado_de_vida
+                if (!GlobalData.Jugador1[1]!!.estado_de_vida &&
+                    !GlobalData.Jugador1[2]!!.estado_de_vida &&
+                    !GlobalData.Jugador1[3]!!.estado_de_vida &&
+                    !GlobalData.Jugador1[4]!!.estado_de_vida &&
+                    !GlobalData.Jugador1[5]!!.estado_de_vida
                 ) {
                     GlobalData.Jugador1[posicion]!!.vida -= (GlobalData.Jugador2[posicion]!!.vida * 0.7).toInt()
                     efectuardaño(enemigos,posicion,Waos)
                 }
 
-            }
         }
         if(!Waos) {
-            if (num < 25) {
-                if (GlobalData.Jugador2[1]!!.estado_de_vida &&
-                    GlobalData.Jugador2[2]!!.estado_de_vida &&
-                    GlobalData.Jugador2[3]!!.estado_de_vida &&
-                    GlobalData.Jugador2[4]!!.estado_de_vida &&
-                    GlobalData.Jugador2[5]!!.estado_de_vida
+                if (!GlobalData.Jugador2[1]!!.estado_de_vida &&
+                    !GlobalData.Jugador2[2]!!.estado_de_vida &&
+                    !GlobalData.Jugador2[3]!!.estado_de_vida &&
+                    !GlobalData.Jugador2[4]!!.estado_de_vida &&
+                    !GlobalData.Jugador2[5]!!.estado_de_vida
                 ) {
                     GlobalData.Jugador2[posicion]!!.vida -= (GlobalData.Jugador2[posicion]!!.vida * 0.7).toInt()
                     efectuardaño(enemigos,posicion,Waos)
                 }
 
-            }
         }
     }
 

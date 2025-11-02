@@ -23,7 +23,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import com.google.android.material.button.MaterialButton
 import Archivos_Extra.*
+import android.content.Intent
 import com.waos.soticklord.GlobalData.batalla
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.AdView
 
 class Batalla_oculta : AppCompatActivity() {
     var Enemigo_Seleccionado = 5
@@ -35,11 +39,14 @@ class Batalla_oculta : AppCompatActivity() {
     var es_mi_turno = true
     var es_turno_del_enemigo = false
     lateinit var botonPasarTurno: MaterialButton
-
+    private lateinit var bannerView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_batalla_oculta)
+
+        EntornoManager.batalla = this
+
         // Oculta las barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
@@ -51,6 +58,16 @@ class Batalla_oculta : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // 1️⃣ Inicializa el SDK de AdMob
+        MobileAds.initialize(this) {}
+        // 2️⃣ Conecta tu banner del XML
+        bannerView = findViewById(R.id.bannerView)
+        // 3️⃣ Crea una solicitud de anuncio
+        val adRequest = AdRequest.Builder().build()
+        // 4️⃣ Carga el anuncio
+        bannerView.loadAd(adRequest)
+
         botonPasarTurno = findViewById(R.id.Atacar)
         // Referencia al Spinner
         val spinnerAtaques: Spinner = findViewById(R.id.Ataques)
@@ -64,10 +81,12 @@ class Batalla_oculta : AppCompatActivity() {
             ) {
                 // Guardamos el texto seleccionado en la variable
                 ataqueSeleccionado = parent?.getItemAtPosition(position).toString()
+                cargarinfo(ataqueSeleccionado)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Por si no selecciona nada , se asigan el ataque q todos tienen por defecto :v
                 ataqueSeleccionado = "Ataque_normal"
+                cargarinfo(ataqueSeleccionado)
             }
         }
         imagenes = arrayListOf(
@@ -125,7 +144,9 @@ class Batalla_oculta : AppCompatActivity() {
     }
 
     fun bucle_principal() {
+        GestorAcciones.Procesar()
         if (turno_activo !in 0..5) {
+            EntornoManager.aplicarEfecto()
             GestorAcciones.Procesar()
             pasar_turno_al_enemigo()
             return
@@ -146,8 +167,9 @@ class Batalla_oculta : AppCompatActivity() {
 
 
     suspend fun turno_del_enemigo() {
+        GestorAcciones.Procesar()
         es_mi_turno = false
-        botonPasarTurno.isEnabled = false // 🔒 bloquea botón visualmente
+        botonPasarTurno.isEnabled = false // bloquea botón visualmente
         actualizar_datos()
 
         if (GlobalData.Jugador1.any { it?.estado_de_vida == true }) {
@@ -155,23 +177,45 @@ class Batalla_oculta : AppCompatActivity() {
             es_turno_del_enemigo = true
             visualizar_posicion()
 
-            for (i in 5 downTo 0) {
+            var i = 5
+            while (i >= 0) {
+                EntornoManager.aplicarEfecto()
                 GestorAcciones.Procesar()
-                GestorAcciones.Procesar()
+
                 val tropa = GlobalData.Jugador2.getOrNull(i)
                 if (tropa != null && tropa.estado_de_vida) {
-                    visualizar_posicion_enemiga(i)
-                    delay(3000)
+                    if (tropa.turnoActivo) {
+                        visualizar_posicion_enemiga(i)
+                        delay(3000)
 
-                    val bot = Bot_Desiciones_aleatorio(this)
-                    bot.Empezar_Analisis(i)
-                    actualizar_datos()
+                        val bot = Bot_Desiciones_aleatorio(this)
+                        bot.Empezar_Analisis(i)
+                        actualizar_datos()
+                    } else {
+                        tropa.turnoActivo = true
+                    }
+
+                    // si tiene turno doble, repetir mismo índice
+                    if (tropa.turnoDoble) {
+                        tropa.turnoDoble = false // opcional, para evitar bucle infinito
+                    } else {
+                        i-- // bajar al siguiente
+                    }
+                } else {
+                    i-- // bajar si está muerta o null
                 }
             }
+
 
             val enemigos_vivos = GlobalData.Jugador2.filter { it?.estado_de_vida == true }
             if (enemigos_vivos.isEmpty()) {
                 Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
+                GlobalData.monedas += 100
+                GlobalData.nivel_de_progresion += 3
+                val intent = Intent(this, Mapa::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                DataManager.guardarDatos(this)
                 finish()
                 return
             }
@@ -186,6 +230,10 @@ class Batalla_oculta : AppCompatActivity() {
             visualizar_posicion_enemiga(5)
         } else {
             Toast.makeText(this, "Perdiste", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, Mapa::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            DataManager.guardarDatos(this)
             finish()
         }
     }
@@ -234,6 +282,12 @@ class Batalla_oculta : AppCompatActivity() {
 
 
     //--------------------------
+
+    fun cargarinfo(nombre: String){
+        val descripcion = GlobalData.Diccionario_Ataques[nombre] ?: "Descripción no encontrada"
+        val Info_ataques = findViewById<TextView>(R.id.info)
+        Info_ataques.text = descripcion
+    }
 
     //--------------------------
 
@@ -309,7 +363,7 @@ class Batalla_oculta : AppCompatActivity() {
         for (i in idsTextos.indices) {
             val textView = findViewById<TextView>(idsTextos[i])
             val vida = GlobalData.Jugador1[i]!!.vida
-            if(vida >= 1){
+            if(vida >= 1 && GlobalData.Jugador1[i]!!.estado_de_vida){
                 textView.text = "♡: $vida"
             }
             else{
@@ -335,7 +389,7 @@ class Batalla_oculta : AppCompatActivity() {
 
             val textView = findViewById<TextView>(idsTextos[i])
             val vida = GlobalData.Jugador2[i]!!.vida
-            if(vida >= 1){
+            if(vida >= 1  && GlobalData.Jugador2[i]!!.estado_de_vida){
                 GlobalData.Jugador2[i]!!.estado_de_vida = true
                 textView.text = "♡: $vida"
             }

@@ -6,7 +6,7 @@ import kotlin.math.ceil
 import kotlin.random.Random
 
 
-class Tropa_Gigante(Nivel:Int = 1) : Tropa(
+class Tropa_Gigante (Nivel:Int = 1) : Tropa(
     nombre = "Tropa_Gigante",
     nivel = Nivel,
     vida = calcularVida(800,Nivel),
@@ -18,7 +18,7 @@ class Tropa_Gigante(Nivel:Int = 1) : Tropa(
     rutaviva = R.drawable.gigante_tropa,
     rutamuerta = R.drawable.tropa_muerta,
     turnoActivo = true,
-    turnoDoble =  true,
+    turnoDoble =  false,
     cantidad_espinas = 0.00,
     cantidad_escudos = 0.00,
     precision = 100

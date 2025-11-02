@@ -11,9 +11,12 @@ android {
         applicationId = "com.waos.soticklord"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
-
+        versionCode = 6
+        versionName = "1.122"
+        // 1 = version
+        // 0.1 = algun cambio pequeño o modo
+        // 0.01 = bugs
+        // 0.001 = lectura y balance
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -72,4 +75,7 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:supabase-kt:2.3.1")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.3.1") // Auth
     implementation("io.github.jan-tennert.supabase:postgrest-kt:2.3.1") // Base de datos
+
+    implementation("com.google.android.gms:play-services-ads:24.7.0")
+
 }
