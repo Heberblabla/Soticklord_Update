@@ -7,6 +7,7 @@ import Data.Tropa.Companion.calcularProbCritico
 import Data.Tropa.Companion.calcularVida
 import android.service.notification.NotificationListenerService
 import com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -79,6 +80,7 @@ class Tropa_Gato_amigo1  (Nivel:Int = 1) : Tropa(
         }else{
             return
         }
+        GlobalData.Atodos = true
         var ataque = Random.nextInt(100)
         val daño = calcularAtaque(ataque,this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)

@@ -1,5 +1,6 @@
 package Data
 
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -67,13 +68,13 @@ class Tropa_Gigante (Nivel:Int = 1) : Tropa(
     }
 
     fun Terremoto(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
-
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
+        GlobalData.Atodos = true
         val daño = calcularAtaque(50,this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)
         enemigos[1]!!.Recivir_daño(this,daño)

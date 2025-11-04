@@ -208,7 +208,9 @@ class Rey_Moises (
         }else{
             return
         }
+
         if(this.caos) {
+            GlobalData.Atodos = true
             for (tropa in enemigos) {
                 tropa.vida -= 150
                 tropa.precision -= 10

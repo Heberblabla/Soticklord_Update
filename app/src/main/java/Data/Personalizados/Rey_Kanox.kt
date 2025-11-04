@@ -17,13 +17,13 @@ class Rey_Kanox (
     Tropa(
         nombre = "Rey_Kanox",
         nivel = Nivel,
-        vida = calcularVida(1600,Nivel),
-        ataque_base = calcularAtaque(300,Nivel),
-        daño_critico = calcularDañoCritico(2.5,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.45,Nivel),
+        vida = calcularVida(1700,Nivel),
+        ataque_base = calcularAtaque(250,Nivel),
+        daño_critico = calcularDañoCritico(2.3,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.35,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.rey_kronox,
+        rutaviva = R.drawable.rey_kanox,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
@@ -83,7 +83,9 @@ class Rey_Kanox (
         }else{
             return
         }
-        enemigos[posicion].cantidad_escudos -= 0.30
+        var daño = daño()
+        enemigos[posicion]!!.Recivir_daño(this,daño)
+        enemigos[posicion].cantidad_escudos -= 0.25
     }
 
     fun Ultra_Instinto(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
@@ -104,9 +106,11 @@ class Rey_Kanox (
         }else{
             return
         }
-        for (i in 1 until enemigos.size) {
+        GlobalData.Atodos = true
+        for(tropa in enemigos){
             var daño = this.ataque_base
-            enemigos[i]!!.Recivir_daño(this,daño)
+            tropa!!.Recivir_daño(this,daño)
+            tropa!!.cantidad_escudos -= 0.05
         }
     }
 
@@ -120,6 +124,8 @@ class Rey_Kanox (
         val num = Random.nextInt(100)
         if(num < 65){
             enemigos[posicion].turnoActivo = false
+            var daño = (daño() *1.3).toInt()
+            enemigos[posicion]!!.Recivir_daño(this,daño)
         }
     }
 
@@ -134,7 +140,7 @@ class Rey_Kanox (
 
         if(enemigos[posicion].cantidad_escudos < 0) {
             var daño = daño()
-            daño = daño * 5
+            daño = daño() * 5
 
             enemigos[posicion]!!.Recivir_daño(this, daño)
         }
@@ -154,7 +160,7 @@ class Rey_Kanox (
                     !GlobalData.Jugador1[4]!!.estado_de_vida &&
                     !GlobalData.Jugador1[5]!!.estado_de_vida
                 ) {
-                    GlobalData.Jugador1[posicion]!!.vida -= (GlobalData.Jugador2[posicion]!!.vida * 0.7).toInt()
+                    GlobalData.Jugador2[posicion]!!.vida -= (GlobalData.Jugador2[posicion]!!.vida * 0.7).toInt()
                     efectuardaño(enemigos,posicion,Waos)
                 }
 
@@ -166,7 +172,7 @@ class Rey_Kanox (
                     !GlobalData.Jugador2[4]!!.estado_de_vida &&
                     !GlobalData.Jugador2[5]!!.estado_de_vida
                 ) {
-                    GlobalData.Jugador2[posicion]!!.vida -= (GlobalData.Jugador2[posicion]!!.vida * 0.7).toInt()
+                    GlobalData.Jugador1[posicion]!!.vida -= (GlobalData.Jugador1[posicion]!!.vida * 0.7).toInt()
                     efectuardaño(enemigos,posicion,Waos)
                 }
 
@@ -177,8 +183,8 @@ class Rey_Kanox (
         var num = Random.nextInt(100)
         if(this.vida > 0) {
             if (num < 45) {
-                this.ataque_base += (this.ataque_base * 0.10).toInt()
-                this.vida += (this.vida * 0.10).toInt()
+                this.ataque_base += (this.ataque_base * 0.08).toInt()
+                this.vida += (this.vida * 0.08).toInt()
             }
         }
     }
@@ -215,6 +221,7 @@ class Rey_Kanox (
         val num = Random.nextDouble()
         if(num < esquivacion) {
             this.esquivacion -= 0.5
+            this.cantidad_escudos += 0.1
             return
         }else{
             if (this.cantidad_escudos > 0) {

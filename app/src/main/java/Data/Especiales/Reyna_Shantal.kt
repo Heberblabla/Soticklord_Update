@@ -1,6 +1,7 @@
 package Data.Especiales
 
 import Data.Tropa
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -86,6 +87,7 @@ class Reyna_Shantal (
         }else{
             return
         }
+        GlobalData.Atodos = true
         for (i in enemigos.indices) {
             enemigos[i].vida -= (this.ataque_base * 0.5).toInt()
         }

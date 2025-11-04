@@ -84,7 +84,6 @@ object DataEntornos {
             for (enemigo in enemigos) {
                 enemigo.vida = (enemigo.vida * 0.9).toInt() // -10% vida
             }
-            invocador.vida += 100
             invocador.precision += 20
             invocador.daño_critico += 0.4
             invocador.cantidad_espinas += 0.02
@@ -93,7 +92,7 @@ object DataEntornos {
                 enemigo.ataque_base = (enemigo.ataque_base * 0.9).toInt() // -10% ataque
             }
             for (enemigo in enemigos) {
-                enemigo.precision -= 3 // -3% presicion
+                enemigo.precision -= 1 // -1% presicion
             }
 
             for (aliados in aliados) {

@@ -93,6 +93,7 @@ class Rey_Cristian (
         }else{
             return
         }
+        GlobalData.Atodos = true
         for (i in enemigos.indices) {
             var daño = (enemigos[i].vida * 0.15).toInt()
             enemigos[posicion]!!.vida = enemigos[posicion]!!.vida - daño

@@ -70,20 +70,20 @@ class Tropa_Gurandera  (Nivel:Int = 1) : Tropa(
         val daño: Int = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
         if(Waos){
-            GlobalData.Jugador1[0]!!.vida += 150
-            GlobalData.Jugador1[1]!!.vida += 150
-            GlobalData.Jugador1[2]!!.vida += 150
-            GlobalData.Jugador1[3]!!.vida += 150
-            GlobalData.Jugador1[4]!!.vida += 150
-            GlobalData.Jugador1[5]!!.vida += 150
+            GlobalData.Jugador1[0]!!.vida += 130
+            GlobalData.Jugador1[1]!!.vida += 130
+            GlobalData.Jugador1[2]!!.vida += 130
+            GlobalData.Jugador1[3]!!.vida += 130
+            GlobalData.Jugador1[4]!!.vida += 130
+            GlobalData.Jugador1[5]!!.vida += 130
         }
         if(!Waos){
-            GlobalData.Jugador2[0]!!.vida += 150
-            GlobalData.Jugador2[1]!!.vida += 150
-            GlobalData.Jugador2[2]!!.vida += 150
-            GlobalData.Jugador2[3]!!.vida += 150
-            GlobalData.Jugador2[4]!!.vida += 150
-            GlobalData.Jugador2[5]!!.vida += 150
+            GlobalData.Jugador2[0]!!.vida += 130
+            GlobalData.Jugador2[1]!!.vida += 130
+            GlobalData.Jugador2[2]!!.vida += 130
+            GlobalData.Jugador2[3]!!.vida += 130
+            GlobalData.Jugador2[4]!!.vida += 130
+            GlobalData.Jugador2[5]!!.vida += 130
         }
     }
 

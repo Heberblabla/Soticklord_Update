@@ -2,6 +2,7 @@ package Data.Especiales
 
 import Data.Tropa
 import android.text.BoringLayout
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -76,6 +77,8 @@ class Rey_Fernando (
         }else{
             return
         }
+
+        GlobalData.Atodos = true
         for (i in enemigos.indices) {
             var daño = (this.ataque_base).toInt()
             enemigos[posicion]!!.Recivir_daño(this,daño)

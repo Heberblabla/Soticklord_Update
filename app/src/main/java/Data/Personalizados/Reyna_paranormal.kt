@@ -170,7 +170,7 @@ class Reyna_paranormal (
         } else {
             return
         }
-
+        GlobalData.Atodos = true
         for (tropa in enemigos) {
             tropa.precision -= 8
         }

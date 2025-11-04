@@ -78,6 +78,7 @@ class Tropa_Gato_amigo2 (Nivel:Int = 1) : Tropa(
         }else{
             return
         }
+        GlobalData.Atodos = true
         val daño = calcularAtaque(35,this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)
         enemigos[1]!!.Recivir_daño(this,daño)

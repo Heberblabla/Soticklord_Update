@@ -75,6 +75,18 @@ object GlobalData {
     )
 
     val Diccionario_Ataques = mapOf(
+        "Gran_puño" to
+                """
+        Inflijes daño directo al enemigo 
+        multipicado *3 pero pierdes 50pv
+                """.trimIndent() ,
+        //----------------------------
+        "Ataque_normal_curativo" to
+                """
+        Inflijes daño directo y curas a todos 
+        llos aliados +130pv
+                """.trimIndent() ,
+        //----------------------------
         "uiiaiuiiiai" to
                 """
         Inflijes un daño de 35 +15% por cada nivel 
@@ -322,8 +334,8 @@ object GlobalData {
         //---------------------------
         "Rompimiento_de_Fe" to
                 """
-        inflijes un daño igual a tu ataque base 
-        e inflijes -30% de defensa
+        inflijes daño directo e 
+        inflijes -25% de defensa
                 """.trimIndent() ,
         //---------------------------
         "Golpe_Helado_del_Leviatán" to
@@ -406,7 +418,7 @@ object GlobalData {
                 """
         Invocas un entorno sombrio 
         enemigos : -10% de vida , -10% de Ataque 
-        Base y precicion -3%
+        Base y precicion -1%
         tu: +20% precicion +10% escudo +40% de 
         daño critico y mas 2% de espinas
         aliados : + 10% de vida
@@ -429,7 +441,7 @@ object GlobalData {
                 """
         Si el enemigo esta con  defensa baja 
         el siguiente golpe bajara un daño 
-        igual al ataque base x5
+        multipplicado x5
                 """.trimIndent() ,
         //---------------------------
         "Destrucción_Divina" to
@@ -443,14 +455,15 @@ object GlobalData {
                 """
         Inflijees un daño igual a tu
         ataque base a todos los 
-        enemigos
+        enemigos y bajas su defensa en un 5%
                 """.trimIndent() ,
         //---------------------------
         "Hakai" to
                 """
-        Ahi una probabilidad del 5% 
+        Ahi una probabilidad del 65% 
         de hacer perder turno a una
-        tropa del rival
+        tropa del rival e inflijirle
+        daño elevado en un 35%
                 """.trimIndent() ,
         //---------------------------
         //---------------------------
@@ -462,8 +475,9 @@ object GlobalData {
         //---------------------------
         "Ultra_Instinto" to
                 """
-        Ahi una probabilidad del 50%
+        Existe una probabilidad del 50%
         de esquivar el siguiente ataque
+        y recivir +10% de defensa
                 """.trimIndent() ,
         //---------------------------
         "Ataque_normal" to
@@ -728,6 +742,11 @@ object GlobalData {
     var TropaSeleccionada: Tropa? = null
     var decision = 0
     var Primer_inicio = true
+
+
+    var tropa_seleccionada_posicion = 0
+    var A_quien = true
+    var Atodos = false
 
     var nivel_actico = 0;
 

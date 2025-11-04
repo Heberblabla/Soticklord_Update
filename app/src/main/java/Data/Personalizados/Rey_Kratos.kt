@@ -20,8 +20,8 @@ class Rey_Kratos (
         nombre = "Rey_Kratos",
         nivel = Nivel,
         vida = calcularVida(1300,Nivel),
-        ataque_base = calcularAtaque(75,Nivel),
-        daño_critico = calcularDañoCritico(1.2,Nivel),
+        ataque_base = calcularAtaque(85,Nivel),
+        daño_critico = calcularDañoCritico(1.5,Nivel),
         probabilidad_de_critico = calcularProbCritico(0.25,Nivel),
         aereo = true,
         estado_de_vida = true,
@@ -89,7 +89,7 @@ class Rey_Kratos (
         }else{
             return
         }
-
+        GlobalData.Atodos = true
         for(tropa in enemigos){
             var daño = (daño() * 1.2).toInt()
             tropa.Recivir_daño(this,daño)
@@ -106,6 +106,7 @@ class Rey_Kratos (
         }else{
             return
         }
+
         if(Waos){
             GestorEventos.agregar(
                 Evento(
@@ -152,6 +153,7 @@ class Rey_Kratos (
             return
         }
         if(this.vida > 800) {
+            GlobalData.Atodos = true
             if (Waos) {
                 for (tropa in enemigos) {
                     var daño = (daño() * 0.5).toInt()
@@ -232,6 +234,7 @@ class Rey_Kratos (
         }else{
             return
         }
+        GlobalData.Atodos = true
         for(tropa in enemigos){
             tropa!!.cantidad_escudos -= 30
             var daño = (daño() * 1.8).toInt()
@@ -249,6 +252,7 @@ class Rey_Kratos (
         }
 
         if(this.juicio) {
+            GlobalData.Atodos = true
             for (tropa in enemigos) {
                 var daño = (daño() * 3).toInt()
                 tropa.Recivir_daño(this, daño)

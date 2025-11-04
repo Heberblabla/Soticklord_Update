@@ -32,7 +32,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.core.view.RoundedCornerCompat
 import com.google.android.material.button.MaterialButton
 import kotlin.collections.get
@@ -173,6 +176,8 @@ class Batalla : AppCompatActivity() {
     }
 
     fun bucle_principal() {
+        cargar_datos2()
+        cargar_datos1()
         GestorAcciones.Procesar()
         if (turno_activo !in 0..5) {
             GestorAcciones.Procesar()
@@ -218,6 +223,7 @@ class Batalla : AppCompatActivity() {
                         val bot = Bot_Desiciones_aleatorio(this)
                         bot.Empezar_Analisis(i)
                         actualizar_datos()
+                        animacion_ataque()
                     } else {
                         tropa.turnoActivo = true
                     }
@@ -333,7 +339,7 @@ class Batalla : AppCompatActivity() {
         for (i in idsImagenes.indices) {
             val imageView = findViewById<ImageView>(idsImagenes[i])
             val tropa = GlobalData.Jugador1[i]!!.rutaviva
-            if (GlobalData.Jugador1[i]!!.estado_de_vida) {
+            if (GlobalData.Jugador1[i]!!.vida >= 1 && GlobalData.Jugador1[i]!!.estado_de_vida) {
                 // Si existe tropa en esa posición, se carga su imagen viva
                 imageView.setImageResource(tropa)
             } else {
@@ -356,7 +362,7 @@ class Batalla : AppCompatActivity() {
         for (i in idsImagenes.indices) {
             val imageView = findViewById<ImageView>(idsImagenes[i])
             val tropa = GlobalData.Jugador2[i]!!.rutaviva
-            if (GlobalData.Jugador2[i]!!.estado_de_vida) {
+            if (GlobalData.Jugador2[i]!!.vida >= 1 && GlobalData.Jugador2[i]!!.estado_de_vida) {
                 // Si existe tropa en esa posición, se carga su imagen viva
                 imageView.setImageResource(tropa)
             } else {
@@ -451,7 +457,7 @@ class Batalla : AppCompatActivity() {
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
                             "Ataque_normall", "Recivir_daño",
-                            "component1", "component2","Habilidad_Especial"
+                            "component1", "component2","Habilidad_Especial","Recivir_daño","efectuardaño"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }
@@ -591,5 +597,196 @@ class Batalla : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        GlobalData.tropa_seleccionada_posicion = posicion2
+        GlobalData.A_quien = true
+        animacion_ataque()
+
     }
+
+
+
+    fun animacion_ataque(){
+        val overlay = ContextCompat.getDrawable(this, R.drawable.efecto_golpe)
+
+        if(!GlobalData.A_quien){
+            if (GlobalData.Atodos) {
+                // Aplica a todas las tropas del jugador 1
+                for (i in 0 until GlobalData.Jugador1.size) {
+                    val idView = when (i) {
+                        0 -> R.id.TropaAa
+                        1 -> R.id.TropaBa
+                        2 -> R.id.TropaBb
+                        3 -> R.id.TropaCa
+                        4 -> R.id.TropaCb
+                        5 -> R.id.TropaCc
+                        else -> null
+                    }
+                    idView?.let {
+                        val imagenCentral = findViewById<ImageView>(it)
+                        val imagen = GlobalData.Jugador1[i]!!.rutaviva
+                        val base =
+                            ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()
+                                ?.mutate()
+                        Haceranimacion(overlay, imagen, base, imagenCentral)
+                    }
+                }
+                GlobalData.Atodos = false
+                return
+            }
+
+            if(GlobalData.tropa_seleccionada_posicion == 0 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaAa)
+                var imagen = GlobalData.Jugador1[0]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 1 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaBa)
+                var imagen = GlobalData.Jugador1[1]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 2 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaBb)
+                var imagen = GlobalData.Jugador1[2]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 3 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaCa)
+                var imagen = GlobalData.Jugador1[3]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 4 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaCb)
+                var imagen = GlobalData.Jugador1[4]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 5 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaCc)
+                var imagen = GlobalData.Jugador1[5]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+            }
+
+        }
+        if(GlobalData.A_quien){
+            if (GlobalData.Atodos) {
+                // Aplica a todas las tropas del jugador 1
+                for (i in 0 until GlobalData.Jugador2.size) {
+                    val idView = when (i) {
+                        0 -> R.id.TropaFa
+                        1 -> R.id.TropaEb
+                        2 -> R.id.TropaEa
+                        3 -> R.id.TropaDc
+                        4 -> R.id.TropaDb
+                        5 -> R.id.TropaDa
+                        else -> null
+                    }
+                    idView?.let {
+                        val imagenCentral = findViewById<ImageView>(it)
+                        val imagen = GlobalData.Jugador2[i]!!.rutaviva
+                        val base =
+                            ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()
+                                ?.mutate()
+                        Haceranimacion(overlay, imagen, base, imagenCentral)
+                    }
+                }
+                GlobalData.Atodos = false
+                return
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 0 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaFa)
+                imagenCentral.scaleX = -1f
+                var imagen = GlobalData.Jugador2[0]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+                return
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 1 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaEb)
+
+                var imagen = GlobalData.Jugador2[1]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+                return
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 2 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaEa)
+
+                var imagen = GlobalData.Jugador2[2]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+                return
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 3 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaDc)
+
+                var imagen = GlobalData.Jugador2[3]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+                return
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 4 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaDb)
+
+                var imagen = GlobalData.Jugador2[4]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+                return
+            }
+            if(GlobalData.tropa_seleccionada_posicion == 5 ){
+                val imagenCentral = findViewById<ImageView>(R.id.TropaDa)
+
+                var imagen = GlobalData.Jugador2[5]!!.rutaviva
+                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay,imagen,base,imagenCentral)
+                return
+            }
+        }
+
+    }
+
+    fun Haceranimacion(
+        overlay: Drawable?,
+        imagen: Int,
+        base: Drawable?,
+        imagenCentral: ImageView
+    ) {
+        var overlay = ContextCompat.getDrawable(this, R.drawable.efecto_golpe)
+        if (overlay == null || base == null) return
+
+        val layer = LayerDrawable(arrayOf( overlay, base))
+        imagenCentral.setImageDrawable(layer)
+
+        // Detectar si está volteada
+        val direccion = if (imagenCentral.scaleX < 0) -1 else 1
+
+        imagenCentral.animate()
+            .scaleX(1.1f * direccion)
+            .scaleY(1.1f)
+            .setDuration(200)
+            .withEndAction {
+                imagenCentral.animate()
+                    .alpha(0.7f)
+                    .setDuration(400)
+                    .withEndAction {
+                        imagenCentral.postDelayed({
+                            imagenCentral.setImageResource(imagen)
+                            imagenCentral.alpha = 1f
+                            imagenCentral.scaleX = direccion.toFloat()
+                            imagenCentral.scaleY = 1f
+                            // 🔽 recarga solo después del efecto
+                            cargar_datos1()
+                            cargar_datos2()
+                        }, 500) // <-- el efecto durará medio segundo visible
+                    }
+            }
+
+
+    }
+
+
 }

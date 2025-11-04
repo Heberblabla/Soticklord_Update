@@ -5,6 +5,7 @@ import Data.Tropa.Companion.calcularAtaque
 import Data.Tropa.Companion.calcularDañoCritico
 import Data.Tropa.Companion.calcularProbCritico
 import Data.Tropa.Companion.calcularVida
+import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
@@ -69,7 +70,7 @@ class Rey_Han_Kong (
         }else{
             return
         }
-
+        GlobalData.Atodos = true
         for(tropa in enemigos){
             var daño = daño()
             tropa.Recivir_daño(this,daño)

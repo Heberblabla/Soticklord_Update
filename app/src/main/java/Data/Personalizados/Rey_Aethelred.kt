@@ -101,6 +101,7 @@ class Rey_Aethelred (
 
         // Función local para hacer daño en cadena a enemigos
         fun dañocadena(enemigos: ArrayList<Tropa>) {
+            GlobalData.Atodos = true
             for (tropa in enemigos) {
                 tropa.Recivir_daño(this,ataque_base) // ejemplo de daño
             }
@@ -213,7 +214,7 @@ class Rey_Aethelred (
             return
         }
         var almacen = this.vida
-
+        GlobalData.Atodos = true
         if(Waos) {
             for (tropa in GlobalData.Jugador1) {
                 almacen += tropa!!.vida

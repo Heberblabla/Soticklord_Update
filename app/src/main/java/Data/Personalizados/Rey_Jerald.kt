@@ -168,6 +168,7 @@ class Rey_Jerald (
             return
         }
         this.rutaviva = R.drawable.gato_ballesta
+        GlobalData.Atodos = true
         for(tropa in enemigos){
             tropa.Recivir_daño(this,ataque_base)
         }
@@ -241,6 +242,7 @@ class Rey_Jerald (
             this.rutaviva = R.drawable.fato_fase
             this.ataque_base += this.ataque_base * 3
 
+            GlobalData.Atodos = true
             for (tropa in enemigos) {
                 tropa.vida -= (tropa.vida / 2).toInt()
             }
@@ -258,20 +260,41 @@ class Rey_Jerald (
         }else{
             return
         }
+        GlobalData.Atodos = true
         if(this.atropello) {
-            for (i in 5 downTo 0 step -1) {
-                enemigos[i].Recivir_daño(this,ataque_base)
-                if(i == 0){
-                    enemigos[0].Recivir_daño(this, ataque_base)
-                    enemigos[0].cantidad_escudos -= 70
-                    enemigos[0].turnoActivo = false
-                    enemigos[0].vida -= (enemigos[0].vida * 0.25).toInt()
-                    enemigos[0].ataque_base -= (enemigos[0].ataque_base * 0.25).toInt()
-                }
+            if (Waos) {
+                GlobalData.Jugador2[1]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador2[2]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador2[3]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador2[4]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador2[5]!!.Recivir_daño(this, ataque_base)
 
+                GlobalData.Jugador2[0]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador2[0]!!.cantidad_escudos -= 70
+                GlobalData.Jugador2[0]!!.turnoActivo = false
+                GlobalData.Jugador2[0]!!.vida -= (enemigos[0].vida * 0.25).toInt()
+                GlobalData.Jugador2[0]!!.ataque_base -= (enemigos[0].ataque_base * 0.25).toInt()
+                this.atropello = false
             }
-            this.atropello = false
+            if (!Waos) {
+                GlobalData.Jugador1[1]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador1[2]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador1[3]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador1[4]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador1[5]!!.Recivir_daño(this, ataque_base)
+
+                GlobalData.Jugador1[0]!!.Recivir_daño(this, ataque_base)
+                GlobalData.Jugador1[0]!!.cantidad_escudos -= 70
+                GlobalData.Jugador1[0]!!.turnoActivo = false
+                GlobalData.Jugador1[0]!!.vida -= (enemigos[0].vida * 0.25).toInt()
+                GlobalData.Jugador1[0]!!.ataque_base -= (enemigos[0].ataque_base * 0.25).toInt()
+                this.atropello = false
+            }
+
+
         }
+
+
     }
 
     override fun Habilidad_Especial(Waos: Boolean){

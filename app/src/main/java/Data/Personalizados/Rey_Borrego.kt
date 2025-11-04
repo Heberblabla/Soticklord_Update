@@ -94,6 +94,7 @@ class Rey_Borrego (
         }else{
             return
         }
+        GlobalData.Atodos = true
         if(Waos) {
                 val daño = (this.ataque_base * 0.5).toInt()
                 enemigos[0].Recivir_daño(this,daño)

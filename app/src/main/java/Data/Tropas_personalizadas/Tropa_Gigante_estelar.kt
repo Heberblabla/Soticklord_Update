@@ -15,7 +15,7 @@ class Tropa_Gigante_estelar (Nivel:Int = 1) : Tropa(
     nivel = Nivel,
     vida = calcularVida(200,Nivel),
     ataque_base = calcularAtaque(100,Nivel),
-    daño_critico = calcularDañoCritico(5.0,Nivel),
+    daño_critico = calcularDañoCritico(2.0,Nivel),
     probabilidad_de_critico = calcularProbCritico(0.20,Nivel),
     aereo = true,
     estado_de_vida = true,
@@ -67,8 +67,9 @@ class Tropa_Gigante_estelar (Nivel:Int = 1) : Tropa(
             return
         }
 
-        val daño: Int = (Daño() * 4)
+        val daño: Int = (Daño() * 3)
         enemigos[posicion]!!.Recivir_daño(this,daño)
+        this.vida -= 50
     }
 
     override fun Habilidad_Especial(Waos: Boolean){

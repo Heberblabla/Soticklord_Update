@@ -21,6 +21,8 @@ class Bot_Desiciones_aleatorio (private val context: Context){
         val tropas_disponibles = Tropas_disponibles(Posicion)
         //seleccionamos la tropa a la q atacaremos (por ahora random)
         val Tropa_random_atacar = tropas_disponibles.random()
+        GlobalData.tropa_seleccionada_posicion = Tropa_random_atacar
+        GlobalData.A_quien = false
         //aca se decide q ataque efectuar
         var ataque = Seleccionar_Ataque(Ataques,Tropa_random_atacar,Posicion)
         Toast.makeText(context, "$ataque", Toast.LENGTH_SHORT).show()
@@ -31,6 +33,7 @@ class Bot_Desiciones_aleatorio (private val context: Context){
 
     fun Tropas_disponibles(posicion: Int): List<Int> {
         val Tropas_disponibles = mutableListOf<Int>()
+
         if(GlobalData.Jugador1[5]!!.estado_de_vida) {
             Tropas_disponibles.add(5)
         }
@@ -81,7 +84,7 @@ class Bot_Desiciones_aleatorio (private val context: Context){
                             "wait", "notify", "notifyAll", "getClass",
                             "clonar", "copyBase", "reproducirVideoAtaque",
                             "Ataque_Normal", "Recivir_daño",
-                            "component1", "component2","Habilidad_Especial"
+                            "component1", "component2","Habilidad_Especial","Recivir_daño"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }

@@ -11,8 +11,8 @@ android {
         applicationId = "com.waos.soticklord"
         minSdk = 26
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.122"
+        versionCode = 7
+        versionName = "1.233"
         // 1 = version
         // 0.1 = algun cambio pequeño o modo
         // 0.01 = bugs
@@ -22,12 +22,16 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true          // Activa reducción de código
+            isShrinkResources = true        // Elimina recursos no usados
+            isDebuggable = false            // Asegura que no incluya datos de depuración
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+
     }
 
     compileOptions {
@@ -63,14 +67,8 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging)
 
-    // PostgreSQL (solo si conectas desde servidor, no desde Android)
-    // ⚠️ Nota: esto no funciona directamente en Android, usa Supabase REST mejor
-    // implementation("org.postgresql:postgresql:42.7.3")
-
-    // Reflexión Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
-    // 🔥 Supabase SDK
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("io.github.jan-tennert.supabase:supabase-kt:2.3.1")
     implementation("io.github.jan-tennert.supabase:gotrue-kt:2.3.1") // Auth
