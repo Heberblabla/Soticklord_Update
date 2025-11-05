@@ -11,8 +11,8 @@ android {
         applicationId = "com.waos.soticklord"
         minSdk = 26
         targetSdk = 36
-        versionCode = 7
-        versionName = "1.233"
+        versionCode = 8
+        versionName = "1.333"
         // 1 = version
         // 0.1 = algun cambio pequeño o modo
         // 0.01 = bugs

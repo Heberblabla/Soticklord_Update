@@ -62,6 +62,7 @@ class Principal : AppCompatActivity() {
             findViewById(R.id.Cinco)
         )
         Ocultar_imagenes()
+        Boton_siguiente_Mostrar()
     }
 
     //metodos
@@ -95,6 +96,10 @@ class Principal : AppCompatActivity() {
     }
 
     // Boton para q aparesca la siquiente imagen respectiva en el view grande
+    fun Boton_siguiente_Mostrar() {
+        mostrarImagen(1) // 1 = siguiente
+
+    }
     fun Boton_siguiente_Mostrar(view: View) {
         mostrarImagen(1) // 1 = siguiente
 

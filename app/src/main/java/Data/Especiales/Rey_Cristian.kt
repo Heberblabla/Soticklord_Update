@@ -8,54 +8,65 @@ import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Cristian (
-    Nivel:Int = 1
-):
-    Tropa(
-        nombre = "Rey_Cristian",
-        nivel = Nivel,
-        vida = calcularVida(1000,Nivel),
-        ataque_base = calcularAtaque(150,Nivel),
-        daño_critico = calcularDañoCritico(1.5,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.65,Nivel),
-        aereo = true,
-        estado_de_vida = true,
-        rutaviva = R.drawable.rey_cristian,
-        rutamuerta = R.drawable.tropa_muerta,
-        turnoActivo = true,
-        turnoDoble =  false,
-        cantidad_espinas = 0.00,
-        cantidad_escudos = 0.00,
-        precision = 100
+class Rey_Cristian(
+    Nivel: Int = 1
+) : Tropa(
+    nombre = "Rey_Cristian",
+    nivel = Nivel,
+    vida = calcularVida(1000, Nivel),
+    ataque_base = calcularAtaque(100, Nivel),
+    daño_critico = calcularDañoCritico(1.5, Nivel),
+    probabilidad_de_critico = calcularProbCritico(0.65, Nivel),
+    aereo = true,
+    estado_de_vida = true,
+    rutaviva = R.drawable.rey_cristian,
+    rutamuerta = R.drawable.tropa_muerta,
+    turnoActivo = true,
+    turnoDoble = false,
+    cantidad_espinas = 0.0,
+    cantidad_escudos = 0.0,
+    precision = 100
+), Serializable {
 
-    ), Serializable {
-    var esInmuneTotal = false
-    var unaves = true
-    var invocacion = true
 
-    override var vida: Int = calcularVida(1500, Nivel)
+    private var vidaReal = calcularVida(1000, Nivel)
+    private var ataqueReal = calcularAtaque(100, Nivel)
+    private var precisionReal = 100
+
+
+    var permiteModificacionDirecta: Boolean = true
+    var unaves: Boolean = true
+    var invocacion: Boolean = true
+
+    override var vida: Int
+        get() = vidaReal
         set(value) {
-            if (esInmuneTotal && value < field) {
-                return
+            if (permiteModificacionDirecta) {
+                println("✅ Modificando vida directamente.")
+                vidaReal = value
+            } else {
+                println("❌ $nombre está protegido: solo puede recibir daño mediante Recivir_daño().")
             }
-            field = value
         }
-    override var ataque_base: Int = calcularAtaque(100, Nivel)
+    override var ataque_base: Int
+        get() = ataqueReal
         set(value) {
-            if (esInmuneTotal && value < field) {
-                return
+            if (!permiteModificacionDirecta) {
+                println("⚔️ $nombre está protegido: no se puede modificar su ataque.")
+            } else {
+                ataqueReal = value
             }
-            field = value
         }
 
-    override var precision: Int = 100
+    override var precision: Int
+        get() = precisionReal
         set(value) {
-            if (esInmuneTotal && value < field) {
-                return
+            if (!permiteModificacionDirecta) {
+                println("🎯 $nombre está protegido: no se puede modificar su precisión.")
+            } else {
+                precisionReal = value
             }
-            field = value
         }
-
 
     override fun toString(): String {
         return """
@@ -331,16 +342,14 @@ class Rey_Cristian (
         }
     }
 
-    fun Golden(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean){
-        var xd = Random.nextInt(100)
-        if(xd < this.precision){
-            //sigue realizando tu atque
-        }else{
-            return
-        }
-        if(this.unaves) {
-            esInmuneTotal = true
+    fun Golden(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        val xd = Random.nextInt(100)
+        if (xd >= this.precision) return
+
+        if (this.unaves) {
+            permiteModificacionDirecta = false
             this.unaves = false
+            println("✨ ${nombre} activó su inmunidad temporal.")
         }
     }
 
@@ -389,7 +398,6 @@ class Rey_Cristian (
 
     }
 
-
     override fun clonar(): Tropa {
         val copia = Rey_Cristian(this.nivel)
         copia.nombre = this.nombre
@@ -408,17 +416,17 @@ class Rey_Cristian (
         return copia
     }
 
-    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
-        if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-        }
-        if(this.cantidad_espinas > 0){
+    override fun Recivir_daño(tropa: Tropa, Ataque: Int) {
+        var dañoFinal = Ataque
+
+        if (this.cantidad_escudos > 0)
+            dañoFinal -= (Ataque * cantidad_escudos).toInt()
+
+        if (this.cantidad_espinas > 0)
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
-            return
-        }
 
-        this.vida -= Ataque
-        return
+        // 🔹 Aquí sí modificamos la vida real directamente
+        vidaReal = (vidaReal - dañoFinal).coerceAtLeast(0)
+        println("${nombre} recibió $dañoFinal de daño. Vida actual: $vidaReal")
     }
-
 }
