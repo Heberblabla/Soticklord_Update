@@ -1,6 +1,5 @@
 package com.waos.soticklord
 
-
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -18,7 +17,6 @@ import android.widget.ImageView
 import java.lang.reflect.Modifier
 import android.widget.Toast
 import com.waos.soticklord.Iniciar_Sesion
-
 
 class Album : AppCompatActivity() {
     val ataques = HashMap<Int, String>()
