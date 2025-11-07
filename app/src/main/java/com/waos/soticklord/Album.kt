@@ -1,5 +1,4 @@
 package com.waos.soticklord
-
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -26,7 +25,6 @@ class Album : AppCompatActivity() {
     var listaTropas = GlobalData.Diccionario_Tropas.values.toList()
     var listaReyes = GlobalData.Diccionario_Reyes.values.toList()
     var listaNombres = mutableListOf<String>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
