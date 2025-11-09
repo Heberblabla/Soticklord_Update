@@ -171,7 +171,13 @@ class Rey_Aethelred (
 
         enemigos[posicion].vida -= (ataque_base * 2.5).toInt()
         enemigos[posicion].turnoActivo = false
-        this.turnoDoble = true
+
+        var numero = Random.nextInt(100)
+        if (numero < this.precision) {
+            this.turnoDoble = true
+        } else {
+            return
+        }
 
     }
 

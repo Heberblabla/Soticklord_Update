@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TemaVentanaTienda" parent="Theme.MaterialComponents.Light.Dialog">
+        <!-- Ventana ocupa el 80% del ancho total -->
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+
+        <!-- Para que la pantalla de abajo se vea bloqueada -->
+        <item name="android:windowCloseOnTouchOutside">false</item>
+
+        <!-- Hace que la ventana se superponga (efecto "encima") -->
+        <item name="android:windowIsTranslucent">true</item>
+
+        <!-- Centrado -->
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>

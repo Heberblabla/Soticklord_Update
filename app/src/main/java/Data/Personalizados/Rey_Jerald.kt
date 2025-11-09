@@ -240,11 +240,11 @@ class Rey_Jerald (
 
         if(this.fase) {
             this.rutaviva = R.drawable.fato_fase
-            this.ataque_base += this.ataque_base * 3
+            this.ataque_base += (this.ataque_base) + (this.ataque_base * 1.5).toInt()
 
             GlobalData.Atodos = true
             for (tropa in enemigos) {
-                tropa.vida -= (tropa.vida / 2).toInt()
+                tropa.vida -= (tropa.vida * 0.3).toInt()
             }
             this.fase = false
         }
@@ -272,6 +272,7 @@ class Rey_Jerald (
                 GlobalData.Jugador2[0]!!.Recivir_daño(this, ataque_base)
                 GlobalData.Jugador2[0]!!.cantidad_escudos -= 70
                 GlobalData.Jugador2[0]!!.turnoActivo = false
+                var waos = (enemigos[0].vida * 0.25).toInt()
                 GlobalData.Jugador2[0]!!.vida -= (enemigos[0].vida * 0.25).toInt()
                 GlobalData.Jugador2[0]!!.ataque_base -= (enemigos[0].ataque_base * 0.25).toInt()
                 this.atropello = false
@@ -286,7 +287,7 @@ class Rey_Jerald (
                 GlobalData.Jugador1[0]!!.Recivir_daño(this, ataque_base)
                 GlobalData.Jugador1[0]!!.cantidad_escudos -= 70
                 GlobalData.Jugador1[0]!!.turnoActivo = false
-                GlobalData.Jugador1[0]!!.vida -= (enemigos[0].vida * 0.25).toInt()
+                GlobalData.Jugador1[0]!!.vida = (enemigos[0].vida * 0.65).toInt()
                 GlobalData.Jugador1[0]!!.ataque_base -= (enemigos[0].ataque_base * 0.25).toInt()
                 this.atropello = false
             }

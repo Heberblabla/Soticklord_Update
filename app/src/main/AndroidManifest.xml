@@ -15,10 +15,19 @@
         android:theme="@style/Theme.Soticklord"
         tools:targetApi="31">
         <activity
+            android:name="Multijugador.Versus"
+            android:exported="false" />
+        <activity
+            android:name="Sobrepuesto.VentanaTiendaActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/TemaVentanaTienda" />
+        <activity
             android:name=".Escoger_modo"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
-            android:screenOrientation="sensorLandscape"  />
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".Album"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -35,11 +44,6 @@
             android:exported="false"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".Pantalla_de_Carga"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="false"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".Iniciar_Sesion"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
@@ -51,11 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Perfil"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="false"
-            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".Batalla"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -75,15 +74,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"
-            />
-
-
-
+            android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
 
 </manifest>

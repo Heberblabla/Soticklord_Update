@@ -21,7 +21,6 @@ object GlobalData {
         add(null) // posición 4 (tropa)
         add(null) // posición 5 (tropa)
     }
-
     var Diccionario_Reyes = hashMapOf<Int, Tropa>()
     var Diccionario_Tropas = hashMapOf<Int, Tropa>()
     var batalla: Activity? = null
@@ -191,8 +190,9 @@ object GlobalData {
         "Sincronización_Forzada" to
                 """
         Inflijes un daño  de tu ataque base
-        multiplicado x2.5 , obtienes turno doble
-        y el pierde turno para la siguiente ronda
+        multiplicado x2.5 y haces perder un turno,
+        y existe una probabilidad del 20% de 
+        realizar otro ataque extra
                 """.trimIndent() ,
         //---------------------------
         "Lanza_de_Cristal_Puro" to
@@ -227,7 +227,7 @@ object GlobalData {
         "El_Último_Mandamiento" to
                 """
        (Una ves por partida) , eliminas a un 
-        enemigo deuna ,si es el rey , le 
+        enemigo de una ,si es el rey , le 
         bajas su vida en un 65%
                 """.trimIndent() ,
         //---------------------------
@@ -289,9 +289,9 @@ object GlobalData {
         "Sube_de_fase" to
                 """
         Una ves por paartida tu ataque se 
-        incrementa en un 300% y tus 
+        incrementa en un 150% y tus 
         enemigos se reduce su vida en 
-        un 50%
+        un 30%
        
                 """.trimIndent() ,
         //---------------------------

@@ -43,7 +43,7 @@ class Principal : AppCompatActivity() {
             insets
         }
 
-        // 1️⃣ Inicializa el SDK de AdMob
+        // ️Inicializa el SDK de AdMob
         MobileAds.initialize(this) {}
         // 2️⃣ Conecta tu banner del XML
         bannerView = findViewById(R.id.bannerView)

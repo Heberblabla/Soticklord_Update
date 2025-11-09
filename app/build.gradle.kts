@@ -11,8 +11,8 @@ android {
         applicationId = "com.waos.soticklord"
         minSdk = 26
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.333"
+        versionCode = 9
+        versionName = "1.343"
         // 1 = version
         // 0.1 = algun cambio pequeño o modo
         // 0.01 = bugs
@@ -22,8 +22,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true          // Activa reducción de código
-            isShrinkResources = true        // Elimina recursos no usados
+            isMinifyEnabled = false          // Activa reducción de código
+            isShrinkResources = false        // Elimina recursos no usados
             isDebuggable = false            // Asegura que no incluya datos de depuración
 
             proguardFiles(
