@@ -1,5 +1,4 @@
 package Data.Especiales
-
 import Data.Tropa
 import android.provider.Settings
 import com.waos.soticklord.GlobalData
