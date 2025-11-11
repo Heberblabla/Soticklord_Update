@@ -14,6 +14,7 @@ import android.widget.Toast
 import io.ktor.client.plugins.BodyProgress
 
 
+
 class Rey_Borrego (
     Nivel:Int = 1
 ):
@@ -35,6 +36,7 @@ class Rey_Borrego (
         precision = 100
     ), Serializable {
 
+        
     var Resurreccion : Boolean = true //troopas
     var Revivir : Boolean = true //rey
     override fun toString(): String {
@@ -52,6 +54,7 @@ class Rey_Borrego (
         """.trimIndent()
     }
 
+    
     private fun daño(): Int {
         val random = Random.Default
         val suerte = random.nextDouble()
