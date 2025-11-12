@@ -23,7 +23,7 @@ object GlobalData {
     }
     var Diccionario_Reyes = hashMapOf<Int, Tropa>()
     var Diccionario_Tropas = hashMapOf<Int, Tropa>()
-    var batalla: Activity? = null
+    //var batalla: Activity? = null
     val Diccionario_Clases = mapOf(
         //defaults
         "Rey_Arquero" to Data.Rey_Arquero::class,
@@ -729,6 +729,37 @@ object GlobalData {
                 """.trimIndent(),
 
     )
+
+    val Diccionario_Habilidades = mapOf(
+        "Rey_Arquero" to
+                """
+        Al recivir algun tipo de daño directo,
+        devolved un golpe de daño 
+                """.trimIndent() ,
+        //----------------------------------
+        "Rey_Cristian" to
+                """
+        Si Alguna tropa muere ,eliminad a una
+        tropa enemiga aleatoria
+                """.trimIndent() ,
+        "Rey_Kratos" to
+                """
+        Una ves por partida, Al recivir un daño
+        directo q no haga morir , revivid con 100pv,
+        30% de defensa y +100 de ataque extra
+                """.trimIndent() ,
+        //----------------------------------
+        "Rey_Kanox" to
+                """
+        Por cada turno q pase, existe una 
+        probabilidad del 45% de subir tu vida 
+        y ataque base en un 8%
+                """.trimIndent() ,
+        //----------------------------------
+
+
+        )
+
 
     val listaEventos = mutableListOf<Evento>()
     var id_usuario = 0 //id del usuario

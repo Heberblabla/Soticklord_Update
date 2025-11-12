@@ -348,7 +348,6 @@ class Rey_Cristian(
         if (this.unaves) {
             permiteModificacionDirecta = false
             this.unaves = false
-            println("✨ ${nombre} activó su inmunidad temporal.")
         }
     }
 
@@ -424,8 +423,7 @@ class Rey_Cristian(
         if (this.cantidad_espinas > 0)
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
 
-        // 🔹 Aquí sí modificamos la vida real directamente
+        // Aquí sí modificamos la vida real directamente
         vidaReal = (vidaReal - dañoFinal).coerceAtLeast(0)
-        println("${nombre} recibió $dañoFinal de daño. Vida actual: $vidaReal")
     }
 }

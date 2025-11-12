@@ -48,7 +48,6 @@ import java.security.MessageDigest
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
-import Sobrepuesto.*
 
 
 class Iniciar_Sesion : AppCompatActivity() {
@@ -159,7 +158,7 @@ class Iniciar_Sesion : AppCompatActivity() {
     }
     fun Tienda(view: View) {
         Toast.makeText(this, "Proximamente", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, VentanaTiendaActivity::class.java))
+
     }
 
 }

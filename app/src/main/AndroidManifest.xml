@@ -18,12 +18,6 @@
             android:name="Multijugador.Versus"
             android:exported="false" />
         <activity
-            android:name="Sobrepuesto.VentanaTiendaActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="false"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/TemaVentanaTienda" />
-        <activity
             android:name=".Escoger_modo"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"

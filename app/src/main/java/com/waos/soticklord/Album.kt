@@ -13,6 +13,8 @@ import Data.*
 import android.content.Intent
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import java.lang.reflect.Modifier
 import android.widget.Toast
 import com.waos.soticklord.Iniciar_Sesion
@@ -124,13 +126,13 @@ class Album : AppCompatActivity() {
         val posicionReal = index + aumento
 
         if (rey_o_tropa == 0) {
-            // 🟢 Usar la listaTropas actual (ordenada o no)
+            // Usar la listaTropas actual (ordenada o no)
             if (posicionReal < listaTropas.size) {
                 val tropa = listaTropas[posicionReal]
                 mostrarDatosDeTropa(tropa)
             }
         } else {
-            // 🔵 Usar la listaReyes actual (ordenada o no)
+            //  Usar la listaReyes actual (ordenada o no)
             if (posicionReal < listaReyes.size) {
                 val rey = listaReyes[posicionReal]
                 mostrarDatosDeRey(rey)
@@ -551,5 +553,22 @@ class Album : AppCompatActivity() {
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
+
+    fun habilidad(view: View) {
+        val vistaPopup = layoutInflater.inflate(R.layout.popup_layout, null)
+
+        val textoInfo = vistaPopup.findViewById<TextView>(R.id.Info_Habilidad)
+
+        //Cambias el texto
+        textoInfo.text = "🔥 Habilidad activada: Golpe de energía"
+
+        val ancho = (190 * resources.displayMetrics.density).toInt()
+        val alto = (150 * resources.displayMetrics.density).toInt()
+        val popup = PopupWindow(vistaPopup, ancho, alto, true)
+        // Muestra el popup justo debajo del botón que lo activó
+        popup.showAsDropDown(view, 0, 10)
+    }
+
+
 
 }

@@ -269,30 +269,12 @@ class Rey_Kratos (
     }
 
     override fun Habilidad_Especial(Waos: Boolean){
-        if(Waos){
-            if(this.vida < 1 && this.Revivir) {
+            if(this.vida <= 0 && this.Revivir) {
                 this.vida = 250
                 this.cantidad_escudos += 0.3
                 this.ataque_base += 100
                 this.Revivir = false
-                for (i in 1..5) {
-                    GlobalData.Jugador1[i]!!.vida += 100
-                }
-
-            }
-        }
-        if(!Waos){
-            if(this.vida < 1 && this.Revivir) {
-                this.vida = 250
-                this.cantidad_escudos += 0.3
-                this.ataque_base += 100
-                this.Revivir = false
-                for (i in 1..5) {
-                    GlobalData.Jugador2[i]!!.vida += 100
-                }
-            }
-        }
-
+           }
     }
 
     override fun clonar(): Tropa {
@@ -319,10 +301,12 @@ class Rey_Kratos (
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
             this.cantidad_espinas -= 0.5
+            Habilidad_Especial(true)
             return
         }
 
         this.vida -= Ataque
+        Habilidad_Especial(true)
         return
     }
 

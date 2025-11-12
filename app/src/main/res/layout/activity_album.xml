@@ -29,6 +29,7 @@
         android:fontFamily="@font/aladin"
         android:text="🗡"
         android:textColor="#050505"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.088"
@@ -256,6 +257,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.01"
         app:srcCompat="@drawable/boton_atras" />
+
+    <ImageButton
+        android:id="@+id/Habilidad_Especial"
+        android:layout_width="20dp"
+        android:layout_height="18dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="habilidad"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.422"
+        app:srcCompat="@drawable/info" />
 
     <ImageButton
         android:id="@+id/Boton_aterior_pagina"
