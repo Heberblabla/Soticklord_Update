@@ -326,7 +326,7 @@ class Reyna_paranormal (
         if(this.cantidad_espinas > 0){
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
             this.cantidad_espinas -= 0.05
-            return
+
         }
 
         this.vida -= Ataque

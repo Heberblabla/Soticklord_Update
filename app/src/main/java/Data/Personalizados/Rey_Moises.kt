@@ -286,17 +286,18 @@ class Rey_Moises (
     }
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
-        if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-        }
-        if(this.cantidad_espinas > 0){
+        if (this.cantidad_espinas > 0) {
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
-            this.contrataque = Ataque
-            return
         }
-        this.contrataque = Ataque
-        this.vida -= Ataque
-        return
+
+        if (this.cantidad_escudos > 0) {
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            this.contrataque = Ataque
+        }else{
+            this.vida -= Ataque
+            this.contrataque = Ataque
+        }
+
     }
 
 }

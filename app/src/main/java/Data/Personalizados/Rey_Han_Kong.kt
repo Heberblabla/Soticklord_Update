@@ -204,24 +204,24 @@ class Rey_Han_Kong (
             }
         }
 
-        if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-        }
-        if(this.cantidad_espinas > 0){
+        if (this.cantidad_espinas > 0) {
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
+        }
+
+        if (this.cantidad_escudos > 0) {
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
             if(this.recivir){
                 ataque_base += Ataque
                 this.recivir = false
             }
-            return
+        }else{
+            this.vida -= Ataque
+            if(this.recivir){
+                ataque_base += Ataque
+                this.recivir = false
+            }
         }
 
-        if(this.recivir){
-            ataque_base += Ataque
-            this.recivir = false
-        }
-        this.vida -= Ataque
-        return
     }
 
 }

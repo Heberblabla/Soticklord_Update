@@ -16,6 +16,6 @@
         android:gravity="center"
         android:text="Info no disponible"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>

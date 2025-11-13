@@ -41,10 +41,10 @@ class Rey_Cristian(
         get() = vidaReal
         set(value) {
             if (permiteModificacionDirecta) {
-                println("✅ Modificando vida directamente.")
+                println(" Modificando vida directamente.")
                 vidaReal = value
             } else {
-                println("❌ $nombre está protegido: solo puede recibir daño mediante Recivir_daño().")
+                println(" $nombre está protegido: solo puede recibir daño mediante Recivir_daño().")
             }
         }
     override var ataque_base: Int
@@ -425,5 +425,8 @@ class Rey_Cristian(
 
         // Aquí sí modificamos la vida real directamente
         vidaReal = (vidaReal - dañoFinal).coerceAtLeast(0)
+
+
+
     }
 }

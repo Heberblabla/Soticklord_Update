@@ -224,15 +224,15 @@ class Rey_Kanox (
             this.cantidad_escudos += 0.1
             return
         }else{
-            if (this.cantidad_escudos > 0) {
-                this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-            }
             if (this.cantidad_espinas > 0) {
                 tropa.vida -= (Ataque * cantidad_espinas).toInt()
-                return
             }
-            this.vida -= Ataque
-            return
+
+            if (this.cantidad_escudos > 0) {
+                this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            }else{
+                this.vida -= Ataque
+            }
         }
     }
 }

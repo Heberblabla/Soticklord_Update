@@ -98,13 +98,13 @@ class Batalla : AppCompatActivity() {
 
         }
 
-        // 1️⃣ Inicializa el SDK de AdMob
+        // 1 Inicializa el SDK de AdMob
         MobileAds.initialize(this) {}
-        // 2️⃣ Conecta tu banner del XML
+        // 2 Conecta tu banner del XML
         bannerView = findViewById(R.id.bannerView)
-        // 3️⃣ Crea una solicitud de anuncio
+        // 3 Crea una solicitud de anuncio
         val adRequest = AdRequest.Builder().build()
-        // 4️⃣ Carga el anuncio
+        // 4️ Carga el anuncio
         bannerView.loadAd(adRequest)
 
         imagenes = arrayListOf(

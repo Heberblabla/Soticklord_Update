@@ -7,6 +7,7 @@ import Data.Especiales.Reyna_Darisce
 import Data.Especiales.Reyna_Shantal
 import Data.Personalizados.Rey_Aethelred
 import Data.Personalizados.Rey_Borrego
+import Data.Personalizados.Rey_Bufon_Negro
 import Data.Personalizados.Rey_El_Pro
 import Data.Personalizados.Rey_Han_Kong
 import Data.Personalizados.Rey_Jerald
@@ -158,7 +159,11 @@ class Iniciar_Sesion : AppCompatActivity() {
     }
     fun Tienda(view: View) {
         Toast.makeText(this, "Proximamente", Toast.LENGTH_SHORT).show()
-
+        if(GlobalData.ecencia_de_juego > 0){
+            GlobalData.ecencia_de_juego -= 1
+            GlobalData.monedas += 100
+        }
+        GlobalData.Diccionario_Reyes[19] = Rey_Bufon_Negro(1)
     }
 
 }

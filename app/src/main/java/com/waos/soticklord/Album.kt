@@ -27,6 +27,7 @@ class Album : AppCompatActivity() {
     var listaTropas = GlobalData.Diccionario_Tropas.values.toList()
     var listaReyes = GlobalData.Diccionario_Reyes.values.toList()
     var listaNombres = mutableListOf<String>()
+    var nombreu = "waos"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,7 +143,7 @@ class Album : AppCompatActivity() {
 
 
     fun mostrarDatosDeTropa(tropa: Tropa) {
-
+        nombreu = tropa.nombre
         val Nombre_rey_tropa = findViewById<TextView>(R.id.Nombre_rey_tropa)
         Nombre_rey_tropa.text = "${tropa.nombre}"
         val imagen = findViewById<ImageView>(R.id.Imagen_grande)
@@ -186,6 +187,7 @@ class Album : AppCompatActivity() {
     }
 
     fun mostrarDatosDeRey(tropa: Tropa) {
+        nombreu = tropa.nombre
         val Nombre_rey_tropa = findViewById<TextView>(R.id.Nombre_rey_tropa)
         Nombre_rey_tropa.text = "${tropa.nombre}"
         val imagen = findViewById<ImageView>(R.id.Imagen_grande)
@@ -554,13 +556,12 @@ class Album : AppCompatActivity() {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
+
     fun habilidad(view: View) {
         val vistaPopup = layoutInflater.inflate(R.layout.popup_layout, null)
-
+        val descripcion = GlobalData.Diccionario_Habilidades[nombreu] ?: "Habilidad no encontrada"
         val textoInfo = vistaPopup.findViewById<TextView>(R.id.Info_Habilidad)
-
-        //Cambias el texto
-        textoInfo.text = "🔥 Habilidad activada: Golpe de energía"
+        textoInfo.text = "- $descripcion"
 
         val ancho = (190 * resources.displayMetrics.density).toInt()
         val alto = (150 * resources.displayMetrics.density).toInt()

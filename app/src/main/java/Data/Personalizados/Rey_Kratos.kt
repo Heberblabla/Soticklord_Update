@@ -270,7 +270,8 @@ class Rey_Kratos (
 
     override fun Habilidad_Especial(Waos: Boolean){
             if(this.vida <= 0 && this.Revivir) {
-                this.vida = 250
+                this.vida = 500
+                this.estado_de_vida = true
                 this.cantidad_escudos += 0.3
                 this.ataque_base += 100
                 this.Revivir = false
@@ -294,20 +295,21 @@ class Rey_Kratos (
     }
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
-        if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-            this.cantidad_escudos -= 0.5
-        }
-        if(this.cantidad_espinas > 0){
+        if (this.cantidad_espinas > 0) {
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
-            this.cantidad_espinas -= 0.5
-            Habilidad_Especial(true)
-            return
         }
 
-        this.vida -= Ataque
-        Habilidad_Especial(true)
-        return
+        if (this.cantidad_escudos > 0) {
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            if(this.vida <= 0){
+                Habilidad_Especial(true)
+            }
+        }else{
+            this.vida -= Ataque
+            if(this.vida <= 0){
+                Habilidad_Especial(true)
+            }
+        }
     }
 
 }

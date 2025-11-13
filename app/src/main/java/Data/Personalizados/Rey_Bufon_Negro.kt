@@ -1,26 +1,30 @@
-package Data.Especiales
+package Data.Personalizados
 
 import Data.Tropa
-import android.text.BoringLayout
+import Data.Tropa.Companion.calcularAtaque
+import Data.Tropa.Companion.calcularDañoCritico
+import Data.Tropa.Companion.calcularProbCritico
+import Data.Tropa.Companion.calcularVida
+import android.provider.Settings
 import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
 
-class Rey_Fernando (
+class Rey_Bufon_Negro (
     Nivel:Int = 1
 ):
     Tropa(
-        nombre = "Rey_Fernando",
+        nombre = "Rey_Bufon_Negro",
         nivel = Nivel,
-        vida = calcularVida(1500,Nivel),
+        vida = calcularVida(1000,Nivel),
         ataque_base = calcularAtaque(100,Nivel),
-        daño_critico = calcularDañoCritico(4.0,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.50,Nivel),
+        daño_critico = calcularDañoCritico(1.3,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.75,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.rey_fernando,
+        rutaviva = R.drawable.bufon_negro,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
@@ -28,6 +32,8 @@ class Rey_Fernando (
         cantidad_escudos = 0.00,
         precision = 100
     ), Serializable {
+
+    var ultimo_daño = 0;
 
     override fun toString(): String {
         return """
@@ -56,53 +62,42 @@ class Rey_Fernando (
         }
     }
 
-    fun Estaca_Feroz(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {
 
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         var xd = Random.nextInt(100)
-        if(xd < this.precision){
+        if (xd < this.precision) {
             //sigue realizando tu atque
-        }else{
+        } else {
             return
         }
-        var daño = (this.ataque_base * 4).toInt()
-        enemigos[posicion]!!.Recivir_daño(this,daño)
-        this.vida -= (this.vida * 0.05).toInt()
+        val daño = daño()
+        enemigos[posicion].Recivir_daño(this, daño)
     }
 
-    fun Clavada_de_pico(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {
-
+    fun Contrataque_Negro(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         var xd = Random.nextInt(100)
-        if(xd < this.precision){
+        if (xd < this.precision) {
             //sigue realizando tu atque
-        }else{
+        } else {
             return
         }
-
-        GlobalData.Atodos = true
-        for (i in enemigos.indices) {
-            var daño = (this.ataque_base).toInt()
-            enemigos[posicion]!!.Recivir_daño(this,daño)
-        }
-    }
-
-    fun la_muerte_no_es_una_opcion(enemigos: ArrayList<Tropa>, posicion: Int,Waos : Boolean) {
-
-        var xd = Random.nextInt(100)
-        if(xd < this.precision){
-            //sigue realizando tu atque
-        }else{
+        if (ultimo_daño == 0){
+            val daño = daño()
+            enemigos[posicion].Recivir_daño(this, daño)
             return
         }
-        this.vida += 500
+        ultimo_daño = ultimo_daño * 2
+        enemigos[posicion].Recivir_daño(this, ultimo_daño)
     }
 
-    override fun Habilidad_Especial(Waos: Boolean){
+
+
+    override fun Habilidad_Especial(Waos: Boolean) {
 
     }
-
 
     override fun clonar(): Tropa {
-        val copia = Rey_Fernando(this.nivel)
+        val copia = Rey_Bufon_Negro(this.nivel)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -114,22 +109,52 @@ class Rey_Fernando (
         copia.rutamuerta = this.rutamuerta
         copia.turnoActivo = this.turnoActivo
         copia.turnoDoble = this.turnoDoble
-        copia.cantidad_espinas = this.cantidad_espinas
-        copia.cantidad_escudos = this.cantidad_escudos
         return copia
     }
 
 
-    override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
+    override fun Recivir_daño(tropa: Tropa, Ataque: Int) {
+        //------------------------------------
+        ultimo_daño = Ataque
+        var devolvergolpe = Random.nextInt(100)
+        if(devolvergolpe < 50){
+            tropa.vida -= Ataque
+        }else{
+            //no devuelves nada
+        }
+        var recivirdaño = Random.nextInt(100)
+        if(recivirdaño < 40){
+            //continua
+        }else{
+            return
+        }
+        //-------------------------------------
         if (this.cantidad_espinas > 0) {
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
         }
 
         if (this.cantidad_escudos > 0) {
             this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            if(this.vida <= 0){
+                if(GlobalData.A_quien){
+                    GlobalData.Jugador2[0]
+                }else{
+                    GlobalData.Jugador1[0]
+                }
+
+            }
         }else{
             this.vida -= Ataque
+            if(this.vida <= 0){
+                if(GlobalData.A_quien){
+                    GlobalData.Jugador2[0]
+                }else{
+                    GlobalData.Jugador1[0]
+                }
+
+            }
         }
+
     }
 
 }

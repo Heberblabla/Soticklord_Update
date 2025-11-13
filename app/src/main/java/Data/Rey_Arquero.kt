@@ -143,19 +143,18 @@ class Rey_Arquero (
     }
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
-            if(this.cantidad_escudos > 0){
-                this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-
-            }
-            if(this.cantidad_espinas > 0){
-                tropa.vida -= (Ataque * cantidad_espinas).toInt()
-                tropa.vida -= ataque_base //replica
-                return
-            }
-
-            this.vida -= Ataque
+        if (this.cantidad_espinas > 0) {
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+        }
+        if (this.cantidad_escudos > 0) {
+            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
             tropa.vida -= ataque_base //replica
-            return
+        }else{
+            this.vida -= Ataque
+            tropa.vida -= (Ataque * cantidad_espinas).toInt()
+            tropa.vida -= ataque_base //replica
+        }
     }
 
 }

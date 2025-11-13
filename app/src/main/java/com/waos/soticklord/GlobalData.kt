@@ -42,6 +42,7 @@ object GlobalData {
         "Rey_Cristian" to Data.Especiales.Rey_Cristian::class,
         "Reyna_Darisce" to Data.Especiales.Reyna_Darisce::class,
         "Reyna_Shantal" to Data.Especiales.Reyna_Shantal::class,
+        "Rey_Bufon_Negro" to Data.Personalizados.Rey_Bufon_Negro::class,
 
 
         //personalizados
@@ -74,6 +75,14 @@ object GlobalData {
     )
 
     val Diccionario_Ataques = mapOf(
+        "Contrataque_Negro" to
+                """
+        Devuelves el ultimo golpe 
+        directo recivido , pero multiplicado
+        en un x2 (Si no recivistes algun
+        golpe directo efectuaras daño normal)
+                """.trimIndent() ,
+        //----------------------------
         "Gran_puño" to
                 """
         Inflijes daño directo al enemigo 
@@ -731,29 +740,54 @@ object GlobalData {
     )
 
     val Diccionario_Habilidades = mapOf(
+        "Rey_Aethelred" to
+                """
+        Es imposible perder turno,
+        obtiene + 50 pv y un 10% 
+        de ataque cada turno q pase
+                """.trimIndent() ,
+        //----------------------------------
+        "Rey_Bufon_Negro" to
+                """
+        Al recivir un daño directo
+        existe una probabilidad del
+        50% de devolver todo el daño
+        y una probabiblidad del 40%
+        de Recivir todo el daño
+                """.trimIndent() ,
+        //----------------------------------
         "Rey_Arquero" to
                 """
-        Al recivir algun tipo de daño directo,
-        devolved un golpe de daño 
+        Al recivir algun tipo
+           de daño directo,
+        devolved un golpe de 
+                daño 
                 """.trimIndent() ,
         //----------------------------------
         "Rey_Cristian" to
                 """
-        Si Alguna tropa muere ,eliminad a una
+        Si Alguna tropa muere,
+            eliminad a una
         tropa enemiga aleatoria
                 """.trimIndent() ,
         "Rey_Kratos" to
                 """
-        Una ves por partida, Al recivir un daño
-        directo q no haga morir , revivid con 100pv,
-        30% de defensa y +100 de ataque extra
+        Una ves por partida, 
+        Al recivir un daño
+        directo q no haga morir,
+        revivid con 100pv,
+        30% de defensa y 
+        +100 de ataque extra
                 """.trimIndent() ,
         //----------------------------------
         "Rey_Kanox" to
                 """
-        Por cada turno q pase, existe una 
-        probabilidad del 45% de subir tu vida 
-        y ataque base en un 8%
+        Por cada turno q 
+        pase, existe una 
+        probabilidad del 
+        45% de subir tu 
+        vida y ataque base
+        en un 8%
                 """.trimIndent() ,
         //----------------------------------
 
@@ -776,12 +810,16 @@ object GlobalData {
 
 
     var tropa_seleccionada_posicion = 0
-    var A_quien = true
+
+    var A_quien = true //true = turno de jugador1 , false = turno jugador 2
+
+
     var Atodos = false
 
     var nivel_actico = 0;
 
     var turno = true
+
 
 
 }
