@@ -556,7 +556,6 @@ class Album : AppCompatActivity() {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
-
     fun habilidad(view: View) {
         val vistaPopup = layoutInflater.inflate(R.layout.popup_layout, null)
         val descripcion = GlobalData.Diccionario_Habilidades[nombreu] ?: "Habilidad no encontrada"

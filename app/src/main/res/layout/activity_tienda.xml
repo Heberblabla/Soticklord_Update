@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tienda"
+    tools:context=".Tienda">
+
+    <ImageButton
+        android:id="@+id/imagen_grandeAb3"
+        android:layout_width="94dp"
+        android:layout_height="99dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bufon_negro"
+        android:backgroundTint="#00FFFFFF"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.464"
+        app:srcCompat="@drawable/curandera" />
+
+    <ImageButton
+        android:id="@+id/imagen_grandeAb4"
+        android:layout_width="86dp"
+        android:layout_height="90dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bufon_negro"
+        android:backgroundTint="#00FFFFFF"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.878"
+        app:srcCompat="@drawable/gato_amigo" />
+
+    <TextView
+        android:id="@+id/monedass"
+        android:layout_width="60dp"
+        android:layout_height="15dp"
+        android:fontFamily="@font/unlock"
+        android:text="🪙 :  --"
+        android:textColor="#050505"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.070" />
+
+    <TextView
+        android:id="@+id/ecencia"
+        android:layout_width="61dp"
+        android:layout_height="19dp"
+        android:fontFamily="@font/unlock"
+        android:text="✮⋆˙ : --"
+        android:textColor="#050505"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.140" />
+
+    <ImageButton
+        android:id="@+id/imagen_grande"
+        android:layout_width="106dp"
+        android:layout_height="109dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bufon_negro"
+        android:backgroundTint="#00FFFFFF"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.403"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.839"
+        app:srcCompat="@drawable/bufon_negro" />
+
+    <ImageButton
+        android:id="@+id/imagen_grandeAb"
+        android:layout_width="94dp"
+        android:layout_height="99dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bufon_negro"
+        android:backgroundTint="#00FFFFFF"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.927"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038"
+        app:srcCompat="@drawable/intercambio_estrella_moneda1" />
+
+    <ImageButton
+        android:id="@+id/imagen_grandeAb2"
+        android:layout_width="94dp"
+        android:layout_height="99dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bufon_negro"
+        android:backgroundTint="#00FFFFFF"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.051"
+        app:srcCompat="@drawable/gigante_estelar" />
+
+    <ImageButton
+        android:id="@+id/imagen_grandeBb"
+        android:layout_width="94dp"
+        android:layout_height="99dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bufon_negro"
+        android:backgroundTint="#00FFFFFF"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.927"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.464"
+        app:srcCompat="@drawable/anuncio_monedas" />
+
+    <ImageButton
+        android:id="@+id/boton_atras2"
+        android:layout_width="61dp"
+        android:layout_height="53dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="atras"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.044"
+        app:srcCompat="@drawable/boton_atras" />
+
+    <VideoView
+        android:id="@+id/Video_muestra"
+        android:layout_width="200dp"
+        android:layout_height="285dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.665" />
+
+    <TextView
+        android:id="@+id/Informacion"
+        android:layout_width="180dp"
+        android:layout_height="111dp"
+        android:fontFamily="@font/aladin"
+        android:text=" Rey Bufon"
+        android:textColor="#0D0000"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.404"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.370" />
+
+    <Button
+        android:id="@+id/Boton_Gran_Oferta"
+        android:layout_width="75dp"
+        android:layout_height="41dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:onClick="comprar_rey_bufon"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.269"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.981" />
+
+    <Button
+        android:id="@+id/Boton_Aa"
+        android:layout_width="49dp"
+        android:layout_height="22dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:onClick="comprar_Aa"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.703"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.285" />
+
+    <Button
+        android:id="@+id/boton_Aa"
+        android:layout_width="49dp"
+        android:layout_height="22dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:onClick="comprar_Ab"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.285" />
+
+    <Button
+        android:id="@+id/boton_Aa2"
+        android:layout_width="49dp"
+        android:layout_height="22dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:onClick="comprar_Ba"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.703"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.627" />
+
+    <Button
+        android:id="@+id/boton_Aa3"
+        android:layout_width="49dp"
+        android:layout_height="22dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:onClick="comprar_Bb"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.627" />
+
+    <Button
+        android:id="@+id/boton_Aa4"
+        android:layout_width="49dp"
+        android:layout_height="22dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:onClick="comprar_Ca"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.703"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958" />
+
+    <Button
+        android:id="@+id/boton_Aa5"
+        android:layout_width="49dp"
+        android:layout_height="22dp"
+        android:alpha="0"
+        android:background="@android:color/transparent"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

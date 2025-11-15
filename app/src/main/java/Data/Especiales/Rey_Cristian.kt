@@ -127,7 +127,7 @@ class Rey_Cristian(
         if (Waos) {
             if(this.invocacion) {
                 val claseGigante = GlobalData.Diccionario_Clases["Tropa_Gigante_estelar"]
-                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Gurandera"]
+                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Curandera"]
 
                 val nivelGigante = this.nivel + 10
                 val nivelCurandera = this.nivel + 8
@@ -151,7 +151,7 @@ class Rey_Cristian(
         } else {
             if(this.invocacion) {
                 val claseGigante = GlobalData.Diccionario_Clases["Tropa_Gigante_estelar"]
-                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Gurandera"]
+                val claseCurandera = GlobalData.Diccionario_Clases["Tropa_Curandera"]
 
                 val nivelGigante = this.nivel + 10
                 val nivelCurandera = this.nivel + 8

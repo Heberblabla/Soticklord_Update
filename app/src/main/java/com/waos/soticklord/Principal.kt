@@ -247,9 +247,9 @@ class Principal : AppCompatActivity() {
             val drawableActual = imagenCentral.drawable
             // Asignarlo al ImageView del Rey
             Imagen_Tropa_Frontal1.setImageDrawable(drawableActual)
-            GlobalData.Jugador1[5] = GlobalData.TropaSeleccionada?.clonar()
+            GlobalData.Jugador1[3] = GlobalData.TropaSeleccionada?.clonar()
 
-            var vida = GlobalData.Jugador1[5]!!.vida
+            var vida = GlobalData.Jugador1[3]!!.vida
             val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Tropa_Frontal1)
             Vida_rey_tropa.text = "♡  : $vida"
 
@@ -275,11 +275,13 @@ class Principal : AppCompatActivity() {
             val Imagen_Tropa_Frontal3 = findViewById<ImageView>(R.id.Imagen_Tropa_Frontal3)
             // Obtener el drawable actual de la imagen central
             val drawableActual = imagenCentral.drawable
+
             // Asignarlo al ImageView de Imagen_Tropa_Frontal3
             Imagen_Tropa_Frontal3.setImageDrawable(drawableActual)
-            GlobalData.Jugador1[3] = GlobalData.TropaSeleccionada?.clonar()
 
-            var vida = GlobalData.Jugador1[3]!!.vida
+            GlobalData.Jugador1[5] = GlobalData.TropaSeleccionada?.clonar()
+
+            var vida = GlobalData.Jugador1[5]!!.vida
             val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_Tropa_Frontal3)
             Vida_rey_tropa.text = "♡  : $vida"
 

@@ -1,16 +1,20 @@
 package Data.Personalizados
 
+import Data.Especiales.Rey_Cristian
+import Data.Especiales.Rey_Gigante_Bufon_Negro
 import Data.Tropa
 import Data.Tropa.Companion.calcularAtaque
 import Data.Tropa.Companion.calcularDañoCritico
 import Data.Tropa.Companion.calcularProbCritico
 import Data.Tropa.Companion.calcularVida
 import android.provider.Settings
+import android.widget.ImageView
 import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
+import com.waos.soticklord.*
 
 class Rey_Bufon_Negro (
     Nivel:Int = 1
@@ -117,13 +121,13 @@ class Rey_Bufon_Negro (
         //------------------------------------
         ultimo_daño = Ataque
         var devolvergolpe = Random.nextInt(100)
-        if(devolvergolpe < 50){
+        if(devolvergolpe < 40){
             tropa.vida -= Ataque
         }else{
             //no devuelves nada
         }
         var recivirdaño = Random.nextInt(100)
-        if(recivirdaño < 40){
+        if(recivirdaño < 75){
             //continua
         }else{
             return
@@ -146,10 +150,34 @@ class Rey_Bufon_Negro (
         }else{
             this.vida -= Ataque
             if(this.vida <= 0){
+                this.rutaviva = R.drawable.bufon_caido
                 if(GlobalData.A_quien){
-                    GlobalData.Jugador2[0]
+
+                    GlobalData.Jugador2[0] = Rey_Gigante_Bufon_Negro(this.nivel)
+
+                    val actividad = GlobalData.batalla ?: return // si es null, salimos
+                    GlobalData.invocacion(actividad)
+                    GlobalData.reproducirInvocacion()
+
+
+                    actividad.runOnUiThread {
+                        val img = actividad.findViewById<ImageView>(R.id.imagen_derecha)
+                        img.scaleX = -1f
+                        img.setImageResource(R.drawable.gigante_gufon)
+                    }
+
                 }else{
-                    GlobalData.Jugador1[0]
+
+                    GlobalData.Jugador1[0] = Rey_Gigante_Bufon_Negro(this.nivel)
+                    val actividad = GlobalData.batalla ?: return // si es null, salimos
+                    GlobalData.invocacion(actividad)
+                    GlobalData.reproducirInvocacion()
+
+
+                    actividad.runOnUiThread {
+                        val img = actividad.findViewById<ImageView>(R.id.Imagen_izquierda)
+                        img.setImageResource(R.drawable.gigante_gufon)
+                    }
                 }
 
             }

@@ -18,7 +18,7 @@
         android:src="@drawable/campo_batalla1"/>
 
     <Button
-        android:id="@+id/Atacar"
+        android:id="@+id/Atacarr"
         android:layout_width="109dp"
         android:layout_height="47dp"
         android:backgroundTint="#5F000000"

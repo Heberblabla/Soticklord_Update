@@ -21,16 +21,20 @@ import android.widget.AdapterView
 import androidx.lifecycle.lifecycleScope
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import com.google.android.material.button.MaterialButton
 import Archivos_Extra.*
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.widget.ImageButton
 import androidx.core.content.ContextCompat
-import com.waos.soticklord.GlobalData.batalla
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.animation.AnimationUtils
+import android.view.animation.Animation
 
 class Batalla_oculta : AppCompatActivity() {
     var Enemigo_Seleccionado = 5
@@ -41,7 +45,9 @@ class Batalla_oculta : AppCompatActivity() {
     var turno_enemigo = 5
     var es_mi_turno = true
     var es_turno_del_enemigo = false
-    lateinit var botonPasarTurno: MaterialButton
+
+    lateinit var botonPasarTurno: ImageButton
+
     private lateinit var bannerView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,16 +68,17 @@ class Batalla_oculta : AppCompatActivity() {
             insets
         }
 
-        // 1️⃣ Inicializa el SDK de AdMob
+        // 1️ Inicializa el SDK de AdMob
         MobileAds.initialize(this) {}
-        // 2️⃣ Conecta tu banner del XML
+        // 2️ Conecta tu banner del XML
         bannerView = findViewById(R.id.bannerView)
-        // 3️⃣ Crea una solicitud de anuncio
+        // 3️ Crea una solicitud de anuncio
         val adRequest = AdRequest.Builder().build()
-        // 4️⃣ Carga el anuncio
+        // 4️ Carga el anuncio
         bannerView.loadAd(adRequest)
 
-        botonPasarTurno = findViewById(R.id.Atacar)
+        botonPasarTurno = findViewById<ImageButton>(R.id.Atacare)
+
         // Referencia al Spinner
         val spinnerAtaques: Spinner = findViewById(R.id.Ataques)
         // Listener del Spinner
@@ -110,6 +117,7 @@ class Batalla_oculta : AppCompatActivity() {
 
         )
         GlobalData.batalla = this
+        GlobalData.initSonidos(this)
         visualizar_posicion()
         visualizar_posicion_enemiga(5)
         actualizar_datos()
@@ -753,5 +761,10 @@ class Batalla_oculta : AppCompatActivity() {
 
 
     }
+
+
+
+
+
 
 }

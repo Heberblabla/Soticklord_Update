@@ -3,8 +3,90 @@ package com.waos.soticklord
 import android.app.Activity
 import Data.Tropa
 import Archivos_Extra.*
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.animation.AnimationUtils
+import android.view.View
+import android.content.Context
+import android.media.SoundPool
+
 
 object GlobalData {
+
+    private var soundPool: SoundPool? = null
+    private var sonidoInvocacion: Int = 0
+    private var cargado = false
+
+    fun initSonidos(context: Context) {
+        if (soundPool != null) return
+
+        soundPool = SoundPool.Builder()
+            .setMaxStreams(5)
+            .build()
+
+        sonidoInvocacion = soundPool!!.load(context, R.raw.gigante_risa, 1)
+
+        soundPool!!.setOnLoadCompleteListener { _, _, _ ->
+            cargado = true
+        }
+    }
+
+    fun reproducirInvocacion() {
+        if (cargado) {
+            soundPool?.play(
+                sonidoInvocacion,
+                1f, 1f,     // volumen L / R
+                1,          // prioridad
+                0,          // repetir
+                1f          // velocidad
+            )
+        }
+    }
+
+    fun shake(activity: Activity) {
+        val anim = AnimationUtils.loadAnimation(activity, R.anim.shake)
+        val root = activity.findViewById<View>(android.R.id.content)
+        root.startAnimation(anim)
+    }
+
+    fun vibrar(activity: Activity, tiempo: Long = 1500) {
+        val vibrator = activity.getSystemService(Vibrator::class.java)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(
+                VibrationEffect.createOneShot(tiempo, VibrationEffect.DEFAULT_AMPLITUDE)
+            )
+        } else {
+            vibrator.vibrate(tiempo)
+        }
+    }
+
+    fun oscurecer(activity: Activity) {
+        val overlay = activity.findViewById<View>(R.id.overlay_negro)
+
+        // 1. OSCURECER DE GOLPE (muy rápido)
+        overlay.animate()
+            .alpha(1f)
+            .setDuration(80)  // casi instantáneo
+            .withEndAction {
+                // 2. ACLARAR POCO A POCO (3 segundos)
+                overlay.animate()
+                    .alpha(0f)
+                    .setDuration(3000)  // lento
+                    .start()
+            }
+            .start()
+    }
+
+    fun invocacion(activity: Activity) {
+        shake(activity)
+        vibrar(activity)
+        oscurecer(activity)
+    }
+
+
+
     var Jugador2 = ArrayList<Tropa?>().apply {
         add(null) // posición 0 (rey)
         add(null) // posición 1 (tropa)
@@ -23,13 +105,14 @@ object GlobalData {
     }
     var Diccionario_Reyes = hashMapOf<Int, Tropa>()
     var Diccionario_Tropas = hashMapOf<Int, Tropa>()
-    //var batalla: Activity? = null
+    var batalla: Activity? = null
     val Diccionario_Clases = mapOf(
         //defaults
         "Rey_Arquero" to Data.Rey_Arquero::class,
         "Rey_Espadachin" to Data.Rey_Espadachin::class,
         "Rey_Lanzatonio" to Data.Rey_Lanzatonio::class,
         "Rey_de_los_Gigantes" to Data.Rey_de_los_Gigantes::class,
+        "Rey_Gigante_Bufon_Negro" to Data.Especiales.Rey_Gigante_Bufon_Negro::class,
 
         "Tropa_Arquero" to Data.Tropa_Arquero::class,
         "Tropa_Espadachin" to Data.Tropa_Espadachin::class,
@@ -66,7 +149,7 @@ object GlobalData {
 
         //tropas fichas
         "Tropa_Gigante_estelar" to Data.Tropas_personalizadas.Tropa_Gigante_estelar::class,
-        "Tropa_Gurandera" to Data.Tropas_personalizadas.Tropa_Gurandera::class,
+        "Tropa_Curandera" to Data.Tropas_personalizadas.Tropa_Curandera::class,
         "Tropa_Gato_amigo2" to Data.Tropas_personalizadas.Tropa_Gato_amigo2::class,
         "Tropa_Gato_amigo1" to Data.Tropas_personalizadas.Tropa_Gato_amigo1::class
 
@@ -751,8 +834,8 @@ object GlobalData {
                 """
         Al recivir un daño directo
         existe una probabilidad del
-        50% de devolver todo el daño
-        y una probabiblidad del 40%
+        40% de devolver todo el daño
+        y una probabiblidad del 75%
         de Recivir todo el daño
                 """.trimIndent() ,
         //----------------------------------

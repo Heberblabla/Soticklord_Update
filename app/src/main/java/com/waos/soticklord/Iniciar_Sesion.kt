@@ -158,12 +158,10 @@ class Iniciar_Sesion : AppCompatActivity() {
         finish()
     }
     fun Tienda(view: View) {
-        Toast.makeText(this, "Proximamente", Toast.LENGTH_SHORT).show()
-        if(GlobalData.ecencia_de_juego > 0){
-            GlobalData.ecencia_de_juego -= 1
-            GlobalData.monedas += 100
-        }
-        GlobalData.Diccionario_Reyes[19] = Rey_Bufon_Negro(1)
+        val intent = Intent(this@Iniciar_Sesion, Tienda::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
     }
 
 }

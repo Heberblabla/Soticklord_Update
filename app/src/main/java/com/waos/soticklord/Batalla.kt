@@ -15,33 +15,28 @@ import android.widget.TextView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import java.lang.reflect.Modifier
-import kotlin.reflect.full.declaredFunctions
-import kotlin.reflect.KVisibility
 import java.lang.reflect.Method
 import Data.*
-import android.provider.Settings
 import android.widget.Toast
-import android.os.Handler
-import android.os.Looper
 import kotlinx.coroutines.*
 import android.widget.AdapterView
-import android.util.Log
-import java.time.temporal.JulianFields
 import androidx.lifecycle.lifecycleScope
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
-import androidx.core.view.RoundedCornerCompat
 import com.google.android.material.button.MaterialButton
-import kotlin.collections.get
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
+import android.os.Build
+
 
 
 class Batalla : AppCompatActivity() {
@@ -53,7 +48,9 @@ class Batalla : AppCompatActivity() {
     var turno_enemigo = 5
     var es_mi_turno = true
     var es_turno_del_enemigo = false
-    lateinit var botonPasarTurno: MaterialButton
+
+    lateinit var botonPasarTurno: ImageButton
+
     private lateinit var bannerView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +58,7 @@ class Batalla : AppCompatActivity() {
         setContentView(R.layout.activity_batalla)
 
         EntornoManager.batalla = this
+
 
         // Oculta las barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -74,7 +72,9 @@ class Batalla : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        botonPasarTurno = findViewById(R.id.Atacar)
+
+        botonPasarTurno = findViewById<ImageButton>(R.id.Atacarr)
+
         // Referencia al Spinner
         val spinnerAtaques: Spinner = findViewById(R.id.Ataques)
         // Listener del Spinner
@@ -125,6 +125,7 @@ class Batalla : AppCompatActivity() {
 
         )
         GlobalData.batalla = this
+        GlobalData.initSonidos(this)
         visualizar_posicion()
         visualizar_posicion_enemiga(5)
         actualizar_datos()
@@ -788,6 +789,5 @@ class Batalla : AppCompatActivity() {
 
 
     }
-
 
 }
