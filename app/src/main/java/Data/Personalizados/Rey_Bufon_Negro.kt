@@ -7,6 +7,7 @@ import Data.Tropa.Companion.calcularAtaque
 import Data.Tropa.Companion.calcularDañoCritico
 import Data.Tropa.Companion.calcularProbCritico
 import Data.Tropa.Companion.calcularVida
+import Data.Tropa_Gigante
 import android.provider.Settings
 import android.widget.ImageView
 import com.waos.soticklord.GlobalData
@@ -17,7 +18,8 @@ import kotlin.random.Random
 import com.waos.soticklord.*
 
 class Rey_Bufon_Negro (
-    Nivel:Int = 1
+    Nivel:Int = 1 ,
+    esDelJugador: Boolean
 ):
     Tropa(
         nombre = "Rey_Bufon_Negro",
@@ -25,7 +27,7 @@ class Rey_Bufon_Negro (
         vida = calcularVida(1000,Nivel),
         ataque_base = calcularAtaque(100,Nivel),
         daño_critico = calcularDañoCritico(1.3,Nivel),
-        probabilidad_de_critico = calcularProbCritico(0.75,Nivel),
+        probabilidad_de_critico = calcularProbCritico(0.65,Nivel),
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.bufon_negro,
@@ -38,6 +40,7 @@ class Rey_Bufon_Negro (
     ), Serializable {
 
     var ultimo_daño = 0;
+    var Bando = esDelJugador
 
     override fun toString(): String {
         return """
@@ -78,6 +81,40 @@ class Rey_Bufon_Negro (
         enemigos[posicion].Recivir_daño(this, daño)
     }
 
+    fun Oscuridad_Negra(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if (xd < this.precision) {
+            //sigue realizando tu atque
+        } else {
+            return
+        }
+
+        this.vida += (this.vida * 0.3).toInt()
+        this.cantidad_escudos += 0.05
+
+    }
+
+    fun Risa_desgarradora(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if (xd < this.precision) {
+            //sigue realizando tu atque
+        } else {
+            return
+        }
+
+        xd = Random.nextInt(100)
+
+        enemigos[posicion].Recivir_daño(this, this.ataque_base)
+        if (xd < 25) {
+            enemigos[posicion].turnoActivo = false
+        } else {
+            return
+        }
+
+        this.vida += (this.vida * 0.1).toInt()
+
+    }
+
     fun Contrataque_Negro(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
         var xd = Random.nextInt(100)
         if (xd < this.precision) {
@@ -85,7 +122,7 @@ class Rey_Bufon_Negro (
         } else {
             return
         }
-        if (ultimo_daño == 0){
+        if (ultimo_daño == 0) {
             val daño = daño()
             enemigos[posicion].Recivir_daño(this, daño)
             return
@@ -94,6 +131,97 @@ class Rey_Bufon_Negro (
         enemigos[posicion].Recivir_daño(this, ultimo_daño)
     }
 
+    fun Sombras_Traviesas(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision) {
+            //sigue realizando tu atque
+        }else {
+            return
+        }
+        var Angel1 = Tropa_Gigante(this.nivel)
+        Angel1.Ataque_normal(ArrayList(enemigos.filterNotNull()), posicion, Waos)
+        var Angel2 = Tropa_Gigante(this.nivel)
+        Angel2.Ataque_normal(ArrayList(enemigos.filterNotNull()), posicion, Waos)
+
+        this.vida += (this.vida * 0.1).toInt()
+        this.ataque_base += (this.ataque_base * 0.1).toInt()
+
+    }
+
+    fun Mascara_Maldicta(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision) {
+            //sigue realizando tu atque
+        }else {
+            return
+        }
+
+        if(enemigos[posicion].cantidad_escudos < 0){
+            enemigos[posicion].ataque_base -= (enemigos[posicion].ataque_base * 0.2).toInt()
+            enemigos[posicion].precision -= (enemigos[posicion].precision * 0.2).toInt()
+        }else {
+            enemigos[posicion].ataque_base -= (enemigos[posicion].ataque_base * 0.5).toInt()
+            enemigos[posicion].precision -= (enemigos[posicion].precision * 0.5).toInt()
+        }
+
+    }
+
+    fun Capsula_de_Locura(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision) {
+            //sigue realizando tu atque
+        }else {
+            return
+        }
+        var rey = Rey_Bufon_Negro(this.nivel,true)
+        var waos = rey.vida
+
+        GlobalData.Atodos = true
+        if(this.vida < (waos / 2)){
+            val daño = daño()/2
+            enemigos[0]!!.Recivir_daño(this,daño)
+            enemigos[1]!!.Recivir_daño(this,daño)
+            enemigos[2]!!.Recivir_daño(this,daño)
+            enemigos[3]!!.Recivir_daño(this,daño)
+            enemigos[4]!!.Recivir_daño(this,daño)
+            enemigos[5]!!.Recivir_daño(this,daño)
+        }else{
+            val daño = daño()*2
+            enemigos[0]!!.Recivir_daño(this,daño)
+            enemigos[1]!!.Recivir_daño(this,daño)
+            enemigos[2]!!.Recivir_daño(this,daño)
+            enemigos[3]!!.Recivir_daño(this,daño)
+            enemigos[4]!!.Recivir_daño(this,daño)
+            enemigos[5]!!.Recivir_daño(this,daño)
+        }
+
+
+
+    }
+
+    fun Invocacion_antes_de_Tiempo(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision) {
+            //sigue realizando tu atque
+        }else {
+            return
+        }
+        var rey = Rey_Bufon_Negro(this.nivel,true)
+        var waos = rey.vida
+
+        val daño = (daño()*1.5).toInt()
+        enemigos[0]!!.Recivir_daño(this,daño)
+        enemigos[1]!!.Recivir_daño(this,daño)
+        enemigos[2]!!.Recivir_daño(this,daño)
+        enemigos[3]!!.Recivir_daño(this,daño)
+        enemigos[4]!!.Recivir_daño(this,daño)
+        enemigos[5]!!.Recivir_daño(this,daño)
+
+        var prueba = Tropa_Gigante(1)
+
+        this.vida = 0
+        Recivir_daño(prueba,0)
+    }
 
 
     override fun Habilidad_Especial(Waos: Boolean) {
@@ -101,7 +229,7 @@ class Rey_Bufon_Negro (
     }
 
     override fun clonar(): Tropa {
-        val copia = Rey_Bufon_Negro(this.nivel)
+        val copia = Rey_Bufon_Negro(this.nivel,this.Bando)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -138,23 +266,25 @@ class Rey_Bufon_Negro (
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-            if(this.vida <= 0){
-                if(GlobalData.A_quien){
-                    GlobalData.Jugador2[0]
-                }else{
-                    GlobalData.Jugador1[0]
-                }
-
-            }
-        }else{
-            this.vida -= Ataque
-            if(this.vida <= 0){
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
+            if(this.vida <= 0) {
                 this.rutaviva = R.drawable.bufon_caido
-                if(GlobalData.A_quien){
+                if(this.Bando){
+                    GlobalData.Jugador1[0] = Rey_Gigante_Bufon_Negro(this.nivel)
 
+                    val actividad = GlobalData.batalla ?: return // si es null, salimos
+                    GlobalData.invocacion(actividad)
+                    GlobalData.reproducirInvocacion()
+
+
+                    actividad.runOnUiThread {
+                        val img = actividad.findViewById<ImageView>(R.id.Imagen_izquierda)
+                        img.setImageResource(R.drawable.gigante_gufon)
+                    }
+
+                }else{
                     GlobalData.Jugador2[0] = Rey_Gigante_Bufon_Negro(this.nivel)
-
                     val actividad = GlobalData.batalla ?: return // si es null, salimos
                     GlobalData.invocacion(actividad)
                     GlobalData.reproducirInvocacion()
@@ -166,9 +296,16 @@ class Rey_Bufon_Negro (
                         img.setImageResource(R.drawable.gigante_gufon)
                     }
 
-                }else{
+                }
 
+            }
+        }else{
+            this.vida -= Ataque
+            if(this.vida <= 0) {
+                this.rutaviva = R.drawable.bufon_caido
+                if(this.Bando){
                     GlobalData.Jugador1[0] = Rey_Gigante_Bufon_Negro(this.nivel)
+
                     val actividad = GlobalData.batalla ?: return // si es null, salimos
                     GlobalData.invocacion(actividad)
                     GlobalData.reproducirInvocacion()
@@ -178,6 +315,22 @@ class Rey_Bufon_Negro (
                         val img = actividad.findViewById<ImageView>(R.id.Imagen_izquierda)
                         img.setImageResource(R.drawable.gigante_gufon)
                     }
+
+                }else{
+                    GlobalData.Jugador2[0] = Rey_Gigante_Bufon_Negro(this.nivel)
+                    val actividad = GlobalData.batalla ?: return // si es null, salimos
+                    GlobalData.invocacion(actividad)
+                    GlobalData.reproducirInvocacion()
+
+
+                    actividad.runOnUiThread {
+                        val img = actividad.findViewById<ImageView>(R.id.imagen_derecha)
+                        img.scaleX = -1f
+                        img.setImageResource(R.drawable.gigante_gufon)
+                    }
+
+
+
                 }
 
             }

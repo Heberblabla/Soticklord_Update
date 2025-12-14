@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads ="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/campo_batalla1"
-    tools:context=".Batalla">
+    android:background="@drawable/mapa_nocturno"
+    tools:context="Multijugador.Versus">
+
 
 
     <ImageView
@@ -15,23 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/campo_batalla1"/>
-
-    <Button
-        android:id="@+id/Atacarr"
-        android:layout_width="109dp"
-        android:layout_height="47dp"
-        android:backgroundTint="#5F000000"
-        android:onClick="atacar_pasarturno"
-        android:text="Atacar"
-        android:textColor="#FFFEFE"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.957" />
+        android:src="@drawable/campo_batalla1"
+        tools:layout_editor_absoluteX="-25dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
         android:id="@+id/Turno_TropaBa"
@@ -81,21 +68,7 @@
         app:layout_constraintVertical_bias="0.901"
         app:srcCompat="@drawable/border_image" />
 
-    <TextView
-        android:id="@+id/vidaFa"
-        android:layout_width="68dp"
-        android:layout_height="18dp"
-        android:background="#00D5C5C5"
-        android:backgroundTint="#382D2D"
-        android:fontFamily="@font/unlock"
-        android:text="Vida"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.892"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.356" />
+
 
     <TextView
         android:id="@+id/vidaDb"
@@ -282,7 +255,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.529"
-        app:srcCompat="@drawable/tropa_default" />
+        app:srcCompat="@drawable/bufon_caido" />
 
     <Spinner
         android:id="@+id/Ataques"
@@ -297,21 +270,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.042" />
 
-    <TextView
-        android:id="@+id/vidaAa"
-        android:layout_width="68dp"
-        android:layout_height="18dp"
-        android:background="#00D5C5C5"
-        android:backgroundTint="#382D2D"
-        android:fontFamily="@font/unlock"
-        android:text="Vida"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.409" />
+
 
     <TextView
         android:id="@+id/vidaBb"
@@ -661,12 +620,93 @@
         android:layout_width="196dp"
         android:layout_height="47dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-4214042047166873/6197081569"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/Imagen_izquierda"
+        android:layout_width="177dp"
+        android:layout_height="263dp"
+        android:scaleType="centerCrop"
+        ads:srcCompat="@drawable/nada"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.266" />
+
+    <ImageView
+        android:id="@+id/imagen_derecha"
+        android:layout_width="177dp"
+        android:layout_height="263dp"
+        android:scaleType="centerCrop"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        ads:srcCompat="@drawable/nada"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.351" />
+
+    <ImageButton
+        android:id="@+id/Atacarr"
+        android:layout_width="139dp"
+        android:layout_height="41dp"
+        android:onClick="Turno_jugador_atacar"
+        android:scaleType="centerCrop"
+        ads:srcCompat="@drawable/boton_atacar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.956" />
+
+
+    <TextView
+        android:id="@+id/vidaAa"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
+        android:background="#00D5C5C5"
+        android:backgroundTint="#382D2D"
+        android:fontFamily="@font/unlock"
+        android:text="Vida"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.092"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.409" />
+
+    <TextView
+        android:id="@+id/vidaFa"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
+        android:background="#00D5C5C5"
+        android:backgroundTint="#382D2D"
+        android:fontFamily="@font/unlock"
+        android:text="Vida"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.356" />
+    <View
+        android:id="@+id/overlay_negro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:alpha="0"
+        android:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

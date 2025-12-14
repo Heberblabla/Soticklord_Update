@@ -249,7 +249,8 @@ class Rey_Borrego (
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
         }else{
             this.vida -= Ataque
         }

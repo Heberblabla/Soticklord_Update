@@ -417,9 +417,10 @@ class Rey_Cristian(
     override fun Recivir_daño(tropa: Tropa, Ataque: Int) {
         var dañoFinal = Ataque
 
-        if (this.cantidad_escudos > 0)
-            dañoFinal -= (Ataque * cantidad_escudos).toInt()
-
+        if (this.cantidad_escudos > 0) {
+            var escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
+        }
         if (this.cantidad_espinas > 0)
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
 

@@ -43,13 +43,13 @@ class Enemigo_personalizacion : AppCompatActivity() {
             insets
         }
 
-        // 1️⃣ Inicializa el SDK de AdMob
+        // 1 Inicializa el SDK de AdMob
         MobileAds.initialize(this) {}
-        // 2️⃣ Conecta tu banner del XML
+        // 2️ Conecta tu banner del XML
         bannerView = findViewById(R.id.bannerView)
-        // 3️⃣ Crea una solicitud de anuncio
+        // 3️ Crea una solicitud de anuncio
         val adRequest = AdRequest.Builder().build()
-        // 4️⃣ Carga el anuncio
+        // 4️ Carga el anuncio
         bannerView.loadAd(adRequest)
 
         // AHORA ya puedes hacer findViewById
@@ -105,32 +105,32 @@ class Enemigo_personalizacion : AppCompatActivity() {
         val imagenCentral = findViewById<ImageView>(R.id.Imagen_Central)
 
         if (indice_waos == 0) { // Mostrar reyes
-            val claves = GlobalData.Diccionario_Reyes.keys.toList()
+            val claves = GlobalData.Diccionario_Reyes_enemigos.keys.toList()
 
             if (claves.isNotEmpty()) {
                 indice_reyes = (indice_reyes + direccion + claves.size) % claves.size
                 val claveActual = claves[indice_reyes]
-                val seleccionada = GlobalData.Diccionario_Reyes[claveActual]
+                val seleccionada = GlobalData.Diccionario_Reyes_enemigos[claveActual]
                 GlobalData.ReySeleccionado = seleccionada?.clonar()
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
                 seleccionada?.let { mostrar_datos(it) }
 
-                // 🔄 Voltear según la dirección
+                //  Voltear según la dirección
                 imagenCentral.scaleX = if (direccion < 0) -1f else 1f
             }
 
         } else if (indice_waos in 1..5) { // Mostrar tropas
-            val claves = GlobalData.Diccionario_Tropas.keys.toList()
+            val claves = GlobalData.Diccionario_Tropas_enemigos.keys.toList()
 
             if (claves.isNotEmpty()) {
                 indice_tropas = (indice_tropas + direccion + claves.size) % claves.size
                 val claveActual = claves[indice_tropas]
-                val seleccionada = GlobalData.Diccionario_Tropas[claveActual]
+                val seleccionada = GlobalData.Diccionario_Tropas_enemigos[claveActual]
                 GlobalData.TropaSeleccionada = seleccionada?.clonar()
                 imagenCentral.setImageResource(seleccionada?.rutaviva ?: R.drawable.tropa_default)
                 seleccionada?.let { mostrar_datos(it) }
 
-                // 🔄 Voltear según la dirección
+                //  Voltear según la dirección
                 imagenCentral.scaleX = if (direccion < 0) -1f else 1f
             }
         }

@@ -173,7 +173,7 @@ class Rey_Aethelred (
         enemigos[posicion].turnoActivo = false
 
         var numero = Random.nextInt(100)
-        if (numero < this.precision) {
+        if (numero < 20) {
             this.turnoDoble = true
         } else {
             return
@@ -268,7 +268,8 @@ class Rey_Aethelred (
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
         }else{
             this.vida -= Ataque
         }

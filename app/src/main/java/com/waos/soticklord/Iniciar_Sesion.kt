@@ -25,6 +25,7 @@ import Data.Tropa_Arquero
 import Data.Tropa_Espadachin
 import Data.Tropa_Gigante
 import Data.Tropa_Lanzatonio
+import Multijugador.Waos
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.content.Intent
@@ -49,39 +50,46 @@ import java.security.MessageDigest
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+
+
 
 
 class Iniciar_Sesion : AppCompatActivity() {
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var bannerView: AdView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         enableEdgeToEdge()
         setContentView(R.layout.activity_iniciar_sesion)
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.hide(WindowInsetsCompat.Type.systemBars())
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // 1️⃣ Inicializa el SDK de AdMob
-        MobileAds.initialize(this) {}
-        // 2️⃣ Conecta tu banner del XML
-        bannerView = findViewById(R.id.bannerView)
-        // 3️⃣ Crea una solicitud de anuncio
-        val adRequest = AdRequest.Builder().build()
-        // 4️⃣ Carga el anuncio
-        bannerView.loadAd(adRequest)
+        // 1️ Inicializa el SDK de AdMob
+        //MobileAds.initialize(this) {}
+        // 2️ Conecta tu banner del XML
+        //bannerView = findViewById(R.id.bannerView)
+        // 3️ Crea una solicitud de anuncio
+        //val adRequest = AdRequest.Builder().build()
+        // 4️ Carga el anuncio
+        //bannerView.loadAd(adRequest)
 
 
         //DataManager.borrarDatos(this)
         cargardatos()
+
     }
 
     fun cargardatos(){
@@ -111,29 +119,30 @@ class Iniciar_Sesion : AppCompatActivity() {
 
     fun iniciar_como_invitado(){
         GlobalData.experiencia_de_juego += 100000
-        GlobalData.nivel_De_cuenta = 10
+        GlobalData.nivel_De_cuenta = 1
         GlobalData.nivel_de_progresion = 0
         GlobalData.monedas += 500
-        GlobalData.ecencia_de_juego += 100
+        GlobalData.ecencia_de_juego += 20
 
             GlobalData.Diccionario_Reyes[0] = Rey_de_los_Gigantes(1)
             GlobalData.Diccionario_Reyes[1] = Rey_Arquero(1)
             GlobalData.Diccionario_Reyes[2] = Rey_Lanzatonio(1)
             GlobalData.Diccionario_Reyes[3] = Rey_Espadachin(1)
-            GlobalData.Diccionario_Reyes[4] = Rey_Borrego(1)
-            GlobalData.Diccionario_Reyes[5] = Reyna_paranormal(1)
-            GlobalData.Diccionario_Reyes[6] = Reyna_Darisce(1)
-            GlobalData.Diccionario_Reyes[7] = Reyna_Shantal(1)
-            GlobalData.Diccionario_Reyes[8] = Rey_Fernando(1)
-            GlobalData.Diccionario_Reyes[9] = Rey_Heber(1)
-            GlobalData.Diccionario_Reyes[11] = Rey_Cristian(1)
-            GlobalData.Diccionario_Reyes[12] = Rey_Kanox(1)
-            GlobalData.Diccionario_Reyes[13] = Rey_Moises(1)
-            GlobalData.Diccionario_Reyes[14] = Rey_El_Pro(1)
-            GlobalData.Diccionario_Reyes[15] = Rey_Kratos(1)
-            GlobalData.Diccionario_Reyes[16] = Rey_Aethelred(1)
-            GlobalData.Diccionario_Reyes[17] = Rey_Han_Kong(1)
-            GlobalData.Diccionario_Reyes[18] = Rey_Jerald(1)
+
+            //GlobalData.Diccionario_Reyes[4] = Rey_Borrego(1)
+            //GlobalData.Diccionario_Reyes[5] = Reyna_paranormal(1)
+            //GlobalData.Diccionario_Reyes[6] = Reyna_Darisce(1)
+            //GlobalData.Diccionario_Reyes[7] = Reyna_Shantal(1)
+            //GlobalData.Diccionario_Reyes[8] = Rey_Fernando(1)
+            //GlobalData.Diccionario_Reyes[9] = Rey_Heber(1)
+            //GlobalData.Diccionario_Reyes[11] = Rey_Cristian(1)
+            //GlobalData.Diccionario_Reyes[12] = Rey_Kanox(1)
+            //GlobalData.Diccionario_Reyes[13] = Rey_Moises(1)
+            //GlobalData.Diccionario_Reyes[14] = Rey_El_Pro(1)
+            //Diccionario_Reyes[15] = Rey_Kratos(1)
+            //GlobalData.Diccionario_Reyes[16] = Rey_Aethelred(1)
+            //GlobalData.Diccionario_Reyes[17] = Rey_Han_Kong(1)
+            //GlobalData.Diccionario_Reyes[18] = Rey_Jerald(1)
 
             GlobalData.Diccionario_Tropas[0] = Tropa_Gigante(1)
             GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)
@@ -152,6 +161,8 @@ class Iniciar_Sesion : AppCompatActivity() {
 
 
     fun Album(view: View) {
+        //GlobalData.monedas += 1000
+        //GlobalData.Diccionario_Reyes[15] = Rey_Kratos(10)
         val intent = Intent(this@Iniciar_Sesion, Album::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
@@ -163,5 +174,41 @@ class Iniciar_Sesion : AppCompatActivity() {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()
     }
+
+    fun configuraciones(view: View) {
+        var waos = hayConexion(this)
+        if(waos){
+            val intent = Intent(this@Iniciar_Sesion, Configuraciones::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            finish()
+        }
+
+    }
+
+
+    fun Informa(view: View){
+        //GlobalData.nivel_de_progresion += 250
+        DataManager.guardarDatos(this)
+        Toast.makeText(this, "Ahun no disponible", Toast.LENGTH_SHORT).show()
+    }
+
+    fun hayConexion(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+
+        val conectado = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+
+        if (!conectado) {
+            println("No hay conexión a internet")
+            Toast.makeText(context, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show()
+        }
+
+        return conectado
+    }
+
+
 
 }

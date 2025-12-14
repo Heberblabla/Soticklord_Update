@@ -209,7 +209,8 @@ class Rey_Han_Kong (
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
             if(this.recivir){
                 ataque_base += Ataque
                 this.recivir = false

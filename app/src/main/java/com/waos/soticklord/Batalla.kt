@@ -17,6 +17,7 @@ import android.widget.Spinner
 import java.lang.reflect.Modifier
 import java.lang.reflect.Method
 import Data.*
+import android.content.Context
 import android.widget.Toast
 import kotlinx.coroutines.*
 import android.widget.AdapterView
@@ -26,6 +27,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.animation.AnimationUtils
@@ -40,6 +44,7 @@ import android.os.Build
 
 
 class Batalla : AppCompatActivity() {
+    private lateinit var mediaPlayer: MediaPlayer
     var Enemigo_Seleccionado = 5
     var turno_activo = 5
     var ataqueSeleccionado: String = " "
@@ -48,18 +53,15 @@ class Batalla : AppCompatActivity() {
     var turno_enemigo = 5
     var es_mi_turno = true
     var es_turno_del_enemigo = false
-
     lateinit var botonPasarTurno: ImageButton
-
     private lateinit var bannerView: AdView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_batalla)
-
         EntornoManager.batalla = this
-
-
         // Oculta las barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
@@ -130,8 +132,28 @@ class Batalla : AppCompatActivity() {
         visualizar_posicion_enemiga(5)
         actualizar_datos()
         bucle_principal()
+        Inicializar()
 
 
+
+        //println("waosss = ${GlobalData.Jugador1[0]!!.nombre}")
+        if(GlobalData.Desea_nimaciones){
+            Animador.empezar_animacion(this)
+        }
+
+
+    }
+
+
+    fun Inicializar(){
+        mediaPlayer = MediaPlayer.create(this, R.raw.batalla)
+        mediaPlayer.isLooping = true  // Para que se repita
+        mediaPlayer.start()           // Reproduce al abrir la ventana
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release() // Libera memoria al cerrar la Activity
     }
 
 
@@ -202,6 +224,7 @@ class Batalla : AppCompatActivity() {
 
 
     suspend fun turno_del_enemigo() {
+
         GestorAcciones.Procesar()
         es_mi_turno = false
         botonPasarTurno.isEnabled = false //  bloquea botón visualmente
@@ -247,13 +270,39 @@ class Batalla : AppCompatActivity() {
                 Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
                 GestorEventos.limpiar()
                 if(GlobalData.nivel_actico == GlobalData.nivel_de_progresion){
-                    GlobalData.monedas += 100
-                    GlobalData.nivel_de_progresion += 1
+
+                    if(GlobalData.nivel_de_progresion == 6){
+                        GlobalData.monedas += 500
+                        GlobalData.ecencia_de_juego += 5
+                        GlobalData.nivel_de_progresion += 1
+                    }else {
+                        GlobalData.monedas += 150
+                        GlobalData.ecencia_de_juego += 1
+                        GlobalData.nivel_de_progresion += 1
+                    }
+                }else{
+                    if(GlobalData.evento_activo && !GlobalData.Se_paso_el_evento){
+                        if(hayConexion(this)){
+                            var xd = DataManager.push(GlobalData.Nombre)
+                            if(xd == "1") {
+                                Toast.makeText(this, "Se pudo subir tu victoria!", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this, "obtuvistes +500 monedas  y 10 ecencias", Toast.LENGTH_LONG).show()
+                                GlobalData.monedas += 500
+                                GlobalData.ecencia_de_juego += 10
+                                GlobalData.Se_paso_el_evento = true
+                                DataManager.guardarDatos(this)
+                            }
+                        }
+                        else{
+                            Toast.makeText(this, "Ubo problemeas al subir tu victoria, vuelve a jugar", Toast.LENGTH_LONG).show()
+                        }
+
+                    }
                 }
-                val intent = Intent(this, Mapa::class.java)
-                startActivity(intent)
+
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                 DataManager.guardarDatos(this)
+                GlobalData.evento_activo = false
                 finish()
                 return
             }
@@ -271,6 +320,23 @@ class Batalla : AppCompatActivity() {
             GestorEventos.limpiar()
             finish()
         }
+    }
+
+
+    fun hayConexion(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+
+        val conectado = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+
+        if (!conectado) {
+            println("No hay conexión a internet")
+            Toast.makeText(context, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show()
+        }
+
+        return conectado
     }
 
     fun atacar_pasarturno(view: View) {
@@ -325,6 +391,7 @@ class Batalla : AppCompatActivity() {
         cargar_vida2()
         cargar_datos1()
         cargar_datos2()
+        //Animador.cargar_animacion(this)
     }
     fun cargar_datos1() {
         // Lista de los IDs de los ImageView en el mismo orden que los índices
@@ -573,6 +640,10 @@ class Batalla : AppCompatActivity() {
         posicion2: Int,
         nombreMetodo: String
     ) {
+
+
+
+
         try {
             // Obtener la tropa atacante y la clase de esa tropa
             val tropaAtacante = jugador1[posicion1] ?: return
@@ -602,12 +673,14 @@ class Batalla : AppCompatActivity() {
         GlobalData.tropa_seleccionada_posicion = posicion2
         GlobalData.A_quien = true
         animacion_ataque()
-
+        Animador.empezar_animacion(this)
     }
 
 
 
     fun animacion_ataque(){
+
+
         val overlay = ContextCompat.getDrawable(this, R.drawable.efecto_golpe)
 
         if(!GlobalData.A_quien){

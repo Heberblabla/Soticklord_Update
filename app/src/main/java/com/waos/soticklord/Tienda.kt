@@ -1,6 +1,8 @@
 package com.waos.soticklord
 
+import Data.Especiales.Rey_Vago_de_Vagos
 import Data.Personalizados.Rey_Bufon_Negro
+import Data.Tropas_personalizadas.Tropa_Bufon
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -20,12 +22,24 @@ import android.widget.Toast
 import Data.Tropas_personalizadas.Tropa_Curandera
 import Data.Tropas_personalizadas.Tropa_Gato_amigo2
 import Data.Tropas_personalizadas.Tropa_Gigante_estelar
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
 
 class Tienda : AppCompatActivity() {
+    private var rewardedAd: RewardedAd? = null
+
+
     private lateinit var videoView: VideoView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this) {}
+        cargarRewardedAd()
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_tienda)
 
@@ -41,21 +55,23 @@ class Tienda : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
         val info = findViewById<TextView>(R.id.Informacion)
 
         info.text = """
-            ------------Rey Bufon Negro--------------
-            Un soberano enigmático que combina astucia
-            y caos: devuelve el daño recibido y esquiva
-            ataques con sorprendente facilidad. Cuando 
-            su vida llega a cero, un esqueleto gigante 
-            —su padre retornado del más allá— 
-            emerge para protegerlo, desatar su furia y
-            continuar la batalla en su nombre.
+            ------------Rey Vago de Vagos------------
+            
+            Un rey tan perezoso como poderoso: inicia
+            con defensa total y deja que sus Lanzatonios
+            Medievales peleen por él. Cada ataque invoca
+            a uno nuevo, formando un ejército que lucha
+            mientras el monarca descansa sin preocupación
+            alguna.
         """.trimIndent()
 
         videoView = findViewById<VideoView>(R.id.Video_muestra)
-        val uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.gigante_animation)
+        val uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.rey_vago)
         videoView.setVideoURI(uri)
         // Opcional: controles
         val mediaController = MediaController(this)
@@ -64,6 +80,56 @@ class Tienda : AppCompatActivity() {
         videoView.start()
         mostrar_datos_economicos()
     }
+
+    private fun cargarRewardedAd() {
+        RewardedAd.load(
+            this,
+            //ca-app-pub-3940256099942544/5224354917 // prueba
+            //ca-app-pub-4214042047166873/5869616806 // real
+            "ca-app-pub-4214042047166873/5869616806", //
+            AdRequest.Builder().build(),
+            object : RewardedAdLoadCallback() {
+                override fun onAdLoaded(ad: RewardedAd) {
+                    rewardedAd = ad
+                }
+
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    rewardedAd = null
+                }
+            }
+        )
+    }
+
+    private fun mostrarRewarded() {
+        if (rewardedAd != null) {
+            rewardedAd?.show(this) { rewardItem ->
+                // AQUI DAS LA RECOMPENSA
+                val amount = rewardItem.amount
+                val type = rewardItem.type
+
+                // Por ejemplo, sumar monedas:
+                sumarMonedas(350)
+                Toast.makeText(this, "¡Recibiste 350 monedas!", Toast.LENGTH_SHORT).show()
+
+                // Cargar otro anuncio para la próxima vez
+                cargarRewardedAd()
+            }
+        } else {
+            Toast.makeText(this, "Cargando anuncio...", Toast.LENGTH_SHORT).show()
+            cargarRewardedAd()
+        }
+    }
+
+    private fun sumarMonedas(cantidad: Int) {
+        GlobalData.monedas += cantidad
+        DataManager.guardarDatos(this)
+        mostrar_datos_economicos()
+        // guarda en SharedPreferences si quieres
+    }
+
+
+
+
     fun mostrar_datos_economicos(){
         val monedas = findViewById<TextView>(R.id.monedass)
         monedas.text = "\uD83E\uDE99 : ${GlobalData.monedas}"
@@ -83,9 +149,9 @@ class Tienda : AppCompatActivity() {
         // Por si quieres cambiar el texto dinámicamente:
         texto.text = """
             
-            ------¿Deseas comprar al Rey Bufón Negro?------
+            ------¿Deseas comprar al Rey Vago de Vagos?------
             
-            -                            Costo : 1000 🪙                              -
+            -                            Costo : 1500 🪙                              -
                            
             """.trimIndent()
 
@@ -95,15 +161,15 @@ class Tienda : AppCompatActivity() {
             .create()
 
         botonSi.setOnClickListener {
-            if(Existe_el_rey("Rey_Bufon_Negro")){
+            if(Existe_el_rey("Rey_Vago_de_Vagos")){
                 Toast.makeText(this, "Ya tienes este Rey en tu coleccion", Toast.LENGTH_SHORT).show()
                 dialogo.dismiss()
             }else {
-                if (GlobalData.monedas >= 1000) {
-                    GlobalData.monedas -= 1000
+                if (GlobalData.monedas >= 1500) {
+                    GlobalData.monedas -= 1500
                     mostrar_datos_economicos()
                     var numero = obtenerUltimoID() + 1
-                    GlobalData.Diccionario_Reyes[numero] = Rey_Bufon_Negro(5)
+                    GlobalData.Diccionario_Reyes[numero] = Rey_Vago_de_Vagos(5)
                     Toast.makeText(this, "Compra realizada", Toast.LENGTH_SHORT).show()
                     DataManager.guardarDatos(this)
                     dialogo.dismiss()
@@ -131,6 +197,7 @@ class Tienda : AppCompatActivity() {
         //false no existe
         return GlobalData.Diccionario_Tropas.values.any { it.nombre == nombreBuscado }
     }
+
 
     fun obtenerUltimoIDTropa(): Int {
         return if (GlobalData.Diccionario_Tropas.isEmpty()) {
@@ -161,9 +228,9 @@ class Tienda : AppCompatActivity() {
         // Por si quieres cambiar el texto dinámicamente:
         texto.text = """
             
-            ------¿Deseas comprar a la Tropa Gigante Estelar?------
+            ------¿Deseas comprar a la Tropa Bufon?----
             
-            -                            Costo : 500 🪙                              -
+            -                            Costo : 1000 🪙                              -
                            
             """.trimIndent()
 
@@ -173,15 +240,15 @@ class Tienda : AppCompatActivity() {
             .create()
 
         botonSi.setOnClickListener {
-            if(Existe_la_tropa("Tropa_Gigante_estelar")){
+            if(Existe_la_tropa("Tropa_Bufon")){
                 Toast.makeText(this, "Ya tienes esta Tropa en tu coleccion", Toast.LENGTH_SHORT).show()
                 dialogo.dismiss()
             }else {
-                if (GlobalData.monedas >= 500) {
-                    GlobalData.monedas -= 500
+                if (GlobalData.monedas >= 1000) {
+                    GlobalData.monedas -= 1000
                     mostrar_datos_economicos()
                     var numero = obtenerUltimoIDTropa() + 1
-                    GlobalData.Diccionario_Tropas[numero] = Tropa_Gigante_estelar(3)
+                    GlobalData.Diccionario_Tropas[numero] = Tropa_Bufon(5)
                     Toast.makeText(this, "Compra realizada", Toast.LENGTH_SHORT).show()
                     DataManager.guardarDatos(this)
                     dialogo.dismiss()
@@ -305,7 +372,7 @@ class Tienda : AppCompatActivity() {
         // Por si quieres cambiar el texto dinámicamente:
         texto.text = """
             
-            ------¿Deseas Ver un anuncio por 200🪙?------
+            ------¿Deseas Ver un anuncio por 350🪙?------
             
             -                                                                          -
                            
@@ -317,8 +384,8 @@ class Tienda : AppCompatActivity() {
             .create()
 
         botonSi.setOnClickListener {
-            Toast.makeText(this, "Los Anuncios Ahun no estas operativos", Toast.LENGTH_SHORT).show()
             dialogo.dismiss()
+            mostrarRewarded()
         }
 
         botonNo.setOnClickListener {
@@ -378,41 +445,9 @@ class Tienda : AppCompatActivity() {
         dialogo.show()
     }
 
-    fun comprar_Cb(view: View) {
-
-        val inflater = layoutInflater
-        val vista = inflater.inflate(R.layout.popup_confirmar, null)
-
-        val texto = vista.findViewById<TextView>(R.id.textoConfirmar)
-        val botonSi = vista.findViewById<Button>(R.id.botonSi)
-        val botonNo = vista.findViewById<Button>(R.id.botonNo)
-
-        // Por si quieres cambiar el texto dinámicamente:
-        texto.text = """
-            
-            ------¿Deseas comprar 1000🪙?------
-            
-            -                            Costo : 0 🪙                              -
-                           
-            """.trimIndent()
-
-        val dialogo = AlertDialog.Builder(this)
-            .setView(vista)
-            .setCancelable(false)
-            .create()
-
-        botonSi.setOnClickListener {
-            GlobalData.monedas += 1000
-            DataManager.guardarDatos(this)
-            Toast.makeText(this, "Compra realizada", Toast.LENGTH_SHORT).show()
-            dialogo.dismiss()
-        }
-
-        botonNo.setOnClickListener {
-            dialogo.dismiss()
-        }
-
-        dialogo.show()
+    fun ruletas(view: View){
+        val intent = Intent(this, Tienda_Ruleta::class.java)
+        startActivity(intent)
     }
 
     fun atras(view: View){

@@ -3,6 +3,7 @@ package com.waos.soticklord
 import android.app.Activity
 import android.widget.ImageView
 import Data.*
+import Multijugador.Versus
 
 class Entorno(
     val nombre: String,

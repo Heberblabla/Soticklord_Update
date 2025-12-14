@@ -2,6 +2,7 @@ package com.waos.soticklord
 
 import android.app.Activity
 import Data.*
+import Multijugador.Versus
 
 object EntornoManager {
     var batalla: Activity? = null

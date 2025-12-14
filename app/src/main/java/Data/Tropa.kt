@@ -23,30 +23,37 @@ abstract class Tropa(
 
     companion object {
 
-        // Aumenta 10% compuesto por nivel
+        // Aumenta 20% por nivel (NO compuesto)
         fun calcularVida(base: Int, nivel: Int): Int {
             if (nivel <= 1) return base
-            val multiplicador = Math.pow(1.10, (nivel - 1).toDouble())
-            return (base * multiplicador).toInt()
+            val aumento = base * 0.20 * (nivel - 1)
+            return (base + aumento).toInt()
         }
 
-        // Aumenta 15% compuesto por nivel
+
+        // Aumenta 20% por nivel (NO compuesto)
         fun calcularAtaque(base: Int, nivel: Int): Int {
+            if (nivel <= 1) return base
+            val aumento = base * 0.20 * (nivel - 1)
+            return (base + aumento).toInt()
+        }
+
+        fun calcularAtaque2(base: Int, nivel: Int): Int {
             if (nivel <= 1) return base
             val multiplicador = Math.pow(1.15, (nivel - 1).toDouble())
             return (base * multiplicador).toInt()
         }
 
-        // Aumenta 5% simple por nivel
+        // Aumenta 2% simple por nivel
         fun calcularDañoCritico(base: Double, nivel: Int): Double {
             if (nivel <= 1) return base
-            return base + (0.05 * (nivel - 1))
+            return base + (0.02 * (nivel - 1))
         }
 
-        // Aumenta 2% simple por nivel (en valor decimal)
+        // Aumenta 1% simple por nivel (en valor decimal)
         fun calcularProbCritico(base: Double, nivel: Int): Double {
             if (nivel <= 1) return base
-            return base + (0.02 * (nivel - 1))
+            return base + (0.01 * (nivel - 1))
         }
     }
     open fun clonar(): Tropa {

@@ -249,9 +249,9 @@ class Reyna_paranormal (
         }else {
             return
         }
-        var Angel1 = Tropa_Gigante(5)
+        var Angel1 = Tropa_Gigante(this.nivel)
         Angel1.Ataque_normal(ArrayList(enemigos.filterNotNull()), posicion, Waos)
-        var Angel2 = Tropa_Gigante(5)
+        var Angel2 = Tropa_Gigante(this.nivel)
         Angel2.Ataque_normal(ArrayList(enemigos.filterNotNull()), posicion, Waos)
 
     }
@@ -320,17 +320,16 @@ class Reyna_paranormal (
     }
 
     override fun Recivir_daño(tropa: Tropa,Ataque :Int) {
-        if(this.cantidad_escudos > 0){
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-        }
-        if(this.cantidad_espinas > 0){
+        if (this.cantidad_espinas > 0) {
             tropa.vida -= (Ataque * cantidad_espinas).toInt()
-            this.cantidad_espinas -= 0.05
-
         }
 
-        this.vida -= Ataque
-        return
+        if (this.cantidad_escudos > 0) {
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
+        }else{
+            this.vida -= Ataque
+        }
     }
 
 }

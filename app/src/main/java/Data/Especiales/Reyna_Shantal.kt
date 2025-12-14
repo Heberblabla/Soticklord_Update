@@ -4,6 +4,7 @@ import Data.Tropa
 import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.random.Random
 
@@ -25,7 +26,7 @@ class Reyna_Shantal (
         turnoDoble =  false,
         cantidad_espinas = 0.00,
         cantidad_escudos = 0.00,
-        precision = 100
+        precision = 150
     ), Serializable {
 
     override fun toString(): String {
@@ -76,7 +77,7 @@ class Reyna_Shantal (
         }else{
             return
         }
-        var daño = (this.ataque_base * 1000).toInt()
+        var daño = abs((this.ataque_base * 1000).toInt())
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
 
@@ -120,7 +121,8 @@ class Reyna_Shantal (
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
         }else{
             this.vida -= Ataque
         }

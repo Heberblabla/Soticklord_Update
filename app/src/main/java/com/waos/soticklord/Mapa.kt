@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import Data.*
 import Data.Especiales.*
+import Data.Personalizados.Rey_Bufon_Negro
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
@@ -46,13 +47,13 @@ class Mapa : AppCompatActivity() {
             insets
         }
 
-        // 1️⃣ Inicializa el SDK de AdMob
+        // 1️ Inicializa el SDK de AdMob
         MobileAds.initialize(this) {}
-        // 2️⃣ Conecta tu banner del XML
+        // 2⃣ Conecta tu banner del XML
         bannerView = findViewById(R.id.bannerView)
-        // 3️⃣ Crea una solicitud de anuncio
+        // 3⃣ Crea una solicitud de anuncio
         val adRequest = AdRequest.Builder().build()
-        // 4️⃣ Carga el anuncio
+        // 4️ Carga el anuncio
         bannerView.loadAd(adRequest)
 
         imagenes = arrayListOf(
@@ -211,13 +212,25 @@ class Mapa : AppCompatActivity() {
 
     fun nivel_secreto(view: View) {
         if (nivel_secreto) {
+            var nivel = GlobalData.nivel_de_progresion
+
+            nivel = when {
+                nivel >= 550 -> 500
+                nivel >= 500 -> 350
+                nivel >= 250 -> 200
+                nivel >= 100 -> 150
+                nivel >= 50  -> 100
+                else -> nivel  // si está por debajo de 50, usa su propio nivel
+            }
+
+
             GlobalData.nivel_actico = 6
-            GlobalData.Jugador2[0] = Rey_Heber(GlobalData.nivel_de_progresion + 10)
-            GlobalData.Jugador2[1] = Reyna_Darisce(GlobalData.nivel_de_progresion + 10)
-            GlobalData.Jugador2[2] = Reyna_Shantal(GlobalData.nivel_de_progresion + 10)
-            GlobalData.Jugador2[3] = Rey_Fernando(GlobalData.nivel_de_progresion + 10)
-            GlobalData.Jugador2[4] = Tropa_Gigante(GlobalData.nivel_de_progresion + 20)
-            GlobalData.Jugador2[5] = Rey_Cristian(GlobalData.nivel_de_progresion + 10)
+            GlobalData.Jugador2[0] = Rey_Vago_de_Vagos(nivel + 20)
+            GlobalData.Jugador2[1] = Rey_Vago_de_Vagos(nivel + 20)
+            GlobalData.Jugador2[2] = Rey_Vago_de_Vagos(nivel + 20)
+            GlobalData.Jugador2[3] = Rey_Vago_de_Vagos(nivel + 20)
+            GlobalData.Jugador2[4] = Rey_Vago_de_Vagos(nivel + 20)
+            GlobalData.Jugador2[5] = Rey_Vago_de_Vagos(nivel + 20)
             GlobalData.decision = 1
             irABatalla()
         } else nivelBloqueado()
@@ -231,7 +244,6 @@ class Mapa : AppCompatActivity() {
         val intent = Intent(this, Principal::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        finish()
     }
 
     private fun nivelBloqueado() {

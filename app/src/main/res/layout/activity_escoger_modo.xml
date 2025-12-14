@@ -80,12 +80,50 @@
         android:layout_width="271dp"
         android:layout_height="39dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-4214042047166873/7253298932"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintVertical_bias="0.956" />
+
+    <ImageView
+        android:id="@+id/imageView61"
+        android:layout_width="299dp"
+        android:layout_height="126dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/fondoVideo"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/aventura" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="364dp"
+        android:layout_height="125dp"
+        app:srcCompat="@drawable/multijugador"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/fondoVideo"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="364dp"
+        android:layout_height="125dp"
+        app:srcCompat="@drawable/supervivencia"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/fondoVideo"
+        app:layout_constraintHorizontal_bias="1.09"
+        app:layout_constraintVertical_bias="0.0"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

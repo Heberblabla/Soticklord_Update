@@ -79,7 +79,7 @@ class Tropa_Gato_amigo2 (Nivel:Int = 1) : Tropa(
             return
         }
         GlobalData.Atodos = true
-        val daño = calcularAtaque(35,this.nivel)
+        val daño = calcularAtaque2((this.ataque_base * 0.5).toInt(),this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)
         enemigos[1]!!.Recivir_daño(this,daño)
         enemigos[2]!!.Recivir_daño(this,daño)
@@ -117,7 +117,8 @@ class Tropa_Gato_amigo2 (Nivel:Int = 1) : Tropa(
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
 
         }else{
             this.vida -= Ataque

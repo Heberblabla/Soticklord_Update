@@ -22,9 +22,11 @@ import androidx.lifecycle.lifecycleScope
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import Archivos_Extra.*
+import Data.Tropas_personalizadas.Tropa_Lanzatonio_Medieval
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.media.MediaPlayer
 import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import com.google.android.gms.ads.AdRequest
@@ -37,6 +39,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.Animation
 
 class Batalla_oculta : AppCompatActivity() {
+    private lateinit var mediaPlayer: MediaPlayer
     var Enemigo_Seleccionado = 5
     var turno_activo = 5
     var ataqueSeleccionado: String = " "
@@ -45,6 +48,7 @@ class Batalla_oculta : AppCompatActivity() {
     var turno_enemigo = 5
     var es_mi_turno = true
     var es_turno_del_enemigo = false
+    var una_ves = true
 
     lateinit var botonPasarTurno: ImageButton
 
@@ -122,7 +126,27 @@ class Batalla_oculta : AppCompatActivity() {
         visualizar_posicion_enemiga(5)
         actualizar_datos()
         bucle_principal()
+        Inicializar()
+
+        //println("waosss = ${GlobalData.Jugador1[0]!!.nombre}")
+        if(GlobalData.Desea_nimaciones){
+            Animador.empezar_animacion(this)
+        }
     }
+
+
+    fun Inicializar(){
+        mediaPlayer = MediaPlayer.create(this, R.raw.batalla)
+        mediaPlayer.isLooping = true  // Para que se repita
+        mediaPlayer.start()           // Reproduce al abrir la ventana
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release() // Libera memoria al cerrar la Activity
+    }
+
+
     fun cambiarFuenteConFondo(items: List<String>) {
         val spinner = findViewById<Spinner>(R.id.Ataques)
 
@@ -221,15 +245,28 @@ class Batalla_oculta : AppCompatActivity() {
 
             val enemigos_vivos = GlobalData.Jugador2.filter { it?.estado_de_vida == true }
             if (enemigos_vivos.isEmpty()) {
-                Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
-                GlobalData.monedas += 100
-                GlobalData.nivel_de_progresion += 3
-                val intent = Intent(this, Mapa::class.java)
-                startActivity(intent)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                DataManager.guardarDatos(this)
-                finish()
-                return
+                if(una_ves){
+                    //Animador.empezar_animacion(this)
+                    GlobalData.Jugador2[0] = Tropa_Lanzatonio_Medieval(GlobalData.nivel_de_progresion + 50,0.9)
+                    GlobalData.Jugador2[1] = Tropa_Lanzatonio_Medieval(GlobalData.nivel_de_progresion + 50,0.9)
+                    GlobalData.Jugador2[2] = Tropa_Lanzatonio_Medieval(GlobalData.nivel_de_progresion + 50,0.9)
+                    GlobalData.Jugador2[3] = Tropa_Lanzatonio_Medieval(GlobalData.nivel_de_progresion + 50,0.9)
+                    GlobalData.Jugador2[4] = Tropa_Lanzatonio_Medieval(GlobalData.nivel_de_progresion + 50,0.9)
+                    GlobalData.Jugador2[5] = Tropa_Lanzatonio_Medieval(GlobalData.nivel_de_progresion + 50,0.9)
+                    una_ves = false
+                }else{
+                    Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
+                    GlobalData.monedas += 200
+                    GlobalData.ecencia_de_juego += 2
+                    GlobalData.nivel_de_progresion += 5
+                    val intent = Intent(this, Mapa::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    DataManager.guardarDatos(this)
+                    finish()
+                    return
+                }
+
             }
 
             // Reactivar turno del jugador

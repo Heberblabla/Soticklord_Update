@@ -1,7 +1,15 @@
 package com.waos.soticklord
 
+import Data.Personalizados.Rey_Bufon_Negro
+import Data.Tropa_Gigante
+import Data.Tropas_personalizadas.Tropa_Curandera
+import Evento.Evento
+import Multijugador.Unirse_Partida
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Bundle
 import android.view.Surface
@@ -18,6 +26,7 @@ import com.waos.soticklord.Iniciar_Sesion
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
+import com.waos.soticklord.databinding.ActivityJugador1Binding
 
 class Escoger_modo : AppCompatActivity() {
 
@@ -44,13 +53,13 @@ class Escoger_modo : AppCompatActivity() {
 
         fondoVideo = findViewById(R.id.fondoVideo)
 
-        // 1️⃣ Inicializa el SDK de AdMob
+        // 1️ Inicializa el SDK de AdMob
         MobileAds.initialize(this) {}
-        // 2️⃣ Conecta tu banner del XML
+        // 2️ Conecta tu banner del XML
         bannerView = findViewById(R.id.bannerView)
-        // 3️⃣ Crea una solicitud de anuncio
+        // 3 Crea una solicitud de anuncio
         val adRequest = AdRequest.Builder().build()
-        // 4️⃣ Carga el anuncio
+        // 4️ Carga el anuncio
         bannerView.loadAd(adRequest)
 
         // Espera a que el TextureView esté listo para usarlo
@@ -99,19 +108,58 @@ class Escoger_modo : AppCompatActivity() {
         val intent = Intent(this, Mapa::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
     }
     fun segundo_modod(view: View){
-        Toast.makeText(this, "Modo ahun no disponible", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, Unirse_Partida::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
     fun tercer_modo(view: View){
-        Toast.makeText(this, "Modo ahun no disponible", Toast.LENGTH_SHORT).show()
+
+            if(GlobalData.nivel_de_progresion >= 20){
+                if(hayConexion(this)) {
+                    GlobalData.Jugador2[0] = Rey_Bufon_Negro(20,false)
+                    GlobalData.Jugador2[1] = Tropa_Curandera(20)
+                    GlobalData.Jugador2[2] = Tropa_Curandera(20)
+                    GlobalData.Jugador2[3] = Tropa_Gigante(20)
+                    GlobalData.Jugador2[4] = Tropa_Gigante(20)
+                    GlobalData.Jugador2[5] = Tropa_Gigante(20)
+                    val intent = Intent(this, Evento::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    finish()
+                }
+            }else{
+                Toast.makeText(this, "Necesitas ser minimo Nivel 20 para jugar Los eventos Semanales", Toast.LENGTH_SHORT).show()
+            }
+
+
+
     }
 
     fun atras(view: View){
         val intent = Intent(this, Iniciar_Sesion::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
     }
 
+
+    fun hayConexion(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+
+        val conectado = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+
+        if (!conectado) {
+            println("No hay conexión a internet")
+            Toast.makeText(context, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show()
+        }
+
+        return conectado
+    }
 
 }

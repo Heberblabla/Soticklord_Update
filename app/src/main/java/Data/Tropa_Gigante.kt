@@ -24,6 +24,8 @@ class Tropa_Gigante (Nivel:Int = 1) : Tropa(
     cantidad_escudos = 0.00,
     precision = 100
 ), Serializable {
+
+    var a_todos = true
     override fun toString(): String {
         return """
             Nombre: $nombre
@@ -75,7 +77,7 @@ class Tropa_Gigante (Nivel:Int = 1) : Tropa(
             return
         }
         GlobalData.Atodos = true
-        val daño = calcularAtaque(50,this.nivel)
+        val daño = calcularAtaque((this.ataque_base * 0.25).toInt(),this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)
         enemigos[1]!!.Recivir_daño(this,daño)
         enemigos[2]!!.Recivir_daño(this,daño)
@@ -83,6 +85,33 @@ class Tropa_Gigante (Nivel:Int = 1) : Tropa(
         enemigos[4]!!.Recivir_daño(this,daño)
         enemigos[5]!!.Recivir_daño(this,daño)
     }
+
+    fun Estrendor(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+
+        if(a_todos) {
+            GlobalData.Atodos = true
+            enemigos[0]!!.cantidad_escudos -= 0.12
+            enemigos[1]!!.cantidad_escudos -= 0.12
+            enemigos[2]!!.cantidad_escudos -= 0.12
+            enemigos[3]!!.cantidad_escudos -= 0.12
+            enemigos[4]!!.cantidad_escudos -= 0.12
+            enemigos[5]!!.cantidad_escudos -= 0.12
+            enemigos[0]!!.Recivir_daño(this,this.ataque_base)
+            enemigos[1]!!.Recivir_daño(this,this.ataque_base)
+            enemigos[2]!!.Recivir_daño(this,this.ataque_base)
+            enemigos[3]!!.Recivir_daño(this,this.ataque_base)
+            enemigos[4]!!.Recivir_daño(this,this.ataque_base)
+            enemigos[5]!!.Recivir_daño(this,this.ataque_base)
+            this.a_todos = false
+        }
+    }
+
 
     override fun Habilidad_Especial(Waos: Boolean){
 
@@ -113,7 +142,8 @@ class Tropa_Gigante (Nivel:Int = 1) : Tropa(
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
 
         }else{
             this.vida -= Ataque

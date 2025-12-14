@@ -11,8 +11,8 @@ android {
         applicationId = "com.waos.soticklord"
         minSdk = 26
         targetSdk = 36
-        versionCode = 9
-        versionName = "1.343"
+        versionCode = 26
+        versionName = "2.0"
         // 1 = version
         // 0.1 = algun cambio pequeño o modo
         // 0.01 = bugs
@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -56,6 +57,9 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // Tests
     testImplementation(libs.junit)
@@ -68,12 +72,24 @@ dependencies {
     implementation(libs.okhttp.logging)
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
-
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("io.github.jan-tennert.supabase:supabase-kt:2.3.1")
-    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.3.1") // Auth
-    implementation("io.github.jan-tennert.supabase:postgrest-kt:2.3.1") // Base de datos
 
+    // ⭐ Supabase limpio y en BOM (versión correcta)
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.4.0"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt")
+    implementation("io.github.jan-tennert.supabase:functions-kt")
+    implementation("io.github.jan-tennert.supabase:storage-kt")
+    implementation("io.ktor:ktor-client-cio:2.3.7")
+
+    implementation("io.ktor:ktor-client-json:2.3.7")
+    implementation("io.ktor:ktor-client-serialization:2.3.7")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+
+
+    implementation("com.android.billingclient:billing:6.1.0")
+
+    // AdMob
     implementation("com.google.android.gms:play-services-ads:24.7.0")
-
 }
+

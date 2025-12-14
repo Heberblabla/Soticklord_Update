@@ -1,5 +1,5 @@
 package Archivos_Extra
-
+import Multijugador.Versus
 import com.waos.soticklord.Batalla
 
 data class Evento(

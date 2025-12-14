@@ -21,7 +21,7 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
     turnoDoble =  false,
     cantidad_espinas = 0.00,
     cantidad_escudos = 0.00,
-    precision = 100
+    precision = 150
 ), Serializable {
     override fun toString(): String {
         return """
@@ -130,7 +130,8 @@ class Tropa_Arquero (Nivel:Int = 1): Tropa(
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
 
         }else{
             this.vida -= Ataque

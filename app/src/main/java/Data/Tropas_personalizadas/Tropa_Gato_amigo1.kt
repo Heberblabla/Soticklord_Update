@@ -81,8 +81,8 @@ class Tropa_Gato_amigo1  (Nivel:Int = 1) : Tropa(
             return
         }
         GlobalData.Atodos = true
-        var ataque = Random.nextInt(100)
-        val daño = calcularAtaque(ataque,this.nivel)
+        var ataque = Random.nextInt(this.ataque_base)
+        val daño = calcularAtaque2(ataque,this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)
         enemigos[1]!!.Recivir_daño(this,daño)
         enemigos[2]!!.Recivir_daño(this,daño)
@@ -120,7 +120,8 @@ class Tropa_Gato_amigo1  (Nivel:Int = 1) : Tropa(
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
 
         }else{
             this.vida -= Ataque

@@ -10,7 +10,9 @@ import java.lang.reflect.Modifier
 import android.widget.AdapterView
 import android.widget.ImageView
 
-class Bot_Desiciones_aleatorio (private val context: Context){
+class Bot_Desiciones_aleatorio (
+    private val context: Context
+){
 
     fun Empezar_Analisis(Posicion : Int) {
         //sacamos el nombre de la tropa
@@ -25,6 +27,7 @@ class Bot_Desiciones_aleatorio (private val context: Context){
         GlobalData.A_quien = false
         //aca se decide q ataque efectuar
         var ataque = Seleccionar_Ataque(Ataques,Tropa_random_atacar,Posicion)
+        //println("Ataque elegido: $ataque")
         Toast.makeText(context, "$ataque", Toast.LENGTH_SHORT).show()
         //Toast.makeText(context, "Posicion del enemigo: $Tropa_random_atacar", Toast.LENGTH_SHORT).show()
         Ejecutar_ataque(GlobalData.Jugador2, GlobalData.Jugador1,Posicion,Tropa_random_atacar,ataque)
@@ -44,23 +47,31 @@ class Bot_Desiciones_aleatorio (private val context: Context){
             Tropas_disponibles.add(3)
         }
         if((GlobalData.Jugador1[2]!!.estado_de_vida && GlobalData.Jugador2[posicion]!!.aereo) ||(
-            !GlobalData.Jugador1[3]!!.estado_de_vida &&
-            !GlobalData.Jugador1[4]!!.estado_de_vida &&
-            !GlobalData.Jugador1[5]!!.estado_de_vida )){
-            Tropas_disponibles.add(2)
-        }
-        if((GlobalData.Jugador1[1]!!.estado_de_vida && GlobalData.Jugador1[posicion]!!.aereo) ||(
-            !GlobalData.Jugador1[3]!!.estado_de_vida &&
-            !GlobalData.Jugador1[4]!!.estado_de_vida &&
-            !GlobalData.Jugador1[5]!!.estado_de_vida)) {
-            Tropas_disponibles.add(1)
+                            !GlobalData.Jugador1[3]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[4]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[5]!!.estado_de_vida )){
+
+            if(GlobalData.Jugador1[2]!!.estado_de_vida){
+                Tropas_disponibles.add(2)
             }
-        if((GlobalData.Jugador1[0]!!.estado_de_vida && GlobalData.Jugador1[posicion]!!.aereo) ||(
-            !GlobalData.Jugador1[3]!!.estado_de_vida &&
-            !GlobalData.Jugador1[4]!!.estado_de_vida &&
-            !GlobalData.Jugador1[5]!!.estado_de_vida &&
-            !GlobalData.Jugador1[1]!!.estado_de_vida &&
-            !GlobalData.Jugador1[2]!!.estado_de_vida)){
+
+        }
+        if((GlobalData.Jugador1[1]!!.estado_de_vida && GlobalData.Jugador2[posicion]!!.aereo) ||(
+                    !GlobalData.Jugador1[3]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[4]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[5]!!.estado_de_vida)) {
+
+            if(GlobalData.Jugador1[1]!!.estado_de_vida){
+                Tropas_disponibles.add(1)
+            }
+
+        }
+        if((GlobalData.Jugador1[0]!!.estado_de_vida && GlobalData.Jugador2[posicion]!!.aereo) ||(
+                    !GlobalData.Jugador1[3]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[4]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[5]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[1]!!.estado_de_vida &&
+                            !GlobalData.Jugador1[2]!!.estado_de_vida)){
             Tropas_disponibles.add(0)
         }
 

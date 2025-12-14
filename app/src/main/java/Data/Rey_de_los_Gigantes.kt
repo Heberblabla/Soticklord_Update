@@ -1,5 +1,6 @@
 package Data
 
+import Data.Tropas_personalizadas.Tropa_Lanzatonio_Medieval
 import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
@@ -27,6 +28,7 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
 
     , Serializable {
     var invocacion : Boolean = true
+    var invocacion2 : Boolean = true
 
     override fun toString(): String {
         return """
@@ -68,6 +70,7 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
         val daño = Daño()
         enemigos[posicion]!!.Recivir_daño(this,daño)
     }
+
     fun Invocacion_de_Gigantes(enemigos: ArrayList<Tropa?>, posicion: Int, Waos : Boolean){
         var xd = Random.nextInt(100)
         if(xd < this.precision){
@@ -93,6 +96,36 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
                 GlobalData.Jugador2[4] = Tropa_Gigante(this.nivel)
                 GlobalData.Jugador2[5] = Tropa_Gigante(this.nivel)
                 this.invocacion = false
+            }
+        }
+
+    }
+
+    fun Fuerza_elite(enemigos: ArrayList<Tropa?>, posicion: Int, Waos : Boolean){
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+        if(Waos) {
+            if (this.invocacion2) {
+                GlobalData.Jugador1[1] = Tropa_Lanzatonio_Medieval(this.nivel + 5,0.5)
+                GlobalData.Jugador1[2] = Tropa_Lanzatonio_Medieval(this.nivel + 5,0.5)
+                GlobalData.Jugador1[3] = Tropa_Gigante(this.nivel + 5)
+                GlobalData.Jugador1[4] = Tropa_Gigante(this.nivel + 5)
+                GlobalData.Jugador1[5] = Tropa_Gigante(this.nivel + 5)
+                this.invocacion2 = false
+            }
+        }
+        if(!Waos) {
+            if (this.invocacion2) {
+                GlobalData.Jugador2[1] = Tropa_Lanzatonio_Medieval(this.nivel + 5,0.5)
+                GlobalData.Jugador2[2] = Tropa_Lanzatonio_Medieval(this.nivel + 5,0.5)
+                GlobalData.Jugador2[3] = Tropa_Gigante(this.nivel + 5)
+                GlobalData.Jugador2[4] = Tropa_Gigante(this.nivel + 5)
+                GlobalData.Jugador2[5] = Tropa_Gigante(this.nivel + 5)
+                this.invocacion2 = false
             }
         }
 
@@ -126,8 +159,8 @@ class Rey_de_los_Gigantes(Nivel:Int =1) : Tropa(
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
-
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
         }else{
             this.vida -= Ataque
 

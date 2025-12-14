@@ -23,6 +23,7 @@ class Bot_Desiciones (private val context: Context){
         val Tropa_random_atacar = tropas_disponibles.random()
         //aca se decide q ataque efectuar
         var ataque = Seleccionar_Ataque(Ataques,Tropa_random_atacar,Posicion)
+
         Toast.makeText(context, "$ataque", Toast.LENGTH_SHORT).show()
         //Toast.makeText(context, "Posicion del enemigo: $Tropa_random_atacar", Toast.LENGTH_SHORT).show()
         Ejecutar_ataque(GlobalData.Jugador2, GlobalData.Jugador1,Posicion,Tropa_random_atacar,ataque)

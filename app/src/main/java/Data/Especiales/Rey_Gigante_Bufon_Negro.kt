@@ -17,7 +17,7 @@ class Rey_Gigante_Bufon_Negro(
     Tropa(
         nombre = "Rey_Gigante_Bufon_Negro",
         nivel = Nivel,
-        vida = calcularVida(3000,Nivel),
+        vida = calcularVida(3500,Nivel),
         ataque_base = calcularAtaque(500,Nivel),
         daño_critico = calcularDañoCritico(2.0,Nivel),
         probabilidad_de_critico = calcularProbCritico(0.30,Nivel),
@@ -79,17 +79,18 @@ class Rey_Gigante_Bufon_Negro(
             return
         }
         GlobalData.Atodos = true
-        val daño = calcularAtaque(150,this.nivel)
+        val daño = calcularAtaque(this.ataque_base/5,this.nivel)
         enemigos[0]!!.Recivir_daño(this,daño)
         enemigos[1]!!.Recivir_daño(this,daño)
         enemigos[2]!!.Recivir_daño(this,daño)
         enemigos[3]!!.Recivir_daño(this,daño)
         enemigos[4]!!.Recivir_daño(this,daño)
         enemigos[5]!!.Recivir_daño(this,daño)
+
     }
 
     override fun Habilidad_Especial(Waos: Boolean){
-
+        this.vida += (this.vida*0.8).toInt()
     }
 
     override fun clonar(): Tropa {
@@ -116,7 +117,8 @@ class Rey_Gigante_Bufon_Negro(
         }
 
         if (this.cantidad_escudos > 0) {
-            this.vida -= (Ataque - (Ataque * cantidad_escudos)).toInt()
+            val escudo = cantidad_escudos.coerceAtMost(1.0)
+            this.vida -= (Ataque - (Ataque * escudo)).toInt()
         }else{
             this.vida -= Ataque
         }

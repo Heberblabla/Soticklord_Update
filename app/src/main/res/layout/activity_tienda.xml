@@ -8,6 +8,20 @@
     android:background="@drawable/tienda"
     tools:context=".Tienda">
 
+    <ImageView
+        android:id="@+id/ruletaView4"
+        android:layout_width="121dp"
+        android:layout_height="82dp"
+        android:layout_gravity="center"
+        android:contentDescription="Ruleta"
+        android:src="@drawable/ruleta_tercera"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.869" />
+
     <ImageButton
         android:id="@+id/imagen_grandeAb3"
         android:layout_width="94dp"
@@ -87,7 +101,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.839"
-        app:srcCompat="@drawable/bufon_negro" />
+        app:srcCompat="@drawable/rey_vago_de_vaos" />
 
     <ImageButton
         android:id="@+id/imagen_grandeAb"
@@ -121,7 +135,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.051"
-        app:srcCompat="@drawable/gigante_estelar" />
+        app:srcCompat="@drawable/bufon" />
 
     <ImageButton
         android:id="@+id/imagen_grandeBb"
@@ -281,6 +295,7 @@
         android:layout_height="22dp"
         android:alpha="0"
         android:background="@android:color/transparent"
+        android:onClick="ruletas"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

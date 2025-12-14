@@ -67,7 +67,7 @@
         android:layout_width="271dp"
         android:layout_height="39dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="cca-app-pub-4214042047166873/7253298932"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
@@ -75,5 +75,40 @@
         app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintVertical_bias="0.994"
         />
+
+    <ImageButton
+        android:id="@+id/Informa"
+        android:layout_width="46dp"
+        android:layout_height="41dp"
+        android:background="@android:color/transparent"
+        android:onClick="Informa"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+
+        ads:srcCompat="@drawable/info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.008"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.016" />
+
+    <ImageButton
+        android:id="@+id/configuraciones"
+        android:layout_width="46dp"
+        android:layout_height="41dp"
+        android:background="@android:color/transparent"
+        android:onClick="configuraciones"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.991"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.016"
+        app:srcCompat="@drawable/configuraciones"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

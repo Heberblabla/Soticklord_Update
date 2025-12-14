@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import Data.*
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import android.view.MotionEvent
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -28,6 +31,7 @@ class Album : AppCompatActivity() {
     var listaReyes = GlobalData.Diccionario_Reyes.values.toList()
     var listaNombres = mutableListOf<String>()
     var nombreu = "waos"
+    lateinit var Mejorar: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +50,38 @@ class Album : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        var isHolding = false
+
+        val handler = Handler(Looper.getMainLooper())
+        val delayMillis = 100L  // tiempo entre repeticiones
+
+        val repetirAccion = object : Runnable {
+            override fun run() {
+                if (isHolding) {
+                    subir_de_nivel()
+                    handler.postDelayed(this, delayMillis)
+                }
+            }
+        }
+
+        Mejorar = findViewById(R.id.Mejorar)
+
+
+        Mejorar.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    isHolding = true
+                    handler.post(repetirAccion)   // empieza repetir
+                }
+                MotionEvent.ACTION_UP,
+                MotionEvent.ACTION_CANCEL -> {
+                    isHolding = false              // detiene
+                }
+            }
+            true
+        }
+
         cambiar_a_otro_album()
         mostrar_datos_economicos()
     }
@@ -190,8 +226,10 @@ class Album : AppCompatActivity() {
         nombreu = tropa.nombre
         val Nombre_rey_tropa = findViewById<TextView>(R.id.Nombre_rey_tropa)
         Nombre_rey_tropa.text = "${tropa.nombre}"
+
         val imagen = findViewById<ImageView>(R.id.Imagen_grande)
         imagen.setImageResource(tropa.rutaviva)
+
         val Nivel_rey_tropa = findViewById<TextView>(R.id.Nivel_rey_tropa)
         Nivel_rey_tropa.text = "N :${tropa.nivel}"
         val Vida_rey_tropa = findViewById<TextView>(R.id.Vida_rey_tropa)
@@ -497,11 +535,18 @@ class Album : AppCompatActivity() {
 
         //  Descontar monedas
         GlobalData.monedas -= 100
+        //GlobalData.nivel_de_progresion = 50
         mostrar_datos_economicos() // refresca la esquina superior
 
         // Si estás viendo tropas
         if (rey_o_tropa == 0) {
             val tropaOriginal = GlobalData.Diccionario_Tropas.values.find { it.nombre == nombreActual }
+            if (tropaOriginal!!.nivel >= 125) {
+                Toast.makeText(this, "Maximo nivel es 125", Toast.LENGTH_SHORT).show()
+                GlobalData.monedas += 100
+                return
+            }
+
             if (tropaOriginal != null) {
                 val nuevoNivel = tropaOriginal.nivel + 1
 
@@ -528,14 +573,53 @@ class Album : AppCompatActivity() {
         //Si estás viendo reyes
         if (rey_o_tropa == 1) {
             val reyOriginal = GlobalData.Diccionario_Reyes.values.find { it.nombre == nombreActual }
+            if (reyOriginal!!.nivel >= 125) {
+                Toast.makeText(this, "Maximo nivel es 125", Toast.LENGTH_SHORT).show()
+                GlobalData.monedas += 100
+                return
+            }
+
             if (reyOriginal != null) {
+
                 val nuevoNivel = reyOriginal.nivel + 1
+                var nuevoObjeto: Tropa? = null
 
                 val claseRey = GlobalData.Diccionario_Clases[reyOriginal.nombre]
                 if (claseRey != null) {
-                    val nuevoObjeto = claseRey.constructors.first().call(nuevoNivel) as Tropa
+                    val constructores = claseRey.constructors
 
-                    val clave = GlobalData.Diccionario_Reyes.entries.find { it.value == reyOriginal }?.key
+                    try {
+                        // Constructor con (nivel, Boolean)
+                        val ctor2 = constructores.firstOrNull { c ->
+                            c.parameters.size == 2 &&
+                                    c.parameters[0].type.classifier == Int::class &&
+                                    c.parameters[1].type.classifier == Boolean::class
+                        }
+
+                        if (ctor2 != null) {
+                            nuevoObjeto = ctor2.call(nuevoNivel, true) as? Tropa
+                        } else {
+                            // Constructor con (nivel)
+                            val ctor1 = constructores.firstOrNull { c ->
+                                c.parameters.size == 1 &&
+                                        c.parameters[0].type.classifier == Int::class
+                            }
+
+                            if (ctor1 != null) {
+                                nuevoObjeto = ctor1.call(nuevoNivel) as? Tropa
+                            }
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                if (nuevoObjeto != null) {
+
+                    val clave = GlobalData.Diccionario_Reyes.entries
+                        .find { it.value == reyOriginal }?.key
+
                     if (clave != null) {
                         GlobalData.Diccionario_Reyes[clave] = nuevoObjeto
                     }
@@ -543,12 +627,129 @@ class Album : AppCompatActivity() {
                     listaReyes = GlobalData.Diccionario_Reyes.values.toList()
                     mostrarDatosDeRey(nuevoObjeto)
 
-                    Toast.makeText(this, " ${nuevoObjeto.nombre} subió a nivel ${nuevoObjeto.nivel}!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        " ${nuevoObjeto.nombre} subió a nivel ${nuevoObjeto.nivel}!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
+
         DataManager.guardarDatos(this)
     }
+
+    fun subir_de_nivel() {
+        val nombreActual = findViewById<TextView>(R.id.Nombre_rey_tropa).text.toString()
+        if (nombreActual.isBlank()) return // nada seleccionado
+
+        // Verificar si tiene monedas suficientes
+        if (GlobalData.monedas < 100) {
+            return
+        }
+
+        //  Descontar monedas
+        GlobalData.monedas -= 100
+        //GlobalData.nivel_de_progresion = 50
+        mostrar_datos_economicos() // refresca la esquina superior
+
+        // Si estás viendo tropas
+        if (rey_o_tropa == 0) {
+            val tropaOriginal = GlobalData.Diccionario_Tropas.values.find { it.nombre == nombreActual }
+            if (tropaOriginal!!.nivel >= 125) {
+
+                GlobalData.monedas += 100
+                return
+            }
+
+            if (tropaOriginal != null) {
+                val nuevoNivel = tropaOriginal.nivel + 1
+
+                // Crear nuevo objeto del mismo tipo pero con nivel +1
+                val claseTropa = GlobalData.Diccionario_Clases[tropaOriginal.nombre]
+                if (claseTropa != null) {
+                    val nuevoObjeto = claseTropa.constructors.first().call(nuevoNivel) as Tropa
+
+                    // Actualizar el diccionario
+                    val clave = GlobalData.Diccionario_Tropas.entries.find { it.value == tropaOriginal }?.key
+                    if (clave != null) {
+                        GlobalData.Diccionario_Tropas[clave] = nuevoObjeto
+                    }
+
+                    // Refrescar la lista y mostrar los nuevos datos
+                    listaTropas = GlobalData.Diccionario_Tropas.values.toList()
+                    mostrarDatosDeTropa(nuevoObjeto)
+
+
+                }
+            }
+        }
+
+        //Si estás viendo reyes
+        if (rey_o_tropa == 1) {
+            val reyOriginal = GlobalData.Diccionario_Reyes.values.find { it.nombre == nombreActual }
+            if (reyOriginal!!.nivel >= 125) {
+
+                GlobalData.monedas += 100
+                return
+            }
+
+            if (reyOriginal != null) {
+
+                val nuevoNivel = reyOriginal.nivel + 1
+                var nuevoObjeto: Tropa? = null
+
+                val claseRey = GlobalData.Diccionario_Clases[reyOriginal.nombre]
+                if (claseRey != null) {
+                    val constructores = claseRey.constructors
+
+                    try {
+                        // Constructor con (nivel, Boolean)
+                        val ctor2 = constructores.firstOrNull { c ->
+                            c.parameters.size == 2 &&
+                                    c.parameters[0].type.classifier == Int::class &&
+                                    c.parameters[1].type.classifier == Boolean::class
+                        }
+
+                        if (ctor2 != null) {
+                            nuevoObjeto = ctor2.call(nuevoNivel, true) as? Tropa
+                        } else {
+                            // Constructor con (nivel)
+                            val ctor1 = constructores.firstOrNull { c ->
+                                c.parameters.size == 1 &&
+                                        c.parameters[0].type.classifier == Int::class
+                            }
+
+                            if (ctor1 != null) {
+                                nuevoObjeto = ctor1.call(nuevoNivel) as? Tropa
+                            }
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                if (nuevoObjeto != null) {
+
+                    val clave = GlobalData.Diccionario_Reyes.entries
+                        .find { it.value == reyOriginal }?.key
+
+                    if (clave != null) {
+                        GlobalData.Diccionario_Reyes[clave] = nuevoObjeto
+                    }
+
+                    listaReyes = GlobalData.Diccionario_Reyes.values.toList()
+                    mostrarDatosDeRey(nuevoObjeto)
+
+
+                }
+            }
+        }
+
+        DataManager.guardarDatos(this)
+    }
+
 
     fun atras(view: View){
         val intent = Intent(this, Iniciar_Sesion::class.java)

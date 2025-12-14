@@ -449,10 +449,10 @@
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/bannerView"
-        android:layout_width="129dp"
-        android:layout_height="117dp"
+        android:layout_width="208dp"
+        android:layout_height="105dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-4214042047166873/3730700327"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
