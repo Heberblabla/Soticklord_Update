@@ -1,28 +1,26 @@
-package Data.Personalizados
+package Data.Especiales
 
-import Data.Especiales.Rey_Cristian
-import Data.Especiales.Rey_Gigante_Bufon_Negro
 import Data.Tropa
 import Data.Tropa.Companion.calcularAtaque
 import Data.Tropa.Companion.calcularDañoCritico
 import Data.Tropa.Companion.calcularProbCritico
 import Data.Tropa.Companion.calcularVida
 import Data.Tropa_Gigante
-import android.provider.Settings
 import android.widget.ImageView
+import com.waos.soticklord.Animador
 import com.waos.soticklord.GlobalData
 import com.waos.soticklord.R
 import java.io.Serializable
 import kotlin.math.ceil
 import kotlin.random.Random
-import com.waos.soticklord.*
 
-class Rey_Bufon_Negro (
+class Rey_Bufon_Negro_Navideño
+    (
     Nivel:Int = 1 ,
     esDelJugador: Boolean
 ):
     Tropa(
-        nombre = "Rey_Bufon_Negro",
+        nombre = "Rey_Bufon_Negro_Navideño",
         nivel = Nivel,
         vida = calcularVida(1000,Nivel),
         ataque_base = calcularAtaque(100,Nivel),
@@ -30,7 +28,7 @@ class Rey_Bufon_Negro (
         probabilidad_de_critico = calcularProbCritico(0.65,Nivel),
         aereo = true,
         estado_de_vida = true,
-        rutaviva = R.drawable.bufon_negro,
+        rutaviva = R.drawable.rey_bufon_negro_navideno,
         rutamuerta = R.drawable.tropa_muerta,
         turnoActivo = true,
         turnoDoble =  false,
@@ -173,7 +171,7 @@ class Rey_Bufon_Negro (
         }else {
             return
         }
-        var rey = Rey_Bufon_Negro(this.nivel,true)
+        var rey = Rey_Bufon_Negro_Navideño(this.nivel,true)
         var waos = rey.vida
 
         GlobalData.Atodos = true
@@ -206,7 +204,7 @@ class Rey_Bufon_Negro (
         }else {
             return
         }
-        var rey = Rey_Bufon_Negro(this.nivel,true)
+        var rey = Rey_Bufon_Negro_Navideño(this.nivel,true)
         var waos = rey.vida
 
         val daño = (daño()*1.5).toInt()
@@ -229,7 +227,7 @@ class Rey_Bufon_Negro (
     }
 
     override fun clonar(): Tropa {
-        val copia = Rey_Bufon_Negro(this.nivel,this.Bando)
+        val copia = Rey_Bufon_Negro_Navideño(this.nivel,this.Bando)
         copia.nombre = this.nombre
         copia.vida = this.vida
         copia.ataque_base = this.ataque_base
@@ -352,6 +350,7 @@ class Rey_Bufon_Negro (
         }
 
     }
+
 
 
 

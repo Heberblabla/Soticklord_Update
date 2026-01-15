@@ -2,26 +2,9 @@ package com.waos.soticklord
 
 import Archivos_Extra.GestorAcciones
 import Archivos_Extra.GestorEventos
-import android.os.Bundle
-import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import android.widget.ImageView
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import android.widget.TextView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import java.lang.reflect.Modifier
-import java.lang.reflect.Method
-import Data.*
+import Data.Tropa
+import android.app.Dialog
 import android.content.Context
-import android.widget.Toast
-import kotlinx.coroutines.*
-import android.widget.AdapterView
-import androidx.lifecycle.lifecycleScope
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -30,21 +13,35 @@ import android.graphics.drawable.LayerDrawable
 import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.view.animation.AnimationUtils
+import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.material.button.MaterialButton
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
-import android.os.Build
-
+import com.google.android.gms.ads.MobileAds
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 
 class Batalla : AppCompatActivity() {
-    private lateinit var mediaPlayer: MediaPlayer
+    private var mediaPlayer: MediaPlayer? = null
     var Enemigo_Seleccionado = 5
     var turno_activo = 5
     var ataqueSeleccionado: String = " "
@@ -56,12 +53,19 @@ class Batalla : AppCompatActivity() {
     lateinit var botonPasarTurno: ImageButton
     private lateinit var bannerView: AdView
 
+    lateinit var rootLayout: ViewGroup
+    val estadosVisibilidad = mutableMapOf<Int, Int>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContentView(R.layout.activity_batalla)
+
+        rootLayout = findViewById(R.id.main)
         EntornoManager.batalla = this
+
         // Oculta las barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
@@ -92,6 +96,7 @@ class Batalla : AppCompatActivity() {
                 cargarinfo(ataqueSeleccionado)
 
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Por si no selecciona nada , se asigan el ataque q todos tienen por defecto :v
                 ataqueSeleccionado = "Ataque_normal"
@@ -117,7 +122,7 @@ class Batalla : AppCompatActivity() {
             findViewById(R.id.Turno_TropaCb),
             findViewById(R.id.Turno_TropaCc)
         )
-        imagenes2= arrayListOf(
+        imagenes2 = arrayListOf(
             findViewById(R.id.enemigoFa),
             findViewById(R.id.enemigoEb),
             findViewById(R.id.enemigoEa),
@@ -135,29 +140,105 @@ class Batalla : AppCompatActivity() {
         Inicializar()
 
 
-
         //println("waosss = ${GlobalData.Jugador1[0]!!.nombre}")
-        if(GlobalData.Desea_nimaciones){
+        if (GlobalData.Desea_nimaciones) {
             Animador.empezar_animacion(this)
+        }
+
+        ocultarHijosPro()
+
+        mostrarPopupConImagen(
+            this,
+            "Q comienze la batalla"
+        ) {
+            mostrarHijosPro()
         }
 
 
     }
 
+    fun ocultarHijosPro() {
+        estadosVisibilidad.clear()
 
-    fun Inicializar(){
-        mediaPlayer = MediaPlayer.create(this, R.raw.batalla)
-        mediaPlayer.isLooping = true  // Para que se repita
-        mediaPlayer.start()           // Reproduce al abrir la ventana
+        for (i in 0 until rootLayout.childCount) {
+            val child = rootLayout.getChildAt(i)
+            guardarEstado(child)
+            setVisibilidadRecursiva(child, false)
+        }
     }
+
+    fun mostrarHijosPro() {
+        for (i in 0 until rootLayout.childCount) {
+            restaurarEstado(rootLayout.getChildAt(i))
+        }
+    }
+
+
+    fun guardarEstado(view: View) {
+        if (view.id != View.NO_ID) {
+            estadosVisibilidad[view.id] = view.visibility
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                guardarEstado(view.getChildAt(i))
+            }
+        }
+    }
+
+    fun restaurarEstado(view: View) {
+        if (view.id != View.NO_ID) {
+            estadosVisibilidad[view.id]?.let {
+                view.visibility = it
+            }
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                restaurarEstado(view.getChildAt(i))
+            }
+        }
+    }
+
+    fun setVisibilidadRecursiva(view: View, visible: Boolean) {
+        view.visibility = if (visible) View.VISIBLE else View.GONE
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                setVisibilidadRecursiva(view.getChildAt(i), visible)
+            }
+        }
+    }
+
+
+
+
+    fun Inicializar() {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.batalla)
+            mediaPlayer?.isLooping = true
+            mediaPlayer?.start()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer?.start()
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release() // Libera memoria al cerrar la Activity
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
 
-    fun cargarinfo(nombre: String){
+    fun cargarinfo(nombre: String) {
         val descripcion = GlobalData.Diccionario_Ataques[nombre] ?: "Descripción no encontrada"
         val Info_ataques = findViewById<TextView>(R.id.info)
         Info_ataques.text = descripcion
@@ -174,7 +255,6 @@ class Batalla : AppCompatActivity() {
     }
 
 
-
     fun pasar_turno_al_enemigo() {
         turno_activo = 5
         es_mi_turno = false
@@ -186,16 +266,19 @@ class Batalla : AppCompatActivity() {
         for (img in imagenes) {
             img.visibility = View.INVISIBLE
         }
-        if (es_mi_turno){
-            imagenes[turno_activo].visibility = View.VISIBLE}
+        if (es_mi_turno) {
+            imagenes[turno_activo].visibility = View.VISIBLE
+        }
 
     }
-    fun visualizar_posicion_enemiga(posicion:Int) {
+
+    fun visualizar_posicion_enemiga(posicion: Int) {
         for (img in imagenes2) {
             img.visibility = View.INVISIBLE
         }
-        if(es_turno_del_enemigo){
-            imagenes2[posicion].visibility = View.VISIBLE}
+        if (es_turno_del_enemigo) {
+            imagenes2[posicion].visibility = View.VISIBLE
+        }
 
     }
 
@@ -234,7 +317,6 @@ class Batalla : AppCompatActivity() {
             turno_activo = 5
             es_turno_del_enemigo = true
             visualizar_posicion()
-
             var i = 5
             while (i >= 0) {
                 EntornoManager.aplicarEfecto()
@@ -264,79 +346,87 @@ class Batalla : AppCompatActivity() {
                 }
             }
 
-
-            val enemigos_vivos = GlobalData.Jugador2.filter { it?.estado_de_vida == true }
-            if (enemigos_vivos.isEmpty()) {
-                Toast.makeText(this, "¡Ganaste!", Toast.LENGTH_LONG).show()
-                GestorEventos.limpiar()
-                if(GlobalData.nivel_actico == GlobalData.nivel_de_progresion){
-
-                    if(GlobalData.nivel_de_progresion == 6){
+            //verfica si toda la lista es false, para saber si todas las tropas estan muertas, si ahi una viva entonces no dentra
+            if (GlobalData.Jugador2.none { it?.estado_de_vida == true }) {
+                //cambiar despuesd e la actu
+                if (GlobalData.nivel_actico == GlobalData.nivel_de_progresion) {
+                    if (GlobalData.nivel_de_progresion == 6) {
                         GlobalData.monedas += 500
                         GlobalData.ecencia_de_juego += 5
+                        GlobalData.experiencia_de_juego += 500
                         GlobalData.nivel_de_progresion += 1
-                    }else {
+                        DataManager.guardarDatos(this)
+                        mostrarPopupConImagen(this,
+                                "🏆 ¡VICTORIA PERFECTA!\n" +
+                                "Batalla de 5 ☆☆☆☆☆\n\n" +
+                                "Recompensas obtenidas:\n" +
+                                "🪙 +500 monedas\n" +
+                                "⭐ +5 esencias\n" +
+                                "⚡ +500 XP") {
+                            val intent = Intent(this, Mapa::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                            GestorEventos.limpiar()
+                            finish()
+                        }
+                    } else {
                         GlobalData.monedas += 150
                         GlobalData.ecencia_de_juego += 1
+                        GlobalData.experiencia_de_juego += 150
                         GlobalData.nivel_de_progresion += 1
+                        DataManager.guardarDatos(this)
+                        mostrarPopupConImagen(this,
+                                "🏆 ¡VICTORIA PERFECTA!\n" +
+                                "Batalla de 5 ☆☆☆☆☆\n\n" +
+                                "Recompensas obtenidas:\n" +
+                                "🪙 +150 monedas\n" +
+                                "⭐ 1 esencia\n" +
+                                "⚡ +150 XP") {
+                            val intent = Intent(this, Mapa::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                            GestorEventos.limpiar()
+                            finish()
+                        }
                     }
                 }else{
-                    if(GlobalData.evento_activo && !GlobalData.Se_paso_el_evento){
-                        if(hayConexion(this)){
-                            var xd = DataManager.push(GlobalData.Nombre)
-                            if(xd == "1") {
-                                Toast.makeText(this, "Se pudo subir tu victoria!", Toast.LENGTH_LONG).show()
-                                Toast.makeText(this, "obtuvistes +500 monedas  y 10 ecencias", Toast.LENGTH_LONG).show()
-                                GlobalData.monedas += 500
-                                GlobalData.ecencia_de_juego += 10
-                                GlobalData.Se_paso_el_evento = true
-                                DataManager.guardarDatos(this)
-                            }
-                        }
-                        else{
-                            Toast.makeText(this, "Ubo problemeas al subir tu victoria, vuelve a jugar", Toast.LENGTH_LONG).show()
-                        }
+                    DataManager.guardarDatos(this)
+                    mostrarPopupConImagen(this, "¡Batalla de 5 ☆☆☆☆☆!!!\n Felicidades!!") {
+                        val intent = Intent(this, Mapa::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                        GestorEventos.limpiar()
+                        DataManager.guardarDatos(this)
 
+                        finish()
                     }
                 }
-
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                DataManager.guardarDatos(this)
-                GlobalData.evento_activo = false
-                finish()
-                return
             }
-
             // Reactivar turno del jugador
             es_turno_del_enemigo = false
             es_mi_turno = true
             turno_activo = 5
             botonPasarTurno.isEnabled = true // vuelve a habilitar el botón
-
             bucle_principal()
             visualizar_posicion_enemiga(5)
         } else {
-            Toast.makeText(this, "Perdiste", Toast.LENGTH_LONG).show()
-            GestorEventos.limpiar()
-            finish()
+
+            mostrarPopupConImagen(
+                this,
+                "La batalla ha terminado…\n" +
+                        "Tus tropas cayeron, pero la guerra continúa.\n" +
+                        "Prepárate y vuelve más fuerte."
+            ) {
+                val intent = Intent(this, Mapa::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                GestorEventos.limpiar()
+                DataManager.guardarDatos(this)
+                finish()
+            }
+
+
         }
-    }
-
-
-    fun hayConexion(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork
-        val capabilities = connectivityManager.getNetworkCapabilities(network)
-
-        val conectado = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
-
-        if (!conectado) {
-            println("No hay conexión a internet")
-            Toast.makeText(context, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show()
-        }
-
-        return conectado
     }
 
     fun atacar_pasarturno(view: View) {
@@ -386,13 +476,14 @@ class Batalla : AppCompatActivity() {
 
     //--------------------------
 
-    fun actualizar_datos(){
+    fun actualizar_datos() {
         cargar_vida1()
         cargar_vida2()
         cargar_datos1()
         cargar_datos2()
         //Animador.cargar_animacion(this)
     }
+
     fun cargar_datos1() {
         // Lista de los IDs de los ImageView en el mismo orden que los índices
         val idsImagenes = listOf(
@@ -417,6 +508,7 @@ class Batalla : AppCompatActivity() {
             }
         }
     }
+
     fun cargar_datos2() {
         // IDs de las imágenes del Jugador2 en orden según el índice del array
         val idsImagenes = listOf(
@@ -442,6 +534,7 @@ class Batalla : AppCompatActivity() {
             imageView.scaleX = -1f
         }
     }
+
     //-------------------------
     //sirven para cargar como para actualizar vidas xd
     fun cargar_vida1() {
@@ -459,15 +552,15 @@ class Batalla : AppCompatActivity() {
         for (i in idsTextos.indices) {
             val textView = findViewById<TextView>(idsTextos[i])
             val vida = GlobalData.Jugador1[i]!!.vida
-            if(vida >= 1 && GlobalData.Jugador1[i]!!.estado_de_vida){
+            if (vida >= 1 && GlobalData.Jugador1[i]!!.estado_de_vida) {
                 textView.text = "♡: $vida"
-            }
-            else{
+            } else {
                 GlobalData.Jugador1[i]!!.estado_de_vida = false
                 textView.text = "♡: ---"
             }
         }
     }
+
     fun cargar_vida2() {
         // IDs de los TextView correspondientes
         val idsTextos = listOf(
@@ -485,11 +578,10 @@ class Batalla : AppCompatActivity() {
 
             val textView = findViewById<TextView>(idsTextos[i])
             val vida = GlobalData.Jugador2[i]!!.vida
-            if(vida >= 1 && GlobalData.Jugador2[i]!!.estado_de_vida){
+            if (vida >= 1 && GlobalData.Jugador2[i]!!.estado_de_vida) {
                 GlobalData.Jugador2[i]!!.estado_de_vida = true
                 textView.text = "♡: $vida"
-            }
-            else{
+            } else {
                 GlobalData.Jugador2[i]!!.estado_de_vida = false
                 textView.text = "♡: ---"
             }
@@ -521,12 +613,27 @@ class Batalla : AppCompatActivity() {
                     .filter { !it.startsWith("get") && !it.startsWith("set") }
                     .filterNot {
                         it in listOf(
-                            "toString", "equals", "hashCode",
-                            "copyValueOf", "transform", "formatted", "intern",
-                            "wait", "notify", "notifyAll", "getClass",
-                            "clonar", "copyBase", "reproducirVideoAtaque",
-                            "Ataque_normall", "Recivir_daño",
-                            "component1", "component2","Habilidad_Especial","Recivir_daño","efectuardaño"
+                            "toString",
+                            "equals",
+                            "hashCode",
+                            "copyValueOf",
+                            "transform",
+                            "formatted",
+                            "intern",
+                            "wait",
+                            "notify",
+                            "notifyAll",
+                            "getClass",
+                            "clonar",
+                            "copyBase",
+                            "reproducirVideoAtaque",
+                            "Ataque_normall",
+                            "Recivir_daño",
+                            "component1",
+                            "component2",
+                            "Habilidad_Especial",
+                            "Recivir_daño",
+                            "efectuardaño"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }
@@ -552,7 +659,8 @@ class Batalla : AppCompatActivity() {
 
         spinner.adapter = adaptador
     }
-    fun Imagenes_claras(){
+
+    fun Imagenes_claras() {
         val imagen1 = findViewById<ImageView>(R.id.TropaDa)
         val imagen2 = findViewById<ImageView>(R.id.TropaDb)
         val imagen3 = findViewById<ImageView>(R.id.TropaDc)
@@ -567,72 +675,81 @@ class Batalla : AppCompatActivity() {
         imagen6.alpha = 1.0f
         Enemigo_Seleccionado = 5
     }
-    fun seleccionar_tropaDa(view: View){
+
+    fun seleccionar_tropaDa(view: View) {
         Imagenes_claras()
-        if(GlobalData.Jugador2[5]!!.estado_de_vida) {
+        if (GlobalData.Jugador2[5]!!.estado_de_vida) {
 
             Enemigo_Seleccionado = 5
             val imagen = findViewById<ImageView>(R.id.TropaDa)
             imagen.alpha = 0.5f  // 1.0 = totalmente visible, 0.0 = totalmente transparente
         }
     }
-    fun seleccionar_tropaDb(view: View){
+
+    fun seleccionar_tropaDb(view: View) {
         Imagenes_claras()
-        if(GlobalData.Jugador2[4]!!.estado_de_vida) {
+        if (GlobalData.Jugador2[4]!!.estado_de_vida) {
 
             Enemigo_Seleccionado = 4
             val imagen = findViewById<ImageView>(R.id.TropaDb)
             imagen.alpha = 0.5f  // 1.0 = totalmente visible, 0.0 = totalmente transparente
         }
     }
-    fun seleccionar_tropaDc(view: View){
+
+    fun seleccionar_tropaDc(view: View) {
         Imagenes_claras()
-        if(GlobalData.Jugador2[3]!!.estado_de_vida) {
+        if (GlobalData.Jugador2[3]!!.estado_de_vida) {
 
             Enemigo_Seleccionado = 3
             val imagen = findViewById<ImageView>(R.id.TropaDc)
             imagen.alpha = 0.5f  // 1.0 = totalmente visible, 0.0 = totalmente transparente
         }
     }
-    fun seleccionar_tropaEa(view: View){
+
+    fun seleccionar_tropaEa(view: View) {
         Imagenes_claras()
-        if((GlobalData.Jugador2[2]!!.estado_de_vida && GlobalData.Jugador1[turno_activo]!!.aereo) ||(
+        if ((GlobalData.Jugador2[2]!!.estado_de_vida && GlobalData.Jugador1[turno_activo]!!.aereo) || (
                     !GlobalData.Jugador2[3]!!.estado_de_vida &&
                             !GlobalData.Jugador2[4]!!.estado_de_vida &&
-                            !GlobalData.Jugador2[5]!!.estado_de_vida)) {
+                            !GlobalData.Jugador2[5]!!.estado_de_vida)
+        ) {
 
             Enemigo_Seleccionado = 2
             val imagen = findViewById<ImageView>(R.id.TropaEa)
             imagen.alpha = 0.5f  // 1.0 = totalmente visible, 0.0 = totalmente transparente
         }
     }
-    fun seleccionar_tropaEb(view: View){
+
+    fun seleccionar_tropaEb(view: View) {
         Imagenes_claras()
-        if((GlobalData.Jugador2[1]!!.estado_de_vida && GlobalData.Jugador1[turno_activo]!!.aereo) ||(
+        if ((GlobalData.Jugador2[1]!!.estado_de_vida && GlobalData.Jugador1[turno_activo]!!.aereo) || (
                     !GlobalData.Jugador2[3]!!.estado_de_vida &&
                             !GlobalData.Jugador2[4]!!.estado_de_vida &&
-                            !GlobalData.Jugador2[5]!!.estado_de_vida)) {
+                            !GlobalData.Jugador2[5]!!.estado_de_vida)
+        ) {
 
             Enemigo_Seleccionado = 1
             val imagen = findViewById<ImageView>(R.id.TropaEb)
             imagen.alpha = 0.5f  // 1.0 = totalmente visible, 0.0 = totalmente transparente
         }
     }
-    fun seleccionar_tropaFa(view: View){
+
+    fun seleccionar_tropaFa(view: View) {
         Imagenes_claras()
-        if((GlobalData.Jugador2[0]!!.estado_de_vida && GlobalData.Jugador1[turno_activo]!!.aereo) ||(
+        if ((GlobalData.Jugador2[0]!!.estado_de_vida && GlobalData.Jugador1[turno_activo]!!.aereo) || (
                     !GlobalData.Jugador2[3]!!.estado_de_vida &&
                             !GlobalData.Jugador2[4]!!.estado_de_vida &&
                             !GlobalData.Jugador2[5]!!.estado_de_vida &&
                             !GlobalData.Jugador2[1]!!.estado_de_vida &&
-                            !GlobalData.Jugador2[2]!!.estado_de_vida))
-        {
+                            !GlobalData.Jugador2[2]!!.estado_de_vida)
+        ) {
 
             Enemigo_Seleccionado = 0
             val imagen = findViewById<ImageView>(R.id.TropaFa)
             imagen.alpha = 0.5f  // 1.0 = totalmente visible, 0.0 = totalmente transparente
         }
     }
+
     fun Ejecutar_ataque(
         jugador1: ArrayList<Tropa?>,
         jugador2: ArrayList<Tropa?>,
@@ -640,8 +757,6 @@ class Batalla : AppCompatActivity() {
         posicion2: Int,
         nombreMetodo: String
     ) {
-
-
 
 
         try {
@@ -662,7 +777,7 @@ class Batalla : AppCompatActivity() {
 
                 // Invocar el método sobre la instancia de la tropa atacante
                 // Le pasamos jugador2 y la posición del enemigo
-                metodo.invoke(tropaAtacante, jugador2, posicion2,true)
+                metodo.invoke(tropaAtacante, jugador2, posicion2, true)
             } else {
                 println("No se encontró el método '$nombreMetodo' en la clase $nombreClase")
             }
@@ -677,13 +792,12 @@ class Batalla : AppCompatActivity() {
     }
 
 
-
-    fun animacion_ataque(){
+    fun animacion_ataque() {
 
 
         val overlay = ContextCompat.getDrawable(this, R.drawable.efecto_golpe)
 
-        if(!GlobalData.A_quien){
+        if (!GlobalData.A_quien) {
             if (GlobalData.Atodos) {
                 // Aplica a todas las tropas del jugador 1
                 for (i in 0 until GlobalData.Jugador1.size) {
@@ -709,45 +823,51 @@ class Batalla : AppCompatActivity() {
                 return
             }
 
-            if(GlobalData.tropa_seleccionada_posicion == 0 ){
+            if (GlobalData.tropa_seleccionada_posicion == 0) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaAa)
                 var imagen = GlobalData.Jugador1[0]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
             }
-            if(GlobalData.tropa_seleccionada_posicion == 1 ){
+            if (GlobalData.tropa_seleccionada_posicion == 1) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaBa)
                 var imagen = GlobalData.Jugador1[1]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
             }
-            if(GlobalData.tropa_seleccionada_posicion == 2 ){
+            if (GlobalData.tropa_seleccionada_posicion == 2) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaBb)
                 var imagen = GlobalData.Jugador1[2]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
             }
-            if(GlobalData.tropa_seleccionada_posicion == 3 ){
+            if (GlobalData.tropa_seleccionada_posicion == 3) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaCa)
                 var imagen = GlobalData.Jugador1[3]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
             }
-            if(GlobalData.tropa_seleccionada_posicion == 4 ){
+            if (GlobalData.tropa_seleccionada_posicion == 4) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaCb)
                 var imagen = GlobalData.Jugador1[4]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
             }
-            if(GlobalData.tropa_seleccionada_posicion == 5 ){
+            if (GlobalData.tropa_seleccionada_posicion == 5) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaCc)
                 var imagen = GlobalData.Jugador1[5]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
             }
 
         }
-        if(GlobalData.A_quien){
+        if (GlobalData.A_quien) {
             if (GlobalData.Atodos) {
                 // Aplica a todas las tropas del jugador 1
                 for (i in 0 until GlobalData.Jugador2.size) {
@@ -772,52 +892,58 @@ class Batalla : AppCompatActivity() {
                 GlobalData.Atodos = false
                 return
             }
-            if(GlobalData.tropa_seleccionada_posicion == 0 ){
+            if (GlobalData.tropa_seleccionada_posicion == 0) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaFa)
                 imagenCentral.scaleX = -1f
                 var imagen = GlobalData.Jugador2[0]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
                 return
             }
-            if(GlobalData.tropa_seleccionada_posicion == 1 ){
+            if (GlobalData.tropa_seleccionada_posicion == 1) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaEb)
 
                 var imagen = GlobalData.Jugador2[1]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
                 return
             }
-            if(GlobalData.tropa_seleccionada_posicion == 2 ){
+            if (GlobalData.tropa_seleccionada_posicion == 2) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaEa)
 
                 var imagen = GlobalData.Jugador2[2]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
                 return
             }
-            if(GlobalData.tropa_seleccionada_posicion == 3 ){
+            if (GlobalData.tropa_seleccionada_posicion == 3) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaDc)
 
                 var imagen = GlobalData.Jugador2[3]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
                 return
             }
-            if(GlobalData.tropa_seleccionada_posicion == 4 ){
+            if (GlobalData.tropa_seleccionada_posicion == 4) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaDb)
 
                 var imagen = GlobalData.Jugador2[4]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
                 return
             }
-            if(GlobalData.tropa_seleccionada_posicion == 5 ){
+            if (GlobalData.tropa_seleccionada_posicion == 5) {
                 val imagenCentral = findViewById<ImageView>(R.id.TropaDa)
 
                 var imagen = GlobalData.Jugador2[5]!!.rutaviva
-                val base = ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
-                Haceranimacion(overlay,imagen,base,imagenCentral)
+                val base =
+                    ContextCompat.getDrawable(this, imagen)?.constantState?.newDrawable()?.mutate()
+                Haceranimacion(overlay, imagen, base, imagenCentral)
                 return
             }
         }
@@ -833,7 +959,7 @@ class Batalla : AppCompatActivity() {
         var overlay = ContextCompat.getDrawable(this, R.drawable.efecto_golpe)
         if (overlay == null || base == null) return
 
-        val layer = LayerDrawable(arrayOf( overlay, base))
+        val layer = LayerDrawable(arrayOf(overlay, base))
         imagenCentral.setImageDrawable(layer)
 
         // Detectar si está volteada
@@ -861,6 +987,29 @@ class Batalla : AppCompatActivity() {
             }
 
 
+    }
+
+    fun mostrarPopupConImagen(
+        context: Context,
+        mensaje: String,
+        onAceptar: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.popup_personalizado)
+        dialog.setCancelable(false)
+
+        val txtMensaje = dialog.findViewById<TextView>(R.id.txtMensaje)
+        val btnAceptar = dialog.findViewById<ImageButton>(R.id.btnAceptar)
+
+        txtMensaje.text = mensaje
+
+        btnAceptar.setOnClickListener {
+            dialog.dismiss()
+            onAceptar?.invoke()
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
 }

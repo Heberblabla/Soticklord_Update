@@ -26,6 +26,7 @@ import com.waos.soticklord.Iniciar_Sesion
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
+import com.waos.soticklord.DataManager.mostrarPopupConImagen
 import com.waos.soticklord.databinding.ActivityJugador1Binding
 
 class Escoger_modo : AppCompatActivity() {
@@ -51,7 +52,7 @@ class Escoger_modo : AppCompatActivity() {
             insets
         }
 
-        fondoVideo = findViewById(R.id.fondoVideo)
+
 
         // 1️ Inicializa el SDK de AdMob
         MobileAds.initialize(this) {}
@@ -62,39 +63,6 @@ class Escoger_modo : AppCompatActivity() {
         // 4️ Carga el anuncio
         bannerView.loadAd(adRequest)
 
-        // Espera a que el TextureView esté listo para usarlo
-        fondoVideo.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
-            override fun onSurfaceTextureAvailable(surface: android.graphics.SurfaceTexture, width: Int, height: Int) {
-                val s = Surface(surface)
-                reproducirVideo(R.raw.menu, s)
-            }
-
-            override fun onSurfaceTextureSizeChanged(surface: android.graphics.SurfaceTexture, width: Int, height: Int) {}
-            override fun onSurfaceTextureDestroyed(surface: android.graphics.SurfaceTexture): Boolean {
-                mediaPlayer?.release()
-                return true
-            }
-            override fun onSurfaceTextureUpdated(surface: android.graphics.SurfaceTexture) {}
-        }
-    }
-
-    private fun reproducirVideo(videoResId: Int, surface: Surface) {
-        val uri = Uri.parse("android.resource://$packageName/$videoResId")
-
-        mediaPlayer = MediaPlayer.create(this, uri)
-        mediaPlayer?.apply {
-            setSurface(surface)
-            isLooping = true
-            setVolume(0f, 0f)
-            start()
-
-            // Escalar el video para llenar pantalla sin deformarse
-            setOnVideoSizeChangedListener { _, _, _ ->
-                fondoVideo.scaleX = 1f
-                fondoVideo.scaleY = 1f
-            }
-
-        }
     }
 
     override fun onDestroy() {
@@ -117,7 +85,7 @@ class Escoger_modo : AppCompatActivity() {
     }
     fun tercer_modo(view: View){
 
-            if(GlobalData.nivel_de_progresion >= 20){
+            if(GlobalData.nivel_De_cuenta >= 20){
                 if(hayConexion(this)) {
                     GlobalData.Jugador2[0] = Rey_Bufon_Negro(20,false)
                     GlobalData.Jugador2[1] = Tropa_Curandera(20)
@@ -152,11 +120,17 @@ class Escoger_modo : AppCompatActivity() {
         val network = connectivityManager.activeNetwork
         val capabilities = connectivityManager.getNetworkCapabilities(network)
 
-        val conectado = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+        val conectado =
+            capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
 
         if (!conectado) {
-            println("No hay conexión a internet")
-            Toast.makeText(context, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show()
+            mostrarPopupConImagen(
+                context,
+                "⚠️ Conexión perdida\n " +
+                        "Se necesita Internet para continuar"
+            ) {
+
+            }
         }
 
         return conectado

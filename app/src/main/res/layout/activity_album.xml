@@ -8,12 +8,11 @@
     android:background="@drawable/album"
     tools:context=".Album">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/Imagen_grande"
         android:layout_width="135dp"
         android:layout_height="92dp"
         android:adjustViewBounds="true"
-        android:backgroundTint="#00FFFFFF"
         android:padding="0dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.263"
         app:srcCompat="@drawable/tropa_default" />
+
 
     <TextView
         android:id="@+id/Ataques_no"

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import Data.Tropa
 import Data.Tropa_Espadachin
+import Evento.Batalla_Evento
 import android.content.Intent
 import android.widget.TextView
 import android.widget.Toast
@@ -74,15 +75,24 @@ class Principal : AppCompatActivity() {
             GlobalData.Jugador1[3] != null &&
             GlobalData.Jugador1[4] != null &&
             GlobalData.Jugador1[5] != null) {
-            if (GlobalData.decision == 1) {
-                val intent = Intent(this, Batalla_oculta::class.java)
+
+            if(GlobalData.evento_activo){
+                val intent = Intent(this, Batalla_Evento::class.java)
                 startActivity(intent)
                 finish()
-            } else {
-                val intent = Intent(this, Batalla::class.java)
-                startActivity(intent)
-                finish()
+            }else{
+                if (GlobalData.decision == 1) {
+                    val intent = Intent(this, Batalla_oculta::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    val intent = Intent(this, Batalla::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
+
+
         }else{
             Toast.makeText(this, "Selecciona bien tus tropas", Toast.LENGTH_SHORT).show()
         }

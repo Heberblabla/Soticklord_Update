@@ -31,7 +31,7 @@ class Reyna_paranormal (
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.reyna_paranormal,
-        rutamuerta = R.drawable.tropa_muerta,
+        rutamuerta = R.drawable.nada,
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,

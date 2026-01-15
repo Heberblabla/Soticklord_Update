@@ -16,6 +16,42 @@
         android:theme="@style/Theme.Soticklord"
         tools:targetApi="31">
         <activity
+            android:name="Tutorial.Dialogos"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name="Tutorial.Tutorial_Batalla"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"  />
+        <activity
+            android:name=".Iniciar_Sesion"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.Soticklord.NoActionBar" />
+        <activity
+            android:name="Evento.Batalla_Evento"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name="Cuenta_Verficacion.Crear_Cuenta"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name="Cuenta_Verficacion.Iniciar_Sesion_Cuenta"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name="Cuenta_Verficacion.Cuenta_Principal"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".Configuraciones"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
@@ -81,11 +117,10 @@
             android:exported="false"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".Iniciar_Sesion"
+            android:name=".Pantalla_inicio_carga"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/Theme.Soticklord.NoActionBar">
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

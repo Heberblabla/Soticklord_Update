@@ -26,7 +26,7 @@ class Rey_Aethelred (
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_aethelred,
-        rutamuerta = R.drawable.tropa_muerta,
+        rutamuerta = R.drawable.rey_aethelred_caido,
         turnoActivo = true,
         turnoDoble =  true,
         cantidad_espinas = 0.00,

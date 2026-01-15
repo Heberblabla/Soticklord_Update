@@ -21,7 +21,7 @@ class Rey_Arquero (
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_arquero,
-        rutamuerta = R.drawable.tropa_muerta,
+        rutamuerta = R.drawable.rey_arquero_caido,
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_escudos = 0.00,

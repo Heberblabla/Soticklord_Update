@@ -11,8 +11,8 @@ android {
         applicationId = "com.waos.soticklord"
         minSdk = 26
         targetSdk = 36
-        versionCode = 26
-        versionName = "2.0"
+        versionCode = 31
+        versionName = "2.1.1"
         // 1 = version
         // 0.1 = algun cambio pequeño o modo
         // 0.01 = bugs
@@ -46,9 +46,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    assetPacks += listOf(":images_pack")
+
 }
 
 dependencies {
+    implementation("com.google.android.play:asset-delivery:2.2.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -81,6 +84,11 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:functions-kt")
     implementation("io.github.jan-tennert.supabase:storage-kt")
     implementation("io.ktor:ktor-client-cio:2.3.7")
+
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:2.4.0")
+    implementation("io.github.jan-tennert.supabase:supabase-kt:2.4.0")
+
+
 
     implementation("io.ktor:ktor-client-json:2.3.7")
     implementation("io.ktor:ktor-client-serialization:2.3.7")

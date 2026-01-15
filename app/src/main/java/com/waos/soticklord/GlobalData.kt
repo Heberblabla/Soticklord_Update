@@ -2,7 +2,6 @@ package com.waos.soticklord
 
 import android.app.Activity
 import Data.Tropa
-import Archivos_Extra.*
 import Data.Especiales.Rey_Cristian
 import Data.Especiales.Rey_Fernando
 import Data.Especiales.Rey_Heber
@@ -12,11 +11,10 @@ import Data.Personalizados.Rey_Aethelred
 import Data.Personalizados.Rey_Borrego
 import Data.Personalizados.Rey_Bufon_Negro
 import Data.Personalizados.Rey_El_Pro
-import Data.Personalizados.Rey_Freddy
 import Data.Personalizados.Rey_Han_Kong
 import Data.Personalizados.Rey_Jerald
 import Data.Personalizados.Rey_Kanox
-import Data.Personalizados.Rey_Kratos
+import Data.Personalizados.Rey_Vikingo
 import Data.Personalizados.Rey_Moises
 import Data.Personalizados.Reyna_paranormal
 import Data.Rey_Arquero
@@ -38,7 +36,6 @@ import android.view.animation.AnimationUtils
 import android.view.View
 import android.content.Context
 import android.media.SoundPool
-import Multijugador.Versus
 
 
 object GlobalData {
@@ -117,7 +114,7 @@ object GlobalData {
     var jugador11 = false
     var jugador22 = false
 
-    var Nombre = "Default"
+
 
     var Jugador2 = ArrayList<Tropa?>().apply {
         add(null) // posición 0 (rey)
@@ -150,7 +147,7 @@ object GlobalData {
         7 to Rey_Lanzatonio(10),
         8 to Rey_Han_Kong(10),
         9 to Rey_Jerald(10),
-        10 to Rey_Kratos(10),
+        10 to Rey_Vikingo(10),
         11 to Rey_Aethelred(10),
         12 to Rey_Moises(10),
         13 to Reyna_paranormal(10),
@@ -172,7 +169,7 @@ object GlobalData {
         7 to Rey_Lanzatonio(10),
         8 to Rey_Han_Kong(10),
         9 to Rey_Jerald(10),
-        10 to Rey_Kratos(10),
+        10 to Rey_Vikingo(10),
         11 to Rey_Aethelred(10),
         12 to Rey_Moises(10),
         13 to Reyna_paranormal(10),
@@ -216,22 +213,19 @@ object GlobalData {
         "Reyna_Darisce" to Data.Especiales.Reyna_Darisce::class,
         "Reyna_Shantal" to Data.Especiales.Reyna_Shantal::class,
         "Rey_Bufon_Negro" to Data.Personalizados.Rey_Bufon_Negro::class,
-
+        "Rey_Bufon_Negro_Navideño" to Data.Especiales.Rey_Bufon_Negro_Navideño::class,
 
         //personalizados
         //creados
-        "Rey_Freddy" to Data.Personalizados.Rey_Freddy::class,
-        "Rey_Constructor" to Data.Personalizados.Rey_Constructor::class,
+
         "Rey_El_Pro" to Data.Personalizados.Rey_El_Pro::class,
-        "Rey_Noob" to Data.Personalizados.Rey_Noob::class,
-        "Rey_Goku" to  Data.Personalizados.Rey_Goku::class,
-        "Rey_Piero" to Data.Personalizados.Rey_Piero::class,
+
 
         //torneo
         "Rey_Borrego" to Data.Personalizados.Rey_Borrego::class,
         "Reyna_paranormal" to Data.Personalizados.Reyna_paranormal::class,
         "Rey_Kanox" to Data.Personalizados.Rey_Kanox::class,
-        "Rey_Kratos" to Data.Personalizados.Rey_Kratos::class,
+        "Rey_Vikingo" to Data.Personalizados.Rey_Vikingo::class,
         "Rey_Jerald" to Data.Personalizados.Rey_Jerald::class,
         "Rey_Moises" to Data.Personalizados.Rey_Moises::class,
         "Rey_Han_Kong" to Data.Personalizados.Rey_Han_Kong::class,
@@ -1023,6 +1017,17 @@ object GlobalData {
         de ataque cada turno q pase
                 """.trimIndent() ,
         //----------------------------------
+        "Rey_Bufon_Negro_Navideño" to
+                """
+        Al recivir un daño directo 
+        existe una probabilidad del
+        40% de devolver todo el daño
+        y una probabiblidad del 75%
+        de Recivir todo el daño
+        "Piensas acaso bajarme nivel?"
+                "Intentalo"
+                """.trimIndent() ,
+
         "Rey_Bufon_Negro" to
                 """
         Al recivir un daño directo 
@@ -1454,41 +1459,60 @@ object GlobalData {
 
     )
 
-    //animaciones q usare
-    val animaciones = HashMap<String, List<Int>>(
+    var estado = false
+    //datos jugador
+    var datosJugador: String = ""
+    var datos_evento: String = ""
+    var datos_premio_evento = "waza"
 
-
-
-    )
-
-
-    val listaEventos = mutableListOf<Evento>()
-    var id_usuario = 0 //id del usuario
-    var nivel_de_progresion = 0 //progresion del mapa
-    var experiencia_de_juego = 0 //su experincia del nivel
+    var id_usuario = 0 //id del usu// ario
+    var Nombre = "default"
     var nivel_De_cuenta = 1 //depdned de experiencia
-    var monedas = 0 // monedas q tiene el jugador
-    var ecencia_de_juego = 0//ecencia para mejorar personajes
     var Moneda_Global = 0
+    var monedas = 0 // monedas q tiene el
+    var ecencia_de_juego = 0//ecencia para mejorar personajes
+    var experiencia_de_juego = 0 //su experincia del nivel
+    var contraseña_hash = "xxx"
+    var nivel_de_progresion = 0 //progresion del mapa
+    var Perfil_id = "perfil_0"
 
-    var ReySeleccionado: Tropa? = null
-    var TropaSeleccionada: Tropa? = null
-    var decision = 0
-    var Primer_inicio = true
-    var Se_paso_el_evento = false
+    //variables para un uso para versiones nuevas
+    var experiencia_pasada = false
 
-    var tropa_seleccionada_posicion = 0
+    @Volatile
+    var disparador = false
 
+    var puntaje = 0
+
+
+    var se_cargo_datos_iniciales = false
+
+
+    var Primer_inicio = true //para dar recompensa
+    var Se_paso_el_evento = false //si esque se apso el evento
+    var evento_activo = false
+
+
+    var ReySeleccionado: Tropa? = null //xd
+    var TropaSeleccionada: Tropa? = null //xd
+    var decision = 0 //ni diea
+    var tropa_seleccionada_posicion = 0 //para aniamcion
     var A_quien = true //true = turno de jugador1 , false = turno jugador 2
-
-
+    //atributos q no me acuerdo :v
     var Atodos = false
-
     var nivel_actico = 0;
-
     var turno = true
 
-    var evento_activo = false
+
+    //nuevos atributos cuenta gaa
+    var Diccionario_Perfiles = hashMapOf<String, Int>(
+        "perfil_0" to R.drawable.perfil_0,
+        "perfil_1" to R.drawable.perfil_1,
+        "perfil_2" to R.drawable.perfil_2,
+        "perfil_3" to R.drawable.perfil_3,
+        "perfil_4" to R.drawable.perfil_4,
+
+    )
 
 
 }

@@ -10,14 +10,17 @@
 
     <!-- Fondo animado -->
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="781dp"
+        android:layout_height="479dp"
+        ads:srcCompat="@drawable/fondo_escoger"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextureView
-        android:id="@+id/fondoVideo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-58dp" />
 
     <ImageButton
         android:id="@+id/Primer_modo"
@@ -92,38 +95,35 @@
         android:id="@+id/imageView61"
         android:layout_width="299dp"
         android:layout_height="126dp"
+        android:layout_marginBottom="280dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fondoVideo"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/aventura" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="364dp"
         android:layout_height="125dp"
-        app:srcCompat="@drawable/multijugador"
+        android:layout_marginBottom="280dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fondoVideo"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:srcCompat="@drawable/multijugador" />
 
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="364dp"
         android:layout_height="125dp"
-        app:srcCompat="@drawable/supervivencia"
+        android:layout_marginBottom="280dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.11"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/fondoVideo"
-        app:layout_constraintHorizontal_bias="1.09"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:srcCompat="@drawable/supervivencia" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,40 +1,20 @@
 package com.waos.soticklord
 
-import Data.Especiales.Rey_Cristian
-import Data.Especiales.Rey_Fernando
-import Data.Especiales.Rey_Heber
-import Data.Especiales.Reyna_Darisce
-import Data.Especiales.Reyna_Shantal
-import Data.Personalizados.Rey_Aethelred
-import Data.Personalizados.Rey_Borrego
-import Data.Personalizados.Rey_Bufon_Negro
-import Data.Personalizados.Rey_El_Pro
-import Data.Personalizados.Rey_Han_Kong
-import Data.Personalizados.Rey_Jerald
-import Data.Personalizados.Rey_Kanox
-import Data.Personalizados.Rey_Kratos
-import Data.Personalizados.Rey_Lucas
-import Data.Personalizados.Rey_Moises
-import Data.Personalizados.Reyna_paranormal
+import Cuenta_Verficacion.Cuenta_Principal
 import Data.Rey_Arquero
 import Data.Rey_Espadachin
 import Data.Rey_Lanzatonio
 import Data.Rey_de_los_Gigantes
-import Data.Tropa
 import Data.Tropa_Arquero
 import Data.Tropa_Espadachin
 import Data.Tropa_Gigante
 import Data.Tropa_Lanzatonio
-import Multijugador.Waos
-import android.annotation.SuppressLint
+import Tutorial.Dialogos
+import android.app.Dialog
 import android.media.MediaPlayer
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
-import android.view.ViewTreeObserver
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -43,23 +23,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import okhttp3.*
-import org.json.JSONArray
-import java.io.IOException
-import java.security.MessageDigest
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-
-
+import android.widget.TextView
 
 
 class Iniciar_Sesion : AppCompatActivity() {
-    private lateinit var mediaPlayer: MediaPlayer
+    private var mediaPlayer: MediaPlayer? = null
+
     private lateinit var bannerView: AdView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,66 +65,110 @@ class Iniciar_Sesion : AppCompatActivity() {
 
 
         //DataManager.borrarDatos(this)
-        cargardatos()
+        //cargardatos()
+        iniciar_musica()
 
     }
 
-    fun cargardatos(){
+
+
+    fun mostrarPopupConImagen(
+        context: Context,
+        mensaje: String,
+        onAceptar: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.popup_personalizado)
+        dialog.setCancelable(false)
+
+        val txtMensaje = dialog.findViewById<TextView>(R.id.txtMensaje)
+        val btnAceptar = dialog.findViewById<ImageButton>(R.id.btnAceptar)
+
+        txtMensaje.text = mensaje
+
+        btnAceptar.setOnClickListener {
+            dialog.dismiss()
+            onAceptar?.invoke()
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
+
+
+    fun cargardatos() {
         DataManager.cargarDatos(this)
+        DataManager.guardarDatos(this)
 
-
-        if(GlobalData.Primer_inicio){
-            iniciar_como_invitado()
+        if (GlobalData.Primer_inicio) {
             GlobalData.Primer_inicio = false
+            iniciar_como_invitado()
             DataManager.guardarDatos(this)
         }
-        inciar_musica()
+        //DataManager.guardarDatos(this)
+        iniciar_musica()
 
     }
 
-    fun inciar_musica(){
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.musica)
-        mediaPlayer.isLooping = true  // Para que se repita
-        mediaPlayer.start()           // Reproduce al abrir la ventana
+    fun iniciar_musica() {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.musica)
+            mediaPlayer?.isLooping = true
+            mediaPlayer?.start()
+        }
     }
+
+    override fun onResume() {
+        super.onResume()
+        mediaPlayer?.start()
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release() // Libera memoria al cerrar la Activity
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
-    fun iniciar_como_invitado(){
-        GlobalData.experiencia_de_juego += 100000
+
+    fun iniciar_como_invitado() {
+        GlobalData.experiencia_de_juego += 0
         GlobalData.nivel_De_cuenta = 1
         GlobalData.nivel_de_progresion = 0
         GlobalData.monedas += 500
         GlobalData.ecencia_de_juego += 20
 
-            GlobalData.Diccionario_Reyes[0] = Rey_de_los_Gigantes(1)
-            GlobalData.Diccionario_Reyes[1] = Rey_Arquero(1)
-            GlobalData.Diccionario_Reyes[2] = Rey_Lanzatonio(1)
-            GlobalData.Diccionario_Reyes[3] = Rey_Espadachin(1)
+        GlobalData.Diccionario_Reyes[0] = Rey_de_los_Gigantes(1)
+        GlobalData.Diccionario_Reyes[1] = Rey_Arquero(1)
+        GlobalData.Diccionario_Reyes[2] = Rey_Lanzatonio(1)
+        GlobalData.Diccionario_Reyes[3] = Rey_Espadachin(1)
 
-            //GlobalData.Diccionario_Reyes[4] = Rey_Borrego(1)
-            //GlobalData.Diccionario_Reyes[5] = Reyna_paranormal(1)
-            //GlobalData.Diccionario_Reyes[6] = Reyna_Darisce(1)
-            //GlobalData.Diccionario_Reyes[7] = Reyna_Shantal(1)
-            //GlobalData.Diccionario_Reyes[8] = Rey_Fernando(1)
-            //GlobalData.Diccionario_Reyes[9] = Rey_Heber(1)
-            //GlobalData.Diccionario_Reyes[11] = Rey_Cristian(1)
-            //GlobalData.Diccionario_Reyes[12] = Rey_Kanox(1)
-            //GlobalData.Diccionario_Reyes[13] = Rey_Moises(1)
-            //GlobalData.Diccionario_Reyes[14] = Rey_El_Pro(1)
-            //Diccionario_Reyes[15] = Rey_Kratos(1)
-            //GlobalData.Diccionario_Reyes[16] = Rey_Aethelred(1)
-            //GlobalData.Diccionario_Reyes[17] = Rey_Han_Kong(1)
-            //GlobalData.Diccionario_Reyes[18] = Rey_Jerald(1)
+        //GlobalData.Diccionario_Reyes[4] = Rey_Borrego(1)
+        //GlobalData.Diccionario_Reyes[5] = Reyna_paranormal(1)
+        //GlobalData.Diccionario_Reyes[6] = Reyna_Darisce(1)
+        //GlobalData.Diccionario_Reyes[7] = Reyna_Shantal(1)
+        //GlobalData.Diccionario_Reyes[8] = Rey_Fernando(1)
+        //GlobalData.Diccionario_Reyes[9] = Rey_Heber(1)
+        //GlobalData.Diccionario_Reyes[11] = Rey_Cristian(1)
+        //GlobalData.Diccionario_Reyes[12] = Rey_Kanox(1)
+        //GlobalData.Diccionario_Reyes[13] = Rey_Moises(1)
+        //GlobalData.Diccionario_Reyes[14] = Rey_El_Pro(1)
+        //Diccionario_Reyes[15] = Rey_Kratos(1)
+        //GlobalData.Diccionario_Reyes[16] = Rey_Aethelred(1)
+        //GlobalData.Diccionario_Reyes[17] = Rey_Han_Kong(1)
+        //GlobalData.Diccionario_Reyes[18] = Rey_Jerald(1)
 
-            GlobalData.Diccionario_Tropas[0] = Tropa_Gigante(1)
-            GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)
-            GlobalData.Diccionario_Tropas[2] = Tropa_Lanzatonio(1)
-            GlobalData.Diccionario_Tropas[3] = Tropa_Espadachin(1)
+        GlobalData.Diccionario_Tropas[0] = Tropa_Gigante(1)
+        GlobalData.Diccionario_Tropas[1] = Tropa_Arquero(1)
+        GlobalData.Diccionario_Tropas[2] = Tropa_Lanzatonio(1)
+        GlobalData.Diccionario_Tropas[3] = Tropa_Espadachin(1)
 
     }
 
@@ -168,6 +189,7 @@ class Iniciar_Sesion : AppCompatActivity() {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()
     }
+
     fun Tienda(view: View) {
         val intent = Intent(this@Iniciar_Sesion, Tienda::class.java)
         startActivity(intent)
@@ -177,8 +199,8 @@ class Iniciar_Sesion : AppCompatActivity() {
 
     fun configuraciones(view: View) {
         var waos = hayConexion(this)
-        if(waos){
-            val intent = Intent(this@Iniciar_Sesion, Configuraciones::class.java)
+        if (waos) {
+            val intent = Intent(this@Iniciar_Sesion, Cuenta_Principal::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             finish()
@@ -187,10 +209,19 @@ class Iniciar_Sesion : AppCompatActivity() {
     }
 
 
-    fun Informa(view: View){
+    fun Informa(view: View) {
+        mostrarPopupConImagen(
+            this,
+            "¿Deseas volver a Realizar el tutorial?"
+        ) {
+            val intent = Intent(this, Dialogos::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        }
+
         //GlobalData.nivel_de_progresion += 250
-        DataManager.guardarDatos(this)
-        Toast.makeText(this, "Ahun no disponible", Toast.LENGTH_SHORT).show()
+        //DataManager.guardarDatos(this)
+        //Toast.makeText(this, "Ahun no disponible", Toast.LENGTH_SHORT).show()
     }
 
     fun hayConexion(context: Context): Boolean {
@@ -199,7 +230,8 @@ class Iniciar_Sesion : AppCompatActivity() {
         val network = connectivityManager.activeNetwork
         val capabilities = connectivityManager.getNetworkCapabilities(network)
 
-        val conectado = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+        val conectado =
+            capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
 
         if (!conectado) {
             println("No hay conexión a internet")
@@ -208,7 +240,6 @@ class Iniciar_Sesion : AppCompatActivity() {
 
         return conectado
     }
-
 
 
 }

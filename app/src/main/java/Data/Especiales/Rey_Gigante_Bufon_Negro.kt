@@ -60,6 +60,7 @@ class Rey_Gigante_Bufon_Negro(
     }
 
     fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
+        GlobalData.disparador = true
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
@@ -72,6 +73,7 @@ class Rey_Gigante_Bufon_Negro(
     }
 
     fun Terremoto(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+        GlobalData.disparador = true
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
@@ -90,7 +92,7 @@ class Rey_Gigante_Bufon_Negro(
     }
 
     override fun Habilidad_Especial(Waos: Boolean){
-        this.vida += (this.vida*0.8).toInt()
+        this.vida += (this.vida*0.01).toInt()
     }
 
     override fun clonar(): Tropa {

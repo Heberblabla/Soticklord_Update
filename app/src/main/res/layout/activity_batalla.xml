@@ -629,7 +629,7 @@
 
     <ImageView
         android:id="@+id/Imagen_izquierda"
-        android:layout_width="177dp"
+        android:layout_width="350dp"
         android:layout_height="263dp"
         android:scaleType="centerCrop"
         ads:srcCompat="@drawable/nada"
@@ -642,7 +642,7 @@
 
     <ImageView
         android:id="@+id/imagen_derecha"
-        android:layout_width="177dp"
+        android:layout_width="350dp"
         android:layout_height="263dp"
         android:scaleType="centerCrop"
         ads:layout_constraintBottom_toBottomOf="parent"

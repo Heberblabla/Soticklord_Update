@@ -6,32 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads ="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/mapa_nocturno"
-    tools:context=".Batalla_oculta">
-
-
-
+    android:background="@drawable/campo_evento"
+    tools:context="Evento.Batalla_Evento">
 
     <ImageView
         android:id="@+id/fondo_batalla"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/mapa_nocturno"/>
-
-    <ImageButton
-        android:id="@+id/Atacare"
-        android:layout_width="158dp"
-        android:layout_height="37dp"
-        android:onClick="atacar_pasarturno"
-        android:scaleType="centerCrop"
-        ads:layout_constraintBottom_toBottomOf="parent"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintHorizontal_bias="0.959"
-        ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toTopOf="parent"
-        ads:layout_constraintVertical_bias="0.956"
-        ads:srcCompat="@drawable/boton_atacar" />
+        android:src="@drawable/campo_evento"
+        tools:layout_editor_absoluteX="-25dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
         android:id="@+id/Turno_TropaBa"
@@ -85,23 +70,7 @@
 
     <TextView
         android:id="@+id/vidaDb"
-        android:layout_width="78dp"
-        android:layout_height="17dp"
-        android:background="#00D5C5C5"
-        android:backgroundTint="#382D2D"
-        android:fontFamily="@font/unlock"
-        android:text="Vida"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.592"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.352" />
-
-    <TextView
-        android:id="@+id/vidaDc"
-        android:layout_width="88dp"
+        android:layout_width="68dp"
         android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
@@ -110,7 +79,23 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.598"
+        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.353" />
+
+    <TextView
+        android:id="@+id/vidaDc"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
+        android:background="#00D5C5C5"
+        android:backgroundTint="#382D2D"
+        android:fontFamily="@font/unlock"
+        android:text="Vida"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.61"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.623" />
@@ -142,15 +127,15 @@
 
     <ImageView
         android:id="@+id/TropaEb"
-        android:layout_width="85dp"
-        android:layout_height="101dp"
+        android:layout_width="86dp"
+        android:layout_height="73dp"
         android:rotationX="19"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.596"
+        app:layout_constraintVertical_bias="0.63"
         app:srcCompat="@drawable/tropa_default" />
 
     <ImageView
@@ -268,8 +253,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.529"
-        app:srcCompat="@drawable/tropa_default" />
-
+        app:srcCompat="@drawable/bufon_caido" />
 
     <Spinner
         android:id="@+id/Ataques"
@@ -288,8 +272,8 @@
 
     <TextView
         android:id="@+id/vidaBb"
-        android:layout_width="86dp"
-        android:layout_height="17dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -304,8 +288,8 @@
 
     <TextView
         android:id="@+id/vidaCa"
-        android:layout_width="90dp"
-        android:layout_height="17dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -320,8 +304,8 @@
 
     <TextView
         android:id="@+id/vidaDa"
-        android:layout_width="99dp"
-        android:layout_height="17dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -336,8 +320,8 @@
 
     <TextView
         android:id="@+id/vidaEa"
-        android:layout_width="106dp"
-        android:layout_height="17dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -345,15 +329,15 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.764"
+        app:layout_constraintHorizontal_bias="0.74"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.19" />
 
     <TextView
         android:id="@+id/vidaEb"
-        android:layout_width="88dp"
-        android:layout_height="23dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -361,15 +345,15 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.735"
+        app:layout_constraintHorizontal_bias="0.74"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.44" />
+        app:layout_constraintVertical_bias="0.478" />
 
     <TextView
         android:id="@+id/vidaCb"
-        android:layout_width="89dp"
-        android:layout_height="21dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -384,8 +368,8 @@
 
     <TextView
         android:id="@+id/vidaCc"
-        android:layout_width="91dp"
-        android:layout_height="16dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -400,8 +384,8 @@
 
     <TextView
         android:id="@+id/vidaBa"
-        android:layout_width="86dp"
-        android:layout_height="16dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -588,6 +572,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.508" />
 
+    <FrameLayout
+        android:id="@+id/contenedorVideo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <VideoView
+            android:id="@+id/videoAtaque"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:keepScreenOn="true" />
+    </FrameLayout>
+
     <ImageView
         android:id="@+id/tablita"
         android:layout_width="188dp"
@@ -614,7 +612,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.990" />
-
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/bannerView"
@@ -649,16 +646,32 @@
         android:scaleType="centerCrop"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
+
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintTop_toTopOf="parent"
         ads:srcCompat="@drawable/nada"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintVertical_bias="0.351" />
 
+    <ImageButton
+        android:id="@+id/Atacarr"
+        android:layout_width="139dp"
+        android:layout_height="41dp"
+        android:onClick="atacar_pasarturno"
+        android:scaleType="centerCrop"
+        ads:srcCompat="@drawable/boton_atacar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.956" />
+
+
     <TextView
         android:id="@+id/vidaAa"
-        android:layout_width="88dp"
-        android:layout_height="17dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -670,10 +683,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.409" />
+
     <TextView
         android:id="@+id/vidaFa"
-        android:layout_width="89dp"
-        android:layout_height="24dp"
+        android:layout_width="68dp"
+        android:layout_height="18dp"
         android:background="#00D5C5C5"
         android:backgroundTint="#382D2D"
         android:fontFamily="@font/unlock"
@@ -681,10 +695,10 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.894"
+        app:layout_constraintHorizontal_bias="0.892"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.374" />
+        app:layout_constraintVertical_bias="0.356" />
     <View
         android:id="@+id/overlay_negro"
         android:layout_width="match_parent"
@@ -692,5 +706,9 @@
         android:background="#000000"
         android:alpha="0"
         android:visibility="visible" />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

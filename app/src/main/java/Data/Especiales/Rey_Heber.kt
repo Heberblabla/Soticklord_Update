@@ -22,7 +22,7 @@ class Rey_Heber (
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_heber,
-        rutamuerta = R.drawable.tropa_muerta,
+        rutamuerta = R.drawable.rey_heber_caido,
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,

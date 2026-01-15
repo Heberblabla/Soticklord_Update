@@ -9,6 +9,37 @@
     tools:context="Evento.Evento">
 
 
+    <ImageButton
+        android:id="@+id/boton_mensaje"
+        android:layout_width="50dp"
+        android:layout_height="41dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="#00FFFFFF"
+        android:onClick="reclamar_mensaje"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.317"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.029"
+        app:srcCompat="@drawable/boton_mensaje" />
+
+    <TextView
+        android:id="@+id/puntaje"
+        android:layout_width="208dp"
+        android:layout_height="38dp"
+        android:fontFamily="@font/aladin"
+        android:text="Puntaje :"
+        android:textColor="#101010"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.139" />
 
     <ImageView
         android:id="@+id/arriba_enmedio"
@@ -181,7 +212,7 @@
         app:layout_constraintVertical_bias="0.956" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titulo"
         android:layout_width="315dp"
         android:layout_height="36dp"
         android:fontFamily="@font/aladin"
@@ -195,20 +226,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.042" />
 
-    <Button
-        android:id="@+id/Push"
-        android:layout_width="100dp"
-        android:layout_height="39dp"
-        android:alpha="0"
-        android:background="@android:color/transparent"
-        android:onClick="push"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.951" />
+
 
     <ImageButton
         android:id="@+id/boton_atras6"

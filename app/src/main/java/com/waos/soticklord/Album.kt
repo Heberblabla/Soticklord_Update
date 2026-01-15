@@ -88,8 +88,9 @@ class Album : AppCompatActivity() {
 
     //Aparatdo derecho superior
     fun mostrar_datos_economicos(){
+        GlobalData.nivel_De_cuenta = DataManager.calcularNivel(GlobalData.experiencia_de_juego)
         val Nivel = findViewById<TextView>(R.id.Nivel_de_cuentawaos)
-        Nivel.text = "N : ${GlobalData.nivel_de_progresion} "
+        Nivel.text = "N : ${GlobalData.nivel_De_cuenta} "
         val monedas = findViewById<TextView>(R.id.Monedass)
         monedas.text = "\uD83E\uDE99 : ${GlobalData.monedas}"
         val ecencia = findViewById<TextView>(R.id.Ecencia)
@@ -97,6 +98,7 @@ class Album : AppCompatActivity() {
     }
     fun apretar_para_cambiar_a_otro_album(view: View){
         if(rey_o_tropa == 1){
+
             rey_o_tropa = 0
             val miBoton = findViewById<ImageButton>(R.id.Cambiar_de_rey_a_tropa)
             miBoton.setImageResource(R.drawable.icono_tropa)
@@ -105,6 +107,7 @@ class Album : AppCompatActivity() {
             return
         }
         if(rey_o_tropa == 0){
+
             rey_o_tropa = 1
             val miBoton = findViewById<ImageButton>(R.id.Cambiar_de_rey_a_tropa)
             miBoton.setImageResource(R.drawable.icono_rey)
@@ -163,16 +166,22 @@ class Album : AppCompatActivity() {
         val posicionReal = index + aumento
 
         if (rey_o_tropa == 0) {
+            Animador.detenerTodo()
             // Usar la listaTropas actual (ordenada o no)
             if (posicionReal < listaTropas.size) {
                 val tropa = listaTropas[posicionReal]
                 mostrarDatosDeTropa(tropa)
+                GlobalData.Jugador1[5] = tropa
+                Animador.Animacion_album_tropa(this)
             }
         } else {
+            Animador.detenerTodo()
             //  Usar la listaReyes actual (ordenada o no)
             if (posicionReal < listaReyes.size) {
                 val rey = listaReyes[posicionReal]
                 mostrarDatosDeRey(rey)
+                GlobalData.Jugador1[0] = rey
+                Animador.Animacion_album_rey(this)
             }
         }
     }
@@ -650,6 +659,8 @@ class Album : AppCompatActivity() {
 
         //  Descontar monedas
         GlobalData.monedas -= 100
+        GlobalData.experiencia_de_juego += 100
+
         //GlobalData.nivel_de_progresion = 50
         mostrar_datos_economicos() // refresca la esquina superior
 

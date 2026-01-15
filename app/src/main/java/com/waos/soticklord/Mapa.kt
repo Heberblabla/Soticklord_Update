@@ -214,23 +214,14 @@ class Mapa : AppCompatActivity() {
         if (nivel_secreto) {
             var nivel = GlobalData.nivel_de_progresion
 
-            nivel = when {
-                nivel >= 550 -> 500
-                nivel >= 500 -> 350
-                nivel >= 250 -> 200
-                nivel >= 100 -> 150
-                nivel >= 50  -> 100
-                else -> nivel  // si está por debajo de 50, usa su propio nivel
-            }
-
 
             GlobalData.nivel_actico = 6
-            GlobalData.Jugador2[0] = Rey_Vago_de_Vagos(nivel + 20)
-            GlobalData.Jugador2[1] = Rey_Vago_de_Vagos(nivel + 20)
-            GlobalData.Jugador2[2] = Rey_Vago_de_Vagos(nivel + 20)
-            GlobalData.Jugador2[3] = Rey_Vago_de_Vagos(nivel + 20)
-            GlobalData.Jugador2[4] = Rey_Vago_de_Vagos(nivel + 20)
-            GlobalData.Jugador2[5] = Rey_Vago_de_Vagos(nivel + 20)
+            GlobalData.Jugador2[0] = Rey_Heber(GlobalData.nivel_De_cuenta + 55)
+            GlobalData.Jugador2[1] = Reyna_Shantal(GlobalData.nivel_De_cuenta + 55)
+            GlobalData.Jugador2[2] = Reyna_Shantal(GlobalData.nivel_De_cuenta + 55)
+            GlobalData.Jugador2[3] = Rey_Fernando(GlobalData.nivel_De_cuenta + 55)
+            GlobalData.Jugador2[4] = Rey_Bufon_Negro_Navideño(GlobalData.nivel_De_cuenta + 55,false)
+            GlobalData.Jugador2[5] = Rey_Fernando(GlobalData.nivel_De_cuenta + 55)
             GlobalData.decision = 1
             irABatalla()
         } else nivelBloqueado()

@@ -42,22 +42,6 @@ class Configuraciones : AppCompatActivity() {
         nombre.text = "Usuario: ${GlobalData.Nombre}"
 
 
-        if (GlobalData.Nombre != "Default") {
-            var valor = DataManager.verficar_si_existe(GlobalData.Nombre)
-            if (valor == 1) {
-                editText.isEnabled = false
-                val boton = findViewById<ImageButton>(R.id.guardar_cambios)
-                boton.isEnabled = false
-                boton.visibility = View.GONE
-            } else {
-                Toast.makeText(this, "Nombre no encontrado en la base de datos", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-        } else {
-            //no pasa nada
-        }
-
         val switchAnimaciones = findViewById<Switch>(R.id.Animaiciones)
 
         // 1. Mostrar el valor inicial en el switch
@@ -70,43 +54,42 @@ class Configuraciones : AppCompatActivity() {
         }
 
 
-
     }
 
 
-    fun reclamar_codigo(view: View){
+    fun reclamar_codigo(view: View) {
         val editText = findViewById<EditText>(R.id.insertar_codigo)
         // 2. Obtener lo que el usuario escribió
         val nombreIngresado = editText.text.toString()
 
-        var waos = DataManager.reclamar_codigo(nombreIngresado)
-        Toast.makeText(this, "Obtuvistes + $waos monedas", Toast.LENGTH_SHORT).show()
-        GlobalData.monedas += waos
-        DataManager.guardarDatos(this)
+        //var waos = DataManager.reclamar_codigo(nombreIngresado)
+        //Toast.makeText(this, "Obtuvistes + $waos monedas", Toast.LENGTH_SHORT).show()
+        //GlobalData.monedas += waos
+        //DataManager.guardarDatos(this)
     }
 
     // 1 exite
     // 0 no existe
-    fun subir_nombre(view: View){
+    fun subir_nombre(view: View) {
         // 1. Buscar el EditText
         val editText = findViewById<EditText>(R.id.insertar_nombre)
         // 2. Obtener lo que el usuario escribió
         val nombreIngresado = editText.text.toString()
 
-        if(nombreIngresado != "Default" && nombreIngresado != "Name" && nombreIngresado != "default"){
-            var valor = DataManager.verficar_si_existe(nombreIngresado)
-            if(valor == 1){
-                Toast.makeText(this, "Ya esta registrado", Toast.LENGTH_SHORT).show()
-            }else{
-                GlobalData.Nombre = nombreIngresado
-                DataManager.subir_datos_nube()
-                DataManager.guardarDatos(this)
-                Toast.makeText(this, "Registro existoso", Toast.LENGTH_SHORT).show()
-                editText.isEnabled = false
-            }
-        }else{
-            Toast.makeText(this, "Nombre no valido", Toast.LENGTH_SHORT).show()
-        }
+        //if (nombreIngresado != "Default" && nombreIngresado != "Name" && nombreIngresado != "default") {
+        //var valor = DataManager.verficar_si_existe(nombreIngresado)
+        //  if(valor == 1){
+        //  Toast.makeText(this, "Ya esta registrado", Toast.LENGTH_SHORT).show()
+        // }else{
+        // GlobalData.Nombre = nombreIngresado
+        // DataManager.subir_datos_nube()
+        //   DataManager.guardarDatos(this)
+        //   Toast.makeText(this, "Registro existoso", Toast.LENGTH_SHORT).show()
+        //  editText.isEnabled = false
+        //  }
+        //   }else{
+        //    Toast.makeText(this, "Nombre no valido", Toast.LENGTH_SHORT).show()
+        //   }
 
     }
 

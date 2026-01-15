@@ -29,7 +29,7 @@ class Rey_Vago_de_Vagos  (
         aereo = true,
         estado_de_vida = true,
         rutaviva = R.drawable.rey_vago_de_vaos,
-        rutamuerta = R.drawable.tropa_muerta,
+        rutamuerta = R.drawable.rey_vago_de_vaos_caido,
         turnoActivo = true,
         turnoDoble =  false,
         cantidad_espinas = 0.00,

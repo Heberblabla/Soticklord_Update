@@ -1,47 +1,55 @@
-package com.waos.soticklord
+package Evento
 
-import android.os.Bundle
-import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import android.widget.ImageView
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import android.widget.TextView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import java.lang.reflect.Modifier
-import java.lang.reflect.Method
-import Data.*
-import android.widget.Toast
-import kotlinx.coroutines.*
-import android.widget.AdapterView
-import androidx.lifecycle.lifecycleScope
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import Archivos_Extra.*
+import Archivos_Extra.GestorAcciones
+import Archivos_Extra.GestorEventos
+import Data.Tropa
 import Data.Tropas_personalizadas.Tropa_Lanzatonio_Medieval
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.media.MediaPlayer
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.AdView
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.view.animation.AnimationUtils
-import android.view.animation.Animation
+import com.google.android.gms.ads.MobileAds
+import com.waos.soticklord.Animador
+import com.waos.soticklord.Bot_Desiciones_aleatorio
+import com.waos.soticklord.DataManager
+import com.waos.soticklord.EntornoManager
+import com.waos.soticklord.Escoger_modo
+import com.waos.soticklord.GlobalData
+import com.waos.soticklord.Mapa
+import com.waos.soticklord.R
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import kotlin.jvm.java
 
-class Batalla_oculta : AppCompatActivity() {
-    private var mediaPlayer: MediaPlayer? = null
+class Batalla_Evento : AppCompatActivity() {
+    private lateinit var mediaPlayer: MediaPlayer
     var Enemigo_Seleccionado = 5
     var turno_activo = 5
     var ataqueSeleccionado: String = " "
@@ -50,40 +58,48 @@ class Batalla_oculta : AppCompatActivity() {
     var turno_enemigo = 5
     var es_mi_turno = true
     var es_turno_del_enemigo = false
-    var una_ves = true
-
     lateinit var botonPasarTurno: ImageButton
-
     private lateinit var bannerView: AdView
+    var primer_nivel = 0
+
+    //variables para sistema de puntaje
+
+    var contador_de_batallas = 1
+    var batallas_ganadas = 0
+
+    var post_puntaje = 0
+
+    var puntaje = 0
+    var multiplicador = 1.0
+    var nivel = 50
+
+    var nombre0 = GlobalData.Jugador2[0]!!.nombre
+
+    var nombre1 = GlobalData.Jugador2[1]!!.nombre
+    var nombre2 = GlobalData.Jugador2[2]!!.nombre
+    var nombre3 = GlobalData.Jugador2[3]!!.nombre
+    var nombre4 = GlobalData.Jugador2[4]!!.nombre
+    var nombre5 = GlobalData.Jugador2[5]!!.nombre
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_batalla_oculta)
-
+        setContentView(R.layout.activity_batalla_evento)
         EntornoManager.batalla = this
-
         // Oculta las barras del sistema
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val controller = WindowInsetsControllerCompat(window, window.decorView)
         controller.hide(WindowInsetsCompat.Type.systemBars())
         controller.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // 1️ Inicializa el SDK de AdMob
-        MobileAds.initialize(this) {}
-        // 2️ Conecta tu banner del XML
-        bannerView = findViewById(R.id.bannerView)
-        // 3️ Crea una solicitud de anuncio
-        val adRequest = AdRequest.Builder().build()
-        // 4️ Carga el anuncio
-        bannerView.loadAd(adRequest)
-
-        botonPasarTurno = findViewById<ImageButton>(R.id.Atacare)
+        botonPasarTurno = findViewById<ImageButton>(R.id.Atacarr)
 
         // Referencia al Spinner
         val spinnerAtaques: Spinner = findViewById(R.id.Ataques)
@@ -98,6 +114,7 @@ class Batalla_oculta : AppCompatActivity() {
                 // Guardamos el texto seleccionado en la variable
                 ataqueSeleccionado = parent?.getItemAtPosition(position).toString()
                 cargarinfo(ataqueSeleccionado)
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -105,7 +122,18 @@ class Batalla_oculta : AppCompatActivity() {
                 ataqueSeleccionado = "Ataque_normal"
                 cargarinfo(ataqueSeleccionado)
             }
+
         }
+
+        // 1 Inicializa el SDK de AdMob
+        MobileAds.initialize(this) {}
+        // 2 Conecta tu banner del XML
+        bannerView = findViewById(R.id.bannerView)
+        // 3 Crea una solicitud de anuncio
+        val adRequest = AdRequest.Builder().build()
+        // 4️ Carga el anuncio
+        bannerView.loadAd(adRequest)
+
         imagenes = arrayListOf(
             findViewById(R.id.Turno_TropaAa),
             findViewById(R.id.Turno_TropaBa),
@@ -131,40 +159,65 @@ class Batalla_oculta : AppCompatActivity() {
         bucle_principal()
         Inicializar()
 
+
         //println("waosss = ${GlobalData.Jugador1[0]!!.nombre}")
         if (GlobalData.Desea_nimaciones) {
             Animador.empezar_animacion(this)
         }
+        mostrarPopupConImagen(
+            this,
+            "Resiste todo lo q puedas \n" +
+                    "Nota \n" +
+                    "Necesitas estar conectado a internet para jugar este modo\n" +
+                    "procura tener conexion a internet estabel \n" +
+                    "Para q no ocurra problemas con subir tus resultados"
+        ) {
+
+        }
+
+
+    }
+
+    fun mostrarPopupConImagen(
+        context: Context,
+        mensaje: String,
+        onAceptar: (() -> Unit)? = null
+    ) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.popup_personalizado)
+        dialog.setCancelable(false)
+
+        val txtMensaje = dialog.findViewById<TextView>(R.id.txtMensaje)
+        val btnAceptar = dialog.findViewById<ImageButton>(R.id.btnAceptar)
+
+        txtMensaje.text = mensaje
+
+        btnAceptar.setOnClickListener {
+            dialog.dismiss()
+            onAceptar?.invoke()
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
 
     fun Inicializar() {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.batalla)
-            mediaPlayer?.isLooping = true
-            mediaPlayer?.start()
-        }
+        mediaPlayer = MediaPlayer.create(this, R.raw.batalla)
+        mediaPlayer.isLooping = true  // Para que se repita
+        mediaPlayer.start()           // Reproduce al abrir la ventana
     }
-
-    override fun onResume() {
-        super.onResume()
-        mediaPlayer?.start()
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        mediaPlayer?.pause()
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        mediaPlayer.release() // Libera memoria al cerrar la Activity
     }
 
+    fun cargarinfo(nombre: String) {
+        val descripcion = GlobalData.Diccionario_Ataques[nombre] ?: "Descripción no encontrada"
+        val Info_ataques = findViewById<TextView>(R.id.info)
+        Info_ataques.text = descripcion
+    }
 
     fun cambiarFuenteConFondo(items: List<String>) {
         val spinner = findViewById<Spinner>(R.id.Ataques)
@@ -203,33 +256,48 @@ class Batalla_oculta : AppCompatActivity() {
     }
 
     fun bucle_principal() {
+        cargar_datos2()
+        cargar_datos1()
         GestorAcciones.Procesar()
         if (turno_activo !in 0..5) {
-            EntornoManager.aplicarEfecto()
             GestorAcciones.Procesar()
+            EntornoManager.aplicarEfecto()
             pasar_turno_al_enemigo()
             return
         }
-
         val tropa = GlobalData.Jugador1.getOrNull(turno_activo)
 
-        if (tropa?.estado_de_vida == true && tropa.turnoActivo) {
+        if (tropa?.estado_de_vida == true) {
             visualizar_posicion()
             Imagenes_claras()
             actualizar_datos()
             cargar_Espinner(tropa.nombre ?: "Sin nombre")
         } else {
             turno_activo--
-            bucle_principal() // pasa a la siguiente tropa si no puede jugar
+            bucle_principal() // llamada recursiva segura
         }
     }
 
-
     suspend fun turno_del_enemigo() {
+
         GestorAcciones.Procesar()
         es_mi_turno = false
-        botonPasarTurno.isEnabled = false // bloquea botón visualmente
+        botonPasarTurno.isEnabled = false //  bloquea botón visualmente
         actualizar_datos()
+
+        var puntaje = 0
+        GlobalData.Jugador2.forEachIndexed { index, tropa ->
+            if (tropa != null && tropa.vida <= 0) {
+                puntaje += 100   // puntos por tropa muerta
+
+                if (index == 0) {
+                    puntaje += 150   // bonus si es la posición 0
+                }
+            }
+        }
+
+        post_puntaje = puntaje
+
 
         if (GlobalData.Jugador1.any { it?.estado_de_vida == true }) {
             turno_activo = 5
@@ -240,7 +308,6 @@ class Batalla_oculta : AppCompatActivity() {
             while (i >= 0) {
                 EntornoManager.aplicarEfecto()
                 GestorAcciones.Procesar()
-
                 val tropa = GlobalData.Jugador2.getOrNull(i)
                 if (tropa != null && tropa.estado_de_vida) {
                     if (tropa.turnoActivo) {
@@ -266,62 +333,102 @@ class Batalla_oculta : AppCompatActivity() {
                 }
             }
 
-            //verfica si toda la lista es false, para saber si todas las tropas estan muertas, si ahi una viva entonces no dentra
-            if (GlobalData.Jugador2.none { it?.estado_de_vida == true }) {
-                if (una_ves) {
-                    //Animador.empezar_animacion(this)
-                    GlobalData.Jugador2[0] =
-                        Tropa_Espadachin(GlobalData.nivel_de_progresion)
-                    GlobalData.Jugador2[1] =
-                        Tropa_Espadachin(GlobalData.nivel_de_progresion)
-                    GlobalData.Jugador2[2] =
-                        Tropa_Espadachin(GlobalData.nivel_de_progresion)
-                    GlobalData.Jugador2[3] =
-                        Tropa_Espadachin(GlobalData.nivel_de_progresion)
-                    GlobalData.Jugador2[4] =
-                        Tropa_Espadachin(GlobalData.nivel_de_progresion)
-                    GlobalData.Jugador2[5] =
-                        Tropa_Espadachin(GlobalData.nivel_de_progresion)
-                    una_ves = false
-                } else {
-                    mostrarPopupConImagen(
-                        this,
-                        "¡Batalla de 5 ☆☆☆☆☆!!!\n Felicidades!! \n Recompensas: \n +200 \uD83E\uDE99 , + 2⭐ , +250 xp"
-                    ) {
-                        val intent = Intent(this, Mapa::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                        GestorEventos.limpiar()
-                        DataManager.guardarDatos(this)
-                        finish()
-                    }
 
+            val enemigos_vivos = GlobalData.Jugador2.filter { it?.estado_de_vida == true }
+            if (enemigos_vivos.isEmpty()) {
+                puntaje += (post_puntaje * multiplicador).toInt()
+                batallas_ganadas += 1
+                contador_de_batallas += 1
+                nivel += 5
+                multiplicador += 0.5
+
+                //Animador.empezar_animacion(this)
+                GlobalData.puntaje += puntaje
+                lifecycleScope.launch {
+                    var xd = DataManager.subir_puntaje(puntaje)
+                    println("WAOSSSS$xd")
                 }
 
+                mostrarPopupConImagen(
+                    this,
+                    "¡🔥 VAMOS CON TODO 🔥!\n" +
+                            "¡Lo estás haciendo increíble, pero esto recién empieza!\n" +
+                            "Siguiente multiplicador = X$multiplicador\n" +
+                            "⚔️ Los enemigos se vuelven más fuertes...\n" +
+                            "📈 Nivel siguiente de los enemigos: $nivel\n" +
+                            "🏆 Batallas ganadas hasta ahora: $batallas_ganadas\n" +
+                            "💥 Puntaje actual: ${GlobalData.puntaje}"
+                ) {
+                    crear_tropas()
+                    actualizar_datos()
+                }
             }
+
             // Reactivar turno del jugador
             es_turno_del_enemigo = false
             es_mi_turno = true
             turno_activo = 5
             botonPasarTurno.isEnabled = true // vuelve a habilitar el botón
+
             bucle_principal()
             visualizar_posicion_enemiga(5)
         } else {
+            puntaje = (post_puntaje * multiplicador).toInt()
+            GlobalData.puntaje += puntaje
+            lifecycleScope.launch {
+                var xd = DataManager.subir_puntaje(puntaje)
+                println("WAOSSSS$xd")
+            }
             mostrarPopupConImagen(
                 this,
-                "La batalla ha terminado…\n" +
-                        "Tus tropas cayeron, pero la guerra continúa.\n" +
-                        "Prepárate y vuelve más fuerte."
+                "¡La batalla ha terminado!\n" +
+                        "Resististe con valentía todas las oleadas posibles.\n\n" +
+                        "🏆 Puntaje obtenido: $puntaje\n" +
+                        "⭐ Puntaje total: ${GlobalData.puntaje} \n"+
+                        "🏆 Batallas ganadas: $batallas_ganadas\n"
             ) {
-                val intent = Intent(this, Mapa::class.java)
+
+                Animador.detenerTodo()
+                GlobalData.evento_activo = false
+                val intent = Intent(this, Evento::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-                GestorEventos.limpiar()
-                DataManager.guardarDatos(this)
                 finish()
             }
-
         }
+    }
+
+    fun crear_tropas() {
+        Animador.detenerTodo()
+        val img1 = findViewById<ImageView>(R.id.Imagen_izquierda)
+        img1.setImageResource(R.drawable.nada)
+        val img2 = findViewById<ImageView>(R.id.imagen_derecha)
+        img2.setImageResource(R.drawable.nada)
+        Animador.empezar_animacion(this)
+
+        GlobalData.Jugador2[0] = DataManager.crearTropaPorNombre_2(nombre0, nivel)
+        GlobalData.Jugador2[1] = DataManager.crearTropaPorNombre_2(nombre1, nivel)
+        GlobalData.Jugador2[2] = DataManager.crearTropaPorNombre_2(nombre2, nivel)
+        GlobalData.Jugador2[3] = DataManager.crearTropaPorNombre_2(nombre3, nivel)
+        GlobalData.Jugador2[4] = DataManager.crearTropaPorNombre_2(nombre4, nivel)
+        GlobalData.Jugador2[5] = DataManager.crearTropaPorNombre_2(nombre5, nivel)
+    }
+
+    fun hayConexion(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+
+        val conectado =
+            capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+
+        if (!conectado) {
+            println("No hay conexión a internet")
+            Toast.makeText(context, "Necesitas conexión a internet", Toast.LENGTH_SHORT).show()
+        }
+
+        return conectado
     }
 
     fun atacar_pasarturno(view: View) {
@@ -369,12 +476,6 @@ class Batalla_oculta : AppCompatActivity() {
 
     //--------------------------
 
-    fun cargarinfo(nombre: String) {
-        val descripcion = GlobalData.Diccionario_Ataques[nombre] ?: "Descripción no encontrada"
-        val Info_ataques = findViewById<TextView>(R.id.info)
-        Info_ataques.text = descripcion
-    }
-
     //--------------------------
 
     fun actualizar_datos() {
@@ -382,6 +483,7 @@ class Batalla_oculta : AppCompatActivity() {
         cargar_vida2()
         cargar_datos1()
         cargar_datos2()
+        //Animador.cargar_animacion(this)
     }
 
     fun cargar_datos1() {
@@ -399,7 +501,7 @@ class Batalla_oculta : AppCompatActivity() {
         for (i in idsImagenes.indices) {
             val imageView = findViewById<ImageView>(idsImagenes[i])
             val tropa = GlobalData.Jugador1[i]!!.rutaviva
-            if (GlobalData.Jugador1[i]!!.estado_de_vida) {
+            if (GlobalData.Jugador1[i]!!.vida >= 1 && GlobalData.Jugador1[i]!!.estado_de_vida) {
                 // Si existe tropa en esa posición, se carga su imagen viva
                 imageView.setImageResource(tropa)
             } else {
@@ -423,7 +525,7 @@ class Batalla_oculta : AppCompatActivity() {
         for (i in idsImagenes.indices) {
             val imageView = findViewById<ImageView>(idsImagenes[i])
             val tropa = GlobalData.Jugador2[i]!!.rutaviva
-            if (GlobalData.Jugador2[i]!!.estado_de_vida) {
+            if (GlobalData.Jugador2[i]!!.vida >= 1 && GlobalData.Jugador2[i]!!.estado_de_vida) {
                 // Si existe tropa en esa posición, se carga su imagen viva
                 imageView.setImageResource(tropa)
             } else {
@@ -502,6 +604,7 @@ class Batalla_oculta : AppCompatActivity() {
     fun Obtener_Array_String(nombreClase: String): List<String> {
         return try {
             val claseKotlin = GlobalData.Diccionario_Clases[nombreClase]
+            println(claseKotlin)
             if (claseKotlin != null) {
                 claseKotlin.java.declaredMethods
                     .filter { Modifier.isPublic(it.modifiers) }
@@ -529,9 +632,9 @@ class Batalla_oculta : AppCompatActivity() {
                             "Recivir_daño",
                             "component1",
                             "component2",
-                            "efectuardaño",
                             "Habilidad_Especial",
-                            "Recivir_daño"
+                            "Recivir_daño",
+                            "efectuardaño"
                         )
                     }
                     .onEach { println("Método válido agregado: $it") }
@@ -655,6 +758,8 @@ class Batalla_oculta : AppCompatActivity() {
         posicion2: Int,
         nombreMetodo: String
     ) {
+
+
         try {
             // Obtener la tropa atacante y la clase de esa tropa
             val tropaAtacante = jugador1[posicion1] ?: return
@@ -681,13 +786,16 @@ class Batalla_oculta : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         GlobalData.tropa_seleccionada_posicion = posicion2
         GlobalData.A_quien = true
         animacion_ataque()
+        Animador.empezar_animacion(this)
     }
 
+
     fun animacion_ataque() {
+
+
         val overlay = ContextCompat.getDrawable(this, R.drawable.efecto_golpe)
 
         if (!GlobalData.A_quien) {
@@ -880,29 +988,6 @@ class Batalla_oculta : AppCompatActivity() {
             }
 
 
-    }
-
-    fun mostrarPopupConImagen(
-        context: Context,
-        mensaje: String,
-        onAceptar: (() -> Unit)? = null
-    ) {
-        val dialog = Dialog(context)
-        dialog.setContentView(R.layout.popup_personalizado)
-        dialog.setCancelable(false)
-
-        val txtMensaje = dialog.findViewById<TextView>(R.id.txtMensaje)
-        val btnAceptar = dialog.findViewById<ImageButton>(R.id.btnAceptar)
-
-        txtMensaje.text = mensaje
-
-        btnAceptar.setOnClickListener {
-            dialog.dismiss()
-            onAceptar?.invoke()
-        }
-
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
     }
 
 
