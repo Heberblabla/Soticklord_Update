@@ -53,8 +53,8 @@ class Reyna_Apio(Nivel:Int = 1): Tropa(
             this.ataque_base // golpe normal
         }
     }
-
-    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    //ataque normal q siempre alguien tiene
+    fun Ataque_normal(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) { //1
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
@@ -64,123 +64,151 @@ class Reyna_Apio(Nivel:Int = 1): Tropa(
         val daño = daño()
         enemigos[posicion].Recivir_daño(this,daño)
     }
-
-    fun Nota_Real(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    
+    fun Nota_Real(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) { //2
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        this.vida -= (this.vida * 0.1).toInt()
-        var daño = daño() * 2
-        enemigos[posicion].Recivir_daño(this,daño)
+        //los enemigos pierden 15% de su vida restante
+        //y el rey pierde 10% mas, ademas recives un 5% 
+        //de vida extra deacuerdo a tu salud restante
+        
+        enemigos[0]!!.vida -= (enemigos[0]!!.vida * 0.25).toInt()
+        enemigos[1]!!.vida -= (enemigos[1]!!.vida * 0.15).toInt()
+        enemigos[2]!!.vida -= (enemigos[2]!!.vida * 0.15).toInt()
+        enemigos[3]!!.vida -= (enemigos[3]!!.vida * 0.15).toInt()
+        enemigos[4]!!.vida -= (enemigos[4]!!.vida * 0.15).toInt()
+        enemigos[5]!!.vida -= (enemigos[5]!!.vida * 0.15).toInt()
+        
+        this.vida += (this.vida * 0.05).toInt()
+    
     }
 
-    fun Voz_Calmante(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    fun Voz_Calmante(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) { //3
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        this.vida += (this.vida * 0.15).toInt()
+        //todos los efectos de combate se limpiaran,
+        //ademas tus tropas reciven +8% de vida 
+        //respecto a su salud restante y tu recives
+        //+5% de vida respecto a tu salud restante
+        this.vida += (this.vida * 0.05).toInt()
+        GestorEventos.limpiar()
+        if(Waos){
+            GlobalData.jugador1[1]!!.vida += (GlobalData.jugador1[1]!!.vida * 0.08).toInt()
+            GlobalData.jugador1[2]!!.vida += (GlobalData.jugador1[2]!!.vida * 0.08).toInt()
+            GlobalData.jugador1[3]!!.vida += (GlobalData.jugador1[3]!!.vida * 0.08).toInt()
+            GlobalData.jugador1[4]!!.vida += (GlobalData.jugador1[4]!!.vida * 0.08).toInt()
+            GlobalData.jugador1[5]!!.vida += (GlobalData.jugador1[5]!!.vida * 0.08).toInt()
+        }else{
+            GlobalData.jugador2[1]!!.vida += (GlobalData.jugador2[1]!!.vida * 0.08).toInt()
+            GlobalData.jugador2[2]!!.vida += (GlobalData.jugador2[2]!!.vida * 0.08).toInt()
+            GlobalData.jugador2[3]!!.vida += (GlobalData.jugador2[3]!!.vida * 0.08).toInt()
+            GlobalData.jugador2[4]!!.vida += (GlobalData.jugador2[4]!!.vida * 0.08).toInt()
+            GlobalData.jugador2[5]!!.vida += (GlobalData.jugador2[5]!!.vida * 0.08).toInt()
+        }
+        
     }
 
-    fun Aura_Real(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    fun Aura_Real(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) { //4
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        this.vida += (this.vida * 0.15).toInt()
+        
+        
     }
 
-    fun Golpe_de_Cetro(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    fun Golpe_de_Cetro(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) { //5
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        this.vida -= (this.vida * 0.25).toInt()
-        var daño = daño() * 4
-        enemigos[posicion].Recivir_daño(this,daño)
+        //todos los aliados reciven +12% de defensa 
+        this.cantidad_escudos += 0.12
+        if(Waos){
+            GlobalData.jugador1[1]!!.cantidad_escudos += 0.12
+            GlobalData.jugador1[2]!!.cantidad_escudos += 0.12
+            GlobalData.jugador1[3]!!.cantidad_escudos += 0.12
+            GlobalData.jugador1[4]!!.cantidad_escudos += 0.12
+            GlobalData.jugador1[5]!!.cantidad_escudos += 0.12
+        }else{
+            GlobalData.jugador2[1]!!.cantidad_escudos += 0.12
+            GlobalData.jugador2[2]!!.cantidad_escudos += 0.12
+            GlobalData.jugador2[3]!!.cantidad_escudos += 0.12
+            GlobalData.jugador2[4]!!.cantidad_escudos += 0.12
+            GlobalData.jugador2[5]!!.cantidad_escudos += 0.12
+        }
+        
     }
 
-    fun Resonancia_Apio(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) {
+    fun Resonancia_Apio(enemigos: ArrayList<Tropa?>, posicion: Int,Waos: Boolean) { //6
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        GlobalData.Atodos = true
-        val daño = calcularAtaque((this.ataque_base * 0.25).toInt(),this.nivel)
-        enemigos[0]!!.Recivir_daño(this,daño)
-        enemigos[1]!!.Recivir_daño(this,daño)
-        enemigos[2]!!.Recivir_daño(this,daño)
-        enemigos[3]!!.Recivir_daño(this,daño)
-        enemigos[4]!!.Recivir_daño(this,daño)
-        enemigos[5]!!.Recivir_daño(this,daño)
-    }
-
-    fun Trono_de_Hielo_Cantante(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) {
-        var xd = Random.nextInt(100)
-        if(xd < this.precision){
-            //sigue realizando tu atque
+        //todas las tropas enemigas bajan su defensa en un -10%
+        if(Waos){
+            GlobalData.jugador2[1]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador2[2]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador2[3]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador2[4]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador2[5]!!.cantidad_escudos -= 0.10
         }else{
-            return
-        }
-        if(this.entorno) {
-            if (Waos) {
-                EntornoManager.cambiarEntorno(
-                    nuevo = DataEntornos.Mar_rojo,
-                    invocador = this, // la tropa que lo activó
-                    enemigos = GlobalData.Jugador2.filterNotNull(),
-                    aliados = GlobalData.Jugador1.filterNotNull()
-                )
-                var daño = daño()
-                enemigos[posicion].Recivir_daño(this, daño)
-                this.entorno = false
-            }
-            if (!Waos) {
-                EntornoManager.cambiarEntorno(
-                    nuevo = DataEntornos.Mar_rojo,
-                    invocador = this, // la tropa que lo activó
-                    enemigos = GlobalData.Jugador1.filterNotNull(),
-                    aliados = GlobalData.Jugador2.filterNotNull()
-                )
-                var daño = daño()
-                enemigos[posicion].Recivir_daño(this, daño)
-                this.entorno = false
-            }
-
-            EntornoManager.aplicarEfecto()
+            GlobalData.jugador1[1]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador1[2]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador1[3]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador1[4]!!.cantidad_escudos -= 0.10
+            GlobalData.jugador1[5]!!.cantidad_escudos -= 0.10
         }
     }
 
-    fun Acorde_Congelante(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    fun Trono_de_Hielo_Cantante(enemigos: ArrayList<Tropa>, posicion: Int,Waos: Boolean) { //6
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        val daño = daño()
-        enemigos[posicion].Recivir_daño(this,daño)
+        //una ves por partida invocas un entorno 
+        //el cual hara q los enemigos tengan una probabilidad del 10% de q pierdan turno por congelamiento
+        cuando alguien pierda turno obtienes +10% de ataque
+        
     }
 
-    fun Mandato_Real(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) {
+    fun Acorde_Congelante(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) { //7
         var xd = Random.nextInt(100)
         if(xd < this.precision){
             //sigue realizando tu atque
         }else{
             return
         }
-        val daño = daño()
-        enemigos[posicion].Recivir_daño(this,daño)
+        
+        //una ves por partida 
+        
+        
+    }
+
+    fun Mandato_Real(enemigos: ArrayList<Tropa>, posicion: Int, Waos: Boolean) { //8
+        var xd = Random.nextInt(100)
+        if(xd < this.precision){
+            //sigue realizando tu atque
+        }else{
+            return
+        }
+       
     }
 
     override fun Habilidad_Especial(Waos: Boolean){
