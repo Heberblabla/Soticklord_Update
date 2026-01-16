@@ -16,7 +16,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="Unirse_Partida">
+      <SelectionState runConfigName="Cuenta_Principal">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="Pantalla_inicio_carga">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
