@@ -131,7 +131,7 @@ class Batalla_Evento : AppCompatActivity() {
         bannerView = findViewById(R.id.bannerView)
         // 3 Crea una solicitud de anuncio
         val adRequest = AdRequest.Builder().build()
-        // 4️ Carga el anuncio
+        // 4 Carga el anuncio
         bannerView.loadAd(adRequest)
 
         imagenes = arrayListOf(
